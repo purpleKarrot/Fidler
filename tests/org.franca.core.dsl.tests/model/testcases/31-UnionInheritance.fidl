@@ -1,0 +1,13 @@
+// union inheritance
+package testcases
+
+typeCollection MyTypes {
+	union MyUnion1 {
+		Int8 field1
+		String field2
+	}
+	
+	union MyUnion2 extends MyUnion1 {
+		Int16 field3
+	}
+}

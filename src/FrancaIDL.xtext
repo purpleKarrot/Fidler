@@ -1,0 +1,515 @@
+/*******************************************************************************
+* Copyright (c) 2013 itemis AG (http://www.itemis.de).
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* 2012-01-16: Klaus Birken (initial version)
+*******************************************************************************/
+grammar org.franca.core.dsl.FrancaIDL with org.eclipse.xtext.common.Terminals 
+
+// the Franca ecore model (it is not generated from this grammar)
+import "http://core.franca.org"
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+
+// **************************************************************
+// model root
+
+FModel returns FModel:
+	{FModel}
+	'package' name=FQN
+	(imports+=Import)*
+	( typeCollections+=FTypeCollection | interfaces+=FInterface	)*;
+
+
+// **************************************************************
+// type collection and interface
+
+FTypeCollection returns FTypeCollection:
+	{FTypeCollection}
+	(comment=FAnnotationBlock)?
+	'typeCollection' (name=ID)?
+	'{'
+		('version' version=FVersion)?
+		(types+=FType)*
+		(constants+=FConstantDef)*
+	'}';
+
+FInterface returns FInterface:
+	{FInterface}
+	(comment=FAnnotationBlock)?
+	'interface' name=ID
+		('extends' base=[FInterface|FQN])?
+		('manages'
+			managedInterfaces+=[FInterface|FQN]
+			(',' managedInterfaces+=[FInterface|FQN])*
+		)?
+	'{'
+		('version' version=FVersion)?
+		(attributes+=FAttribute)*
+		(methods+=FMethod)*
+		(broadcasts+=FBroadcast)*
+		(contract=FContract)?
+		(types+=FType)*
+		(constants+=FConstantDef)*
+    '}';
+
+FVersion returns FVersion:
+	{FVersion}
+	'{'
+		'major' major=INT
+		'minor' minor=INT
+    '}';
+
+
+// **************************************************************
+// attributes
+
+FAttribute:
+	(comment=FAnnotationBlock)?
+	'attribute'	type=FTypeRef (array?='[' ']')? name=ID
+		(readonly?='readonly')?
+		(noSubscriptions?='noSubscriptions')?
+	;
+
+
+// **************************************************************
+// methods / broadcasts
+
+FMethod returns FMethod:
+	{FMethod}
+	(comment=FAnnotationBlock)?
+	'method' name=ID (fireAndForget?='fireAndForget')?
+	'{'
+		('in' '{' (inArgs+=FArgument)* '}' )?
+		('out' '{' (outArgs+=FArgument)* '}' )?
+		('error'
+			( errorEnum=[FEnumerationType|FQN] |
+			  errors=FEnumerationTypeBody )
+		)?
+    '}';
+
+
+FBroadcast returns FBroadcast:
+	{FBroadcast}
+	(comment=FAnnotationBlock)?
+	'broadcast' name=ID (selective?='selective')?
+	'{'
+		('out' '{' (outArgs+=FArgument)* '}' )?
+    '}';
+
+FArgument:
+	(comment=FAnnotationBlock)?
+	type=FTypeRef (array?='[' ']')? name=ID;
+
+
+// **************************************************************
+// type system
+
+FTypeRef returns FTypeRef:
+	predefined=FBasicTypeId | derived=[FType|FQN] | interval=FIntegerInterval;
+
+enum FBasicTypeId returns FBasicTypeId:
+	undefined = 'undefined' |
+	Int8 = 'Int8' |
+	UInt8 = 'UInt8' |
+	Int16 = 'Int16' |
+	UInt16 = 'UInt16' |
+	Int32 = 'Int32' |
+	UInt32 = 'UInt32' |
+	Int64 = 'Int64' |
+	UInt64 = 'UInt64' |
+	Boolean = 'Boolean' |
+	String = 'String' |
+	Float = 'Float' |
+	Double = 'Double' |
+	ByteBuffer = 'ByteBuffer' ;
+	
+FIntegerInterval returns FIntegerInterval:
+	{FIntegerInterval}
+	'Integer' ('(' (lowerBound=E_BigInteger | 'minInt') ',' (upperBound=E_BigInteger | 'maxInt') ')')?
+;
+
+FType returns FType:
+	FArrayType |
+	FEnumerationType |
+	FStructType |
+	FUnionType |
+	FMapType |
+	FTypeDef;
+
+FArrayType returns FArrayType:
+	{FArrayType}
+	(comment=FAnnotationBlock)?
+	'array' name=ID 'of' elementType=FTypeRef;
+
+FTypeDef returns FTypeDef:
+	{FTypeDef}
+	(comment=FAnnotationBlock)?
+	'typedef' name=ID 'is' actualType=FTypeRef
+	; 
+
+FStructType returns FStructType:
+	{FStructType}
+	(comment=FAnnotationBlock)?
+	'struct' name=ID
+		(
+			('extends' base=[FStructType|FQN]) |
+			(polymorphic?='polymorphic')
+		)?
+	'{'
+		(elements+=FField)*
+    '}';
+
+FUnionType returns FUnionType:
+	{FUnionType}
+	(comment=FAnnotationBlock)?
+	'union' name=ID ('extends' base=[FUnionType|FQN])?
+	'{'
+		(elements+=FField)*
+    '}';
+
+FEnumerationType returns FEnumerationType:
+	{FEnumerationType}
+	(comment=FAnnotationBlock)?
+	'enumeration' name=ID
+	('extends' base=[FEnumerationType|FQN])?
+	'{'
+		(enumerators+=FEnumerator)*
+    '}';
+
+FEnumerationTypeBody returns FEnumerationType:
+	{FEnumerationType}
+	('extends' base=[FEnumerationType|FQN])?
+	'{'
+		(enumerators+=FEnumerator)*
+    '}';
+
+FEnumerator returns FEnumerator:
+	{FEnumerator}
+	(comment=FAnnotationBlock)?
+	name=ID ('=' value=AdditiveExpression)?
+    ;
+    
+FMapType returns FMapType:
+	{FMapType}
+	(comment=FAnnotationBlock)?
+	'map' name=ID '{'
+		keyType=FTypeRef 'to' valueType=FTypeRef
+	'}';
+
+FField:
+	(comment=FAnnotationBlock)?
+	type=FTypeRef (array?='[' ']')? name=ID;
+
+
+FDeclaration:
+	type=FTypeRef (array?='[' ']')? name=ID
+		('=' rhs=FInitializerExpression)?;
+
+FTypedElement:
+	FField |
+	FAttribute |
+	FArgument |
+	FDeclaration |
+	FConstantDef;
+
+
+// **************************************************************
+// constant definitions and initializers
+
+FConstantDef:
+	'const' type=FTypeRef (array?='[' ']')? name=ID '='
+		rhs=FInitializerExpression
+	;
+
+FInitializerExpression:
+	LogicalOrExpression |
+	FInitializer;
+
+FInitializer:
+	FCompoundInitializer |
+	FBracketInitializer;
+
+// this is used for struct and union types
+FCompoundInitializer:
+	{FCompoundInitializer}
+	'{' (
+		elements+=FFieldInitializer
+		(',' elements+=FFieldInitializer)*
+	)? '}';
+
+FFieldInitializer:
+	element=[FField|ID] ':' value=FInitializerExpression;
+
+// this is used for array and map types
+FBracketInitializer:
+	{FBracketInitializer}
+	'[' (
+		elements+=FElementInitializer
+		(',' elements+=FElementInitializer)*
+	)? ']';
+
+// for array type initializers, the second element is omitted
+FElementInitializer:
+	{FElementInitializer}
+	first=FInitializerExpression ('=>' second=FInitializerExpression)?;
+
+
+// **************************************************************
+// interface contract
+
+FContract:
+	{FContract}
+	'contract' '{'
+		('vars' '{' (variables+=FDeclaration (';')?)* '}')?
+		'PSM' stateGraph=FStateGraph
+	'}';
+
+FStateGraph:
+	{FStateGraph} '{'
+		'initial' initial=[FState|ID]
+		states+=FState*
+	'}';
+
+FState:
+	{FState}
+	(comment=FAnnotationBlock)?
+	'state' name=ID '{'
+		transitions+=FTransition*
+	'}';
+
+FTransition:
+	'on' trigger=FTrigger
+		(guard=FGuard)?
+		'->' to=[FState|ID]
+		(action=FBlock)?
+	;
+
+FTrigger:
+	event=FEventOnIf;
+
+FEventOnIf:
+	('call'    call=[FMethod|ID]      ) |
+	('respond' respond=[FMethod|ID]   ) |
+	('signal'  signal=[FBroadcast|ID] ) |
+	('set'     set=[FAttribute|ID]    ) |
+	('update'  update=[FAttribute|ID] ) |
+	('error'   error=[FMethod|ID])
+;
+
+FGuard:
+	'[' condition=LogicalOrExpression ']';
+
+FStatement returns FStatement:
+	FAssignment | FIfClause
+;
+
+FIfClause returns FIfClause:
+	'if' '(' condition=LogicalOrExpression')' '{'
+		statements+=FStatement*
+	'}'
+	(
+		'else' elseClause=FIfClause
+	)?
+;
+	
+FAssignment returns FAssignment:
+	lhs=FQualifiedElementRef '=' rhs=LogicalOrExpression;
+
+FBlock returns FBlock:
+	{FBlock}
+	'{'
+		(statements+=FStatement)*
+	'}';
+
+LogicalOrExpression returns FExpression:
+  LogicalAndExpression
+  ({FBinaryOperation.left=current} op=OperatorOr right=LogicalAndExpression)*;
+
+LogicalAndExpression returns FExpression:
+  EqualityExpression
+  ({FBinaryOperation.left=current} op=OperatorAnd right=EqualityExpression)*;
+
+EqualityExpression returns FExpression:
+  RelationalExpression
+  ({FBinaryOperation.left=current} op=OperatorEquality right=RelationalExpression)*;
+
+RelationalExpression returns FExpression:
+  AdditiveExpression
+  ({FBinaryOperation.left=current} op=OperatorRelational right=AdditiveExpression)*;
+
+AdditiveExpression returns FExpression:
+  MultiplicativeExpression
+  ({FBinaryOperation.left=current} op=OperatorAdditive right=MultiplicativeExpression)*;
+
+MultiplicativeExpression returns FExpression:
+  PrimaryExpression
+  ({FBinaryOperation.left=current} op=OperatorMultiplicative right=PrimaryExpression)*;
+
+PrimaryExpression returns FExpression:
+  FUnaryOperation | SimplePrimaryExpression;
+  
+SimplePrimaryExpression returns FExpression:
+  FQualifiedElementRef |
+  FCurrentError |
+  FConstant |
+  '(' LogicalOrExpression ')';
+  
+FUnaryOperation returns FExpression:
+	{FUnaryOperation}
+	op = OperatorUnary operand = SimplePrimaryExpression;
+	
+FCurrentError returns FCurrentError:
+	{FCurrentError}
+	ErrorReferenceTerminal
+//	type=ErrorTypeRef
+	// referencing a virtual FArgument with a type that is defined by a method either by referencing a previously
+	// defined one or by implicitly declaring a new one 
+;
+
+//ErrorTypeRef returns FTypeRef:
+//	derived=[FEnumerationType|ErrorReferenceTerminal]
+//;
+
+ErrorReferenceTerminal:
+	'errorval'
+;
+
+AnonymousErrorTypeReferenceTerminal:
+	'errordef'
+;
+
+FQualifiedElementRef:
+	{FQualifiedElementRef}
+	(element=[FTypedElement|ID] | element = [FEnumerationType|AnonymousErrorTypeReferenceTerminal])
+	({FQualifiedElementRef.qualifier=current} '.' field=[FField|ID])*;
+
+FConstant returns FExpression:
+	FFloatConstant |
+	FDoubleConstant |
+	FIntegerConstant |
+	FBooleanConstant |
+	FStringConstant;
+
+FDoubleConstant:
+	val=E_DOUBLE_OBJECT
+;
+
+FFloatConstant:
+	val=E_FLOAT_OBJECT
+;
+
+FIntegerConstant:
+	val=E_BigInteger;
+
+FBooleanConstant:
+	val=EBoolean;
+
+FStringConstant:
+	val=STRING;
+
+enum OperatorOr returns FOperator:
+	Or="||"
+;
+enum OperatorAnd returns FOperator:
+	And="&&"
+;
+enum OperatorEquality returns FOperator:
+	Equal="==" | Unequal="!="
+;
+enum OperatorRelational returns FOperator:
+	Smaller="<" | SmallerOrEqual="<=" | GreaterOrEqual=">=" | Greater=">"
+;
+enum OperatorAdditive returns FOperator:
+	addition="+" | subtraction="-"
+;
+enum OperatorMultiplicative returns FOperator:
+	multiplication="*" | division="/"
+;
+enum OperatorUnary returns FOperator:
+	negation="!"
+;
+
+// **************************************************************
+// annotations
+
+FAnnotationBlock returns FAnnotationBlock:
+	'<**' (elements+=FAnnotation)+ '**>';
+
+FAnnotation returns FAnnotation:
+	rawText=ANNOTATION_STRING;
+
+
+// **************************************************************
+// basic types
+
+EBoolean returns ecore::EBoolean:
+	'false' | 'true';
+
+E_BigInteger returns ecore::EBigInteger:
+	NEGATIVE_INT | INT
+;
+
+terminal E_DOUBLE_OBJECT returns ecore::EDoubleObject :
+	 '-'? INT '.' INT ('e' '-'? INT)? 'd'
+;
+terminal E_FLOAT_OBJECT returns ecore::EFloatObject :
+	 '-'? INT '.' INT ('e' '-'? INT)? 'f'
+;
+
+terminal NEGATIVE_INT returns ecore::EBigInteger:
+	'-'INT;
+
+//terminal HEX:
+//	'0' ('x'|'X')(('0'..'9')|('a'..'f')|('A'..'F'))+;
+	
+terminal ANNOTATION_STRING returns ecore::EString:
+	'@' (('a'..'z')|'-')+ (' '|'\t')* ':'
+	( ('\\' ('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\')) | !('\\'|'*'|'@') )*
+;
+
+
+// **************************************************************
+// general
+
+// HOWTO: use a combination of URI global scopes and namespace aware local scope provider
+// this is configured in the work flow by
+//			fragment = scoping.ImportURIScopingFragment {}
+// and by overriding configureIScopeProviderDelegate in the runtime module with 
+//			ImportedNamespaceAwareLocalScopeProvider
+// the attribute 'importedNamespace' is picked up by the ImportedNamespaceAwareLocalScopeProvider
+// the attribute 'importURI' is picked up by the ImportUriGlobalScopeProvider
+// THANKS to www.eclipse.org/etrice for this solution!
+Import :
+	'import' (importedNamespace=ImportedFQN 'from' | 'model') importURI=STRING;
+
+ImportedFQN:
+	FQN ('.' '*')?;
+
+FQN:
+	ID ('.' ID)*;
+
+
+// **************************************************************
+// standard
+
+ID:
+    ('^')?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*
+
+// So, an identifier is a word starting with a character or an underscore,
+// optionally followed by further characters, underscores, or digits. The return
+// value of the ID token is a String. So, if you use the usual assignment
+// operator "=", the feature the value is assigned to will be of type String.
+// You could also use the boolean operator (?=) and the type will be Boolean.
+//
+// If an identifier conflicts with a keyword or another lexer rule, it can be
+// escaped with the " ^ " character.
+
+STRING:
+    " c* " | ' c* ' // (multiline support!)
+
+INT:
+    ('-')?('0'..'9')+

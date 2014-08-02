@@ -1,0 +1,6 @@
+// a global typedef
+package testcases
+
+typeCollection MyTypes {
+	typedef MyTypedef is Int8
+}

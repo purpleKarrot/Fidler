@@ -1,0 +1,36 @@
+package org.example
+
+/*
+* Interface used for HTML5/Websockets example.
+*/
+interface SimpleUI {
+	
+	attribute String clock readonly
+
+	method setOperation fireAndForget {
+		in  { Operation op }
+	}
+	
+	method compute {
+		in {
+			UInt32 a
+			UInt32 b
+		}
+		out {
+			UInt32 result
+		}
+	}
+
+	broadcast userMessage {
+		out { String text }
+	}
+
+	enumeration Operation {
+		OP_ADD
+		OP_SUBTRACT
+		OP_MULTIPLY
+		OP_DIVIDE
+	}
+
+}
+

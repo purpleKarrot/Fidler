@@ -1,0 +1,7 @@
+// a simple array
+package testcases
+
+typeCollection MyTypes {
+	array MyArray of Int8
+}
+
