@@ -36,12 +36,14 @@ private:
 	template<typename T>
 	using Rule = boost::spirit::qi::rule<const char*, SkipGrammar, T>;
 
+	template<typename T>
+	using Symbols = boost::spirit::qi::symbols<char, T>;
+
 	Rule<Contract()> contract_;
 
 	Rule<StateGraph()> state_graph_;
 	Rule<State()> state_;
 	Rule<Transition()> transition_;
-	Rule<Guard()> guard_;
 
 	Rule<Block()> block_;
 	Rule<Statement()> statement_;
@@ -56,7 +58,8 @@ private:
 	Rule<std::string()> fqn_;
 	Rule<std::string()> id_;
 
-	boost::spirit::qi::symbols<char, Trigger> trigger_;
+	Symbols<Trigger> trigger_;
+	Symbols<Assignment::Operator> assignment_op_;
 };
 
 } // namespace franca

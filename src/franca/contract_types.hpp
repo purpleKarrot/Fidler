@@ -38,14 +38,25 @@ enum class Trigger
 	error,
 };
 
-struct Guard
-{
-	Expression condition;
-};
-
 struct Assignment
 {
+	enum Operator
+	{
+		assign,
+		mul_assign,
+		div_assign,
+		mod_assign,
+		plus_assign,
+		minus_assign,
+		lshift_assign,
+		rshift_assign,
+		and_assign,
+		xor_assign,
+		or_assign
+	};
+
 	std::string lhs;
+	Operator op;
 	Expression rhs;
 };
 
@@ -64,12 +75,6 @@ struct IfClause
 	std::vector<Statement> else_statements;
 };
 
-using Statement = boost::variant
-<
-	Assignment,
-	IfClause
->;
-
 struct Block
 {
 	std::vector<Statement> statements;
@@ -79,7 +84,7 @@ struct Transition
 {
 	Trigger trigger;
 	std::string event;
-	boost::optional<Guard> guard;
+	boost::optional<Expression> guard;
 	std::string to;
 	boost::optional<Block> action;
 };

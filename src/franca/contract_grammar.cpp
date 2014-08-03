@@ -42,13 +42,9 @@ BOOST_FUSION_ADAPT_STRUCT(franca::State,
 BOOST_FUSION_ADAPT_STRUCT(franca::Transition,
 	(franca::Trigger, trigger)
 	(std::string, event)
-	(boost::optional<franca::Guard>, guard)
+	(boost::optional<franca::Expression>, guard)
 	(std::string, to)
 	(boost::optional<franca::Block>, action)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::Guard,
-	(franca::Expression, condition)
 )
 
 BOOST_FUSION_ADAPT_STRUCT(franca::Block,
@@ -57,6 +53,7 @@ BOOST_FUSION_ADAPT_STRUCT(franca::Block,
 
 BOOST_FUSION_ADAPT_STRUCT(franca::Assignment,
 	(std::string, lhs)
+	(franca::Assignment::Operator, op)
 	(franca::Expression, rhs)
 )
 
@@ -110,7 +107,7 @@ ContractGrammar::ContractGrammar() :
 		%= "on"
 		> trigger_
 		> id_
-		> -guard_
+		> -('[' > expression_ > ']')
 		> "->"
 		> id_
 		> -block_
@@ -123,10 +120,6 @@ ContractGrammar::ContractGrammar() :
 		("set",     Trigger::set)
 		("update",  Trigger::update)
 		("error",   Trigger::error)
-		;
-
-	guard_
-		%= '[' > expression_ > ']'
 		;
 
 	block_
@@ -142,7 +135,7 @@ ContractGrammar::ContractGrammar() :
 
 	assignment_
 		%= fqn_
-		> '='
+		> assignment_op_
 		> expression_
 		;
 
@@ -155,6 +148,20 @@ ContractGrammar::ContractGrammar() :
 		> *statement_
 		> '}'
 //		> -("else" > if_clause_)
+		;
+
+	assignment_op_.add
+		("=", Assignment::assign)
+		("*=", Assignment::mul_assign)
+		("/=", Assignment::div_assign)
+		("%=", Assignment::mod_assign)
+		("+=", Assignment::plus_assign)
+		("-=", Assignment::minus_assign)
+		("<<=", Assignment::lshift_assign)
+		(">>=", Assignment::rshift_assign)
+		("&=", Assignment::and_assign)
+		("^=", Assignment::xor_assign)
+		("|=", Assignment::or_assign)
 		;
 
 	fqn_
