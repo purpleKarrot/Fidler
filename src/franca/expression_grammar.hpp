@@ -40,16 +40,15 @@ private:
 
 	Rule<Expression()> expression_;
 
-	Rule<DoubleConstant()> double_constant_;
-	Rule< FloatConstant()> float_constant_;
-	Rule< IntegerConstant()> integer_constant_;
-	Rule< BooleanConstant()> boolean_constant_;
-	Rule< StringConstant()> string_constant_;
-	Rule< CurrentError()> current_error_;
-	Rule< QualifiedElementRef()> qualified_element_;
+	Rule<Identifier()> identifier_;
+	Rule<CurrentError()> current_error_;
 
-	Rule<UnaryExpression()> unary_expr_;
 	Rule<PrimaryExpression()> primary_expr_;
+	Rule<PrefixExpression()> prefix_expr_;
+	Rule<PostfixExpression()> postfix_expr_;
+
+	Rule<PostfixExpression::MemberAccess()> postfix_member_access_;
+	Rule<PostfixExpression::Subscript()> postfix_subscript_;
 
 	Rule<MultiplicativeExpression()> multiplicative_expr_;
 	Rule<AdditiveExpression()> additive_expr_;
@@ -61,16 +60,16 @@ private:
 	Rule<InclusiveOrExpression()> inclusive_or_expr_;
 	Rule<LogicalAndExpression()> logical_and_expr_;
 	Rule<LogicalOrExpression()> logical_or_expr_;
+	Rule<NullCoalescingExpression()> null_coalescing_expr_;
 
 	Symbols<bool> bool_;
-	Symbols<UnaryExpression::Op> unary_op_;
+	Symbols<PrefixExpression::Op> prefix_op_;
 	Symbols<EqualityExpression::op> equality_op_;
 	Symbols<RelationalExpression::op> relational_op_;
 	Symbols<ShiftExpression::op> shift_op_;
 	Symbols<AdditiveExpression::op> additive_op_;
 	Symbols<MultiplicativeExpression::op> multiplicative_op_;
 
-	Rule<std::string()> fqn_;
 	Rule<std::string()> id_;
 };
 

@@ -23,65 +23,60 @@
 namespace franca
 {
 
-struct DoubleConstant
+struct Identifier
 {
-	double val;
-};
-
-struct FloatConstant
-{
-	float val;
-};
-
-struct IntegerConstant
-{
-	int val;
-};
-
-struct BooleanConstant
-{
-	bool val;
-};
-
-struct StringConstant
-{
-	std::string val;
+	std::string name;
 };
 
 struct CurrentError
 {
 };
 
-struct QualifiedElementRef
-{
-	std::string path;
-};
-
 struct Expression;
-struct UnaryExpression;
 
 using PrimaryExpression = boost::variant
 <
-	QualifiedElementRef,
+	Identifier,
 	CurrentError,
-	FloatConstant,
-	DoubleConstant,
-	IntegerConstant,
-	BooleanConstant,
-	StringConstant,
-	boost::recursive_wrapper<Expression>,
-	boost::recursive_wrapper<UnaryExpression>
+	float,
+	double,
+	int,
+	bool,
+	std::string,
+	boost::recursive_wrapper<Expression>
 >;
 
-struct UnaryExpression
+struct PostfixExpression
+{
+	struct MemberAccess
+	{
+		std::string member;
+	};
+
+	struct Subscript
+	{
+		boost::recursive_wrapper<Expression> value;
+	};
+
+	using Postfix = boost::variant
+	<
+		MemberAccess,
+		Subscript
+	>;
+
+	PrimaryExpression base;
+	std::vector<Postfix> postfix;
+};
+
+struct PrefixExpression
 {
 	enum Op
 	{
 		plus, minus, negate, complement
 	};
 
-	Op op;
-	PrimaryExpression expr;
+	boost::optional<Op> op;
+	PostfixExpression expr;
 };
 
 struct MultiplicativeExpression
@@ -91,9 +86,9 @@ struct MultiplicativeExpression
 		mul, div, mod
 	};
 
-	using Right = std::pair<op, PrimaryExpression>;
+	using Right = std::pair<op, PrefixExpression>;
 
-	PrimaryExpression left;
+	PrefixExpression left;
 	std::vector<Right> right;
 };
 
@@ -189,16 +184,24 @@ struct LogicalOrExpression
 	boost::optional<Self> right;
 };
 
+struct NullCoalescingExpression
+{
+	using Right = boost::recursive_wrapper<NullCoalescingExpression>;
+
+	LogicalOrExpression left;
+	boost::optional<Right> right;
+};
+
 struct Expression
 {
-	using TernaryPart = std::pair
+	using Right = std::pair
 	<
 		boost::recursive_wrapper<Expression>,
 		boost::recursive_wrapper<Expression>
 	>;
 
-	LogicalOrExpression left;
-	boost::optional<TernaryPart> right;
+	NullCoalescingExpression left;
+	boost::optional<Right> right;
 };
 
 } // namespace franca

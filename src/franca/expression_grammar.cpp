@@ -20,8 +20,13 @@
 #include <boost/fusion/adapted/struct/adapt_struct.hpp>
 
 BOOST_FUSION_ADAPT_STRUCT(franca::Expression,
+	(franca::NullCoalescingExpression, left)
+	(boost::optional<franca::Expression::Right>, right)
+)
+
+BOOST_FUSION_ADAPT_STRUCT(franca::NullCoalescingExpression,
 	(franca::LogicalOrExpression, left)
-	(boost::optional<franca::Expression::TernaryPart>, right)
+	(boost::optional<franca::NullCoalescingExpression::Right>, right)
 )
 
 BOOST_FUSION_ADAPT_STRUCT(franca::LogicalOrExpression,
@@ -70,37 +75,30 @@ BOOST_FUSION_ADAPT_STRUCT(franca::AdditiveExpression,
 )
 
 BOOST_FUSION_ADAPT_STRUCT(franca::MultiplicativeExpression,
-	(franca::PrimaryExpression, left)
+	(franca::PrefixExpression, left)
 	(std::vector<franca::MultiplicativeExpression::Right>, right)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::UnaryExpression,
-	(franca::UnaryExpression::Op, op)
-	(franca::PrimaryExpression, expr)
+BOOST_FUSION_ADAPT_STRUCT(franca::PrefixExpression,
+	(boost::optional<franca::PrefixExpression::Op>, op)
+	(franca::PostfixExpression, expr)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::BooleanConstant,
-	(bool, val)
+BOOST_FUSION_ADAPT_STRUCT(franca::PostfixExpression,
+	(franca::PrimaryExpression, base)
+	(std::vector<franca::PostfixExpression::Postfix>, postfix)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::IntegerConstant,
-	(int, val)
+BOOST_FUSION_ADAPT_STRUCT(franca::PostfixExpression::MemberAccess,
+	(std::string, member)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::FloatConstant,
-	(float, val)
+BOOST_FUSION_ADAPT_STRUCT(franca::PostfixExpression::Subscript,
+	(boost::recursive_wrapper<franca::Expression>, value)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::DoubleConstant,
-	(double, val)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::StringConstant,
-	(std::string, val)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::QualifiedElementRef,
-	(std::string, path)
+BOOST_FUSION_ADAPT_STRUCT(franca::Identifier,
+	(std::string, name)
 )
 
 namespace franca
@@ -110,8 +108,13 @@ ExpressionGrammar::ExpressionGrammar() :
 		ExpressionGrammar::base_type(expression_)
 {
 	expression_
-		%= logical_or_expr_
+		%= null_coalescing_expr_
 		>> -('?' > expression_ > ':' > expression_)
+		;
+
+	null_coalescing_expr_
+		%= logical_or_expr_
+		>> -("??" >> null_coalescing_expr_)
 		;
 
 	logical_or_expr_
@@ -160,49 +163,46 @@ ExpressionGrammar::ExpressionGrammar() :
 		;
 
 	multiplicative_expr_
+		%= prefix_expr_
+		>> *(multiplicative_op_ >> prefix_expr_)
+		;
+
+	prefix_expr_
+		%= -prefix_op_
+		>> postfix_expr_
+		;
+
+	postfix_expr_
 		%= primary_expr_
-		>> *(multiplicative_op_ >> primary_expr_)
+		>> *(postfix_member_access_ | postfix_subscript_)
+		;
+
+	postfix_member_access_
+		%= ('.' > id_)
+		;
+
+	postfix_subscript_
+		%= ('[' > expression_ > ']')
 		;
 
 	primary_expr_
-		%= '(' > expression_ > ')'
-		| unary_expr_
-		| double_constant_
-		| float_constant_
-		| integer_constant_
-		| boolean_constant_
-		| string_constant_
+		%= ('(' > expression_ > ')')
+		| (qi::double_ >> 'd')
+		| (qi::float_ >> 'f')
+		| qi::int_
+		| bool_
+		| qi::lexeme['"' > +(qi::char_ - '"') > '"']
 		| current_error_
-		| qualified_element_
+		| identifier_
 		;
 
-	unary_expr_
-		%= unary_op_
-		>> primary_expr_
+	identifier_
+		%= id_
 		;
 
-	boolean_constant_
-		%= bool_
-		;
-
-	integer_constant_
-		%= qi::int_
-		;
-
-	float_constant_
-		%= qi::float_ >> 'f'
-		;
-
-	double_constant_
-		%= qi::double_ >> 'd'
-		;
-
-	string_constant_
-		%= qi::lexeme['"' > +(qi::char_ - '"') > '"'];
-		;
-
-	qualified_element_
-		%= fqn_
+	current_error_
+		%= qi::lit("errorval")
+		|  qi::lit("errordef") //TODO
 		;
 
 	bool_.add
@@ -210,11 +210,11 @@ ExpressionGrammar::ExpressionGrammar() :
 		("false", false)
 		;
 
-	unary_op_.add
-		("+", UnaryExpression::plus)
-		("-", UnaryExpression::minus)
-		("!", UnaryExpression::negate)
-		("~", UnaryExpression::complement)
+	prefix_op_.add
+		("+", PrefixExpression::plus)
+		("-", PrefixExpression::minus)
+		("!", PrefixExpression::negate)
+		("~", PrefixExpression::complement)
 		;
 
 	equality_op_.add
@@ -243,11 +243,6 @@ ExpressionGrammar::ExpressionGrammar() :
 		("*", MultiplicativeExpression::mul)
 		("/", MultiplicativeExpression::div)
 		("%", MultiplicativeExpression::mod)
-		;
-
-	fqn_
-		%= qi::raw[id_ % '.']
-		//%= qi::lexeme[id_ % '.']
 		;
 
 	id_
