@@ -30,6 +30,10 @@ add_executable(fidler
   src/franca/typesystem_grammar.hpp
   src/franca/model_grammar.cpp
   src/franca/model_grammar.hpp
+  src/cxx/model.cpp
+  src/cxx/model.hpp
+  src/cxx/typesystem.cpp
+  src/cxx/typesystem.hpp
   src/main.cpp
   )
 target_include_directories(fidler PRIVATE src)

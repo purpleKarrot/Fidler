@@ -14,9 +14,11 @@
 
 #include <fstream>
 #include <boost/spirit/home/qi/parse.hpp>
+#include <boost/spirit/home/karma/generate.hpp>
 
 #include "franca/comment_grammar.hpp"
 #include "franca/model_grammar.hpp"
+#include "cxx/model.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -33,6 +35,17 @@ int main(int argc, char* argv[])
 	const char* begin = content.c_str();
 	const char* end = begin + content.length();
 
-	bool ok = boost::spirit::qi::phrase_parse(begin, end, grammar, skip);
-	return (ok && begin == end) ? 0 : -1;
+	ast::Model model;
+
+	bool ok = boost::spirit::qi::phrase_parse(begin, end, grammar, skip, model);
+	if (!ok || begin != end)
+	{
+		return -1;
+	}
+
+	std::ostream_iterator<char> sink(std::cout);
+	cxx::ModelGrammar cxx_grammar;
+	ok = boost::spirit::karma::generate(sink, cxx_grammar, model);
+
+	return ok ? 0 : -1;
 }
