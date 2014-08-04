@@ -12,19 +12,19 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef FRANCA_MODEL_TYPES_HPP
-#define FRANCA_MODEL_TYPES_HPP
+#ifndef FIDLER_AST_MODEL_HPP
+#define FIDLER_AST_MODEL_HPP
 
 #include <string>
 #include <vector>
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
 
-#include "contract_types.hpp"
-#include "typesystem_types.hpp"
-#include "initializer_types.hpp"
+#include "ast/contract.hpp"
+#include "ast/typesystem.hpp"
+#include "ast/initializer.hpp"
 
-namespace franca
+namespace ast
 {
 
 struct Version
@@ -115,6 +115,6 @@ struct Model
 	std::vector<Interface> interfaces;
 };
 
-} // namespace franca
+} // namespace ast
 
-#endif /* FRANCA_MODEL_TYPES_HPP */
+#endif /* FIDLER_AST_MODEL_HPP */

@@ -15,7 +15,7 @@
 #ifndef FRANCA_TYPESYSTEM_GRAMMAR_HPP
 #define FRANCA_TYPESYSTEM_GRAMMAR_HPP
 
-#include "typesystem_types.hpp"
+#include "ast/typesystem.hpp"
 #include "comment_grammar.hpp"
 #include "expression_grammar.hpp"
 
@@ -26,7 +26,7 @@ namespace franca
 {
 
 class TypeGrammar:
-		public boost::spirit::qi::grammar<const char*, SkipGrammar, Type()>
+		public boost::spirit::qi::grammar<const char*, SkipGrammar, ast::Type()>
 {
 public:
 	TypeGrammar();
@@ -35,19 +35,19 @@ private:
 	template<typename T>
 	using Rule = boost::spirit::qi::rule<const char*, SkipGrammar, T>;
 
-	Rule<Type()> type_;
+	Rule<ast::Type()> type_;
 
 	Rule<std::string()> type_ref_;
-	Rule<IntegerInterval()> integer_interval_;
+	Rule<ast::IntegerInterval()> integer_interval_;
 
-	boost::spirit::qi::symbols<char, BuiltinType> builtin_type_;
+	boost::spirit::qi::symbols<char, ast::BuiltinType> builtin_type_;
 
 	Rule<std::string()> fqn_;
 	Rule<std::string()> id_;
 };
 
 class TypeDefinitionGrammar:
-		public boost::spirit::qi::grammar<const char*, SkipGrammar, TypeDefinition()>
+		public boost::spirit::qi::grammar<const char*, SkipGrammar, ast::TypeDefinition()>
 {
 public:
 	TypeDefinitionGrammar();
@@ -56,20 +56,20 @@ private:
 	template<typename T>
 	using Rule = boost::spirit::qi::rule<const char*, SkipGrammar, T>;
 
-	Rule<TypeDefinition()> type_definition_;
+	Rule<ast::TypeDefinition()> type_definition_;
 
 	TypeGrammar type_;
 	ExpressionGrammar expression_;
 
-	Rule<ArrayType()> array_type_;
-	Rule<EnumerationType()> enumeration_type_;
-	Rule<StructType()> struct_type_;
-	Rule<UnionType()> union_type_;
-	Rule<MapType()> map_type_;
-	Rule<AliasType()> alias_type_;
+	Rule<ast::ArrayType()> array_type_;
+	Rule<ast::EnumerationType()> enumeration_type_;
+	Rule<ast::StructType()> struct_type_;
+	Rule<ast::UnionType()> union_type_;
+	Rule<ast::MapType()> map_type_;
+	Rule<ast::AliasType()> alias_type_;
 
-	Rule<Enumerator()> enumerator_;
-	Rule<Field()> field_;
+	Rule<ast::Enumerator()> enumerator_;
+	Rule<ast::Field()> field_;
 
 	Rule<std::string()> fqn_;
 	Rule<std::string()> id_;

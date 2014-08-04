@@ -12,13 +12,13 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef FRANCA_COMMENT_TYPES_HPP
-#define FRANCA_COMMENT_TYPES_HPP
+#ifndef FIDLER_AST_COMMENT_HPP
+#define FIDLER_AST_COMMENT_HPP
 
 #include <string>
 #include <vector>
 
-namespace franca
+namespace ast
 {
 
 struct Annotation
@@ -31,6 +31,6 @@ struct AnnotationBlock
 	std::vector<Annotation> elements;
 };
 
-} // namespace franca
+} // namespace ast
 
-#endif /* FRANCA_COMMENT_TYPES_HPP */
+#endif /* FIDLER_AST_COMMENT_HPP */

@@ -12,20 +12,20 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef FRANCA_CONTRACT_TYPES_HPP
-#define FRANCA_CONTRACT_TYPES_HPP
+#ifndef FIDLER_AST_CONTRACT_HPP
+#define FIDLER_AST_CONTRACT_HPP
 
 #include <string>
 #include <vector>
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
 
-#include "comment_types.hpp"
-#include "typesystem_types.hpp"
-#include "expression_types.hpp"
-#include "initializer_types.hpp"
+#include "ast/comment.hpp"
+#include "ast/typesystem.hpp"
+#include "ast/expression.hpp"
+#include "ast/initializer.hpp"
 
-namespace franca
+namespace ast
 {
 
 enum class Trigger
@@ -116,6 +116,6 @@ struct Contract
 	StateGraph state_graph;
 };
 
-} // namespace franca
+} // namespace ast
 
-#endif /* FRANCA_CONTRACT_TYPES_HPP */
+#endif /* FIDLER_AST_CONTRACT_HPP */

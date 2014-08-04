@@ -15,7 +15,7 @@
 #ifndef FRANCA_CONTRACT_GRAMMAR_HPP
 #define FRANCA_CONTRACT_GRAMMAR_HPP
 
-#include "contract_types.hpp"
+#include "ast/contract.hpp"
 #include "comment_grammar.hpp"
 #include "initializer_grammar.hpp"
 #include "expression_grammar.hpp"
@@ -27,7 +27,7 @@ namespace franca
 {
 
 class ContractGrammar:
-		public boost::spirit::qi::grammar<const char*, SkipGrammar, Contract()>
+		public boost::spirit::qi::grammar<const char*, SkipGrammar, ast::Contract()>
 {
 public:
 	ContractGrammar();
@@ -39,18 +39,18 @@ private:
 	template<typename T>
 	using Symbols = boost::spirit::qi::symbols<char, T>;
 
-	Rule<Contract()> contract_;
+	Rule<ast::Contract()> contract_;
 
-	Rule<StateGraph()> state_graph_;
-	Rule<State()> state_;
-	Rule<Transition()> transition_;
+	Rule<ast::StateGraph()> state_graph_;
+	Rule<ast::State()> state_;
+	Rule<ast::Transition()> transition_;
 
-	Rule<Block()> block_;
-	Rule<Statement()> statement_;
-	Rule<Assignment()> assignment_;
-	Rule<IfClause()> if_clause_;
+	Rule<ast::Block()> block_;
+	Rule<ast::Statement()> statement_;
+	Rule<ast::Assignment()> assignment_;
+	Rule<ast::IfClause()> if_clause_;
 
-	Rule<Declaration()> declaration_;
+	Rule<ast::Declaration()> declaration_;
 
 	TypeGrammar type_;
 	ExpressionGrammar expression_;
@@ -58,8 +58,8 @@ private:
 	Rule<std::string()> fqn_;
 	Rule<std::string()> id_;
 
-	Symbols<Trigger> trigger_;
-	Symbols<Assignment::Operator> assignment_op_;
+	Symbols<ast::Trigger> trigger_;
+	Symbols<ast::Assignment::Operator> assignment_op_;
 };
 
 } // namespace franca

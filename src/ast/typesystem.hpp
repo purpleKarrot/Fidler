@@ -12,18 +12,18 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef FRANCA_TYPESYSTEM_TYPES_HPP
-#define FRANCA_TYPESYSTEM_TYPES_HPP
+#ifndef FIDLER_AST_TYPESYSTEM_HPP
+#define FIDLER_AST_TYPESYSTEM_HPP
 
 #include <string>
 #include <vector>
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
 
-#include "comment_types.hpp"
-#include "expression_types.hpp"
+#include "ast/comment.hpp"
+#include "ast/expression.hpp"
 
-namespace franca
+namespace ast
 {
 
 enum class BuiltinType
@@ -129,6 +129,6 @@ using TypeDefinition = boost::variant
 	AliasType
 >;
 
-} // namespace franca
+} // namespace ast
 
-#endif /* FRANCA_TYPESYSTEM_TYPES_HPP */
+#endif /* FIDLER_AST_TYPESYSTEM_HPP */

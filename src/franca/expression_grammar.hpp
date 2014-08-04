@@ -15,7 +15,7 @@
 #ifndef FRANCA_EXPRESSION_GRAMMAR_HPP
 #define FRANCA_EXPRESSION_GRAMMAR_HPP
 
-#include "expression_types.hpp"
+#include "ast/expression.hpp"
 #include "comment_grammar.hpp"
 
 #include <boost/spirit/include/qi_nonterminal.hpp>
@@ -26,7 +26,7 @@ namespace franca
 {
 
 class ExpressionGrammar:
-		public boost::spirit::qi::grammar<const char*, SkipGrammar, Expression()>
+		public boost::spirit::qi::grammar<const char*, SkipGrammar, ast::Expression()>
 {
 public:
 	ExpressionGrammar();
@@ -38,37 +38,37 @@ private:
 	template<typename T>
 	using Symbols = boost::spirit::qi::symbols<char, T>;
 
-	Rule<Expression()> expression_;
+	Rule<ast::Expression()> expression_;
 
-	Rule<Identifier()> identifier_;
-	Rule<CurrentError()> current_error_;
+	Rule<ast::Identifier()> identifier_;
+	Rule<ast::CurrentError()> current_error_;
 
-	Rule<PrimaryExpression()> primary_expr_;
-	Rule<PrefixExpression()> prefix_expr_;
-	Rule<PostfixExpression()> postfix_expr_;
+	Rule<ast::PrimaryExpression()> primary_expr_;
+	Rule<ast::PrefixExpression()> prefix_expr_;
+	Rule<ast::PostfixExpression()> postfix_expr_;
 
-	Rule<PostfixExpression::MemberAccess()> postfix_member_access_;
-	Rule<PostfixExpression::Subscript()> postfix_subscript_;
+	Rule<ast::PostfixExpression::MemberAccess()> postfix_member_access_;
+	Rule<ast::PostfixExpression::Subscript()> postfix_subscript_;
 
-	Rule<MultiplicativeExpression()> multiplicative_expr_;
-	Rule<AdditiveExpression()> additive_expr_;
-	Rule<ShiftExpression()> shift_expr_;
-	Rule<RelationalExpression()> relational_expr_;
-	Rule<EqualityExpression()> equality_expr_;
-	Rule<AndExpression()> and_expr_;
-	Rule<ExclusiveOrExpression()> exclusive_or_expr_;
-	Rule<InclusiveOrExpression()> inclusive_or_expr_;
-	Rule<LogicalAndExpression()> logical_and_expr_;
-	Rule<LogicalOrExpression()> logical_or_expr_;
-	Rule<NullCoalescingExpression()> null_coalescing_expr_;
+	Rule<ast::MultiplicativeExpression()> multiplicative_expr_;
+	Rule<ast::AdditiveExpression()> additive_expr_;
+	Rule<ast::ShiftExpression()> shift_expr_;
+	Rule<ast::RelationalExpression()> relational_expr_;
+	Rule<ast::EqualityExpression()> equality_expr_;
+	Rule<ast::AndExpression()> and_expr_;
+	Rule<ast::ExclusiveOrExpression()> exclusive_or_expr_;
+	Rule<ast::InclusiveOrExpression()> inclusive_or_expr_;
+	Rule<ast::LogicalAndExpression()> logical_and_expr_;
+	Rule<ast::LogicalOrExpression()> logical_or_expr_;
+	Rule<ast::NullCoalescingExpression()> null_coalescing_expr_;
 
 	Symbols<bool> bool_;
-	Symbols<PrefixExpression::Op> prefix_op_;
-	Symbols<EqualityExpression::op> equality_op_;
-	Symbols<RelationalExpression::op> relational_op_;
-	Symbols<ShiftExpression::op> shift_op_;
-	Symbols<AdditiveExpression::op> additive_op_;
-	Symbols<MultiplicativeExpression::op> multiplicative_op_;
+	Symbols<ast::PrefixExpression::Op> prefix_op_;
+	Symbols<ast::EqualityExpression::op> equality_op_;
+	Symbols<ast::RelationalExpression::op> relational_op_;
+	Symbols<ast::ShiftExpression::op> shift_op_;
+	Symbols<ast::AdditiveExpression::op> additive_op_;
+	Symbols<ast::MultiplicativeExpression::op> multiplicative_op_;
 
 	Rule<std::string()> id_;
 };

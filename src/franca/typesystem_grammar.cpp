@@ -17,52 +17,52 @@
 
 #include <boost/spirit/home/qi.hpp>
 
-FIDLER_REFLECT(franca::IntegerInterval,
+FIDLER_REFLECT(ast::IntegerInterval,
 	(lower_bound)
 	(upper_bound)
 )
 
-FIDLER_REFLECT(franca::ArrayType,
+FIDLER_REFLECT(ast::ArrayType,
 	(name)
 	(element_type)
 )
 
-FIDLER_REFLECT(franca::AliasType,
+FIDLER_REFLECT(ast::AliasType,
 	(name)
 	(actual_type)
 )
 
-FIDLER_REFLECT(franca::StructType,
+FIDLER_REFLECT(ast::StructType,
 	(name)
 	(base)
 	(is_polymorphic)
 	(elements)
 )
 
-FIDLER_REFLECT(franca::UnionType,
+FIDLER_REFLECT(ast::UnionType,
 	(name)
 	(base)
 	(elements)
 )
 
-FIDLER_REFLECT(franca::MapType,
+FIDLER_REFLECT(ast::MapType,
 	(name)
 	(key_type)
 	(value_type)
 )
 
-FIDLER_REFLECT(franca::Field,
+FIDLER_REFLECT(ast::Field,
 	(type)
 	(is_array)
 	(name)
 )
 
-FIDLER_REFLECT(franca::Enumerator,
+FIDLER_REFLECT(ast::Enumerator,
 	(name)
 	(value)
 )
 
-FIDLER_REFLECT(franca::EnumerationType,
+FIDLER_REFLECT(ast::EnumerationType,
 	(name)
 	(base)
 	(enumerators)
@@ -93,21 +93,21 @@ TypeGrammar::TypeGrammar() :
 		;
 
 	builtin_type_.add
-		("undefined",  BuiltinType::undefined)
-		("Int8",       BuiltinType::Int8)
-		("UInt8",      BuiltinType::UInt8)
-		("Int16",      BuiltinType::Int16)
-		("UInt16",     BuiltinType::UInt16)
-		("Int32",      BuiltinType::Int32)
-		("UInt32",     BuiltinType::UInt32)
-		("Int64",      BuiltinType::Int64)
-		("UInt64",     BuiltinType::UInt64)
-		("Boolean",    BuiltinType::Boolean)
-		("String",     BuiltinType::String)
-		("Float",      BuiltinType::Float)
-		("Double",     BuiltinType::Double)
-		("ByteBuffer", BuiltinType::ByteBuffer)
-		("Integer",    BuiltinType::Int32)
+		("undefined",  ast::BuiltinType::undefined)
+		("Int8",       ast::BuiltinType::Int8)
+		("UInt8",      ast::BuiltinType::UInt8)
+		("Int16",      ast::BuiltinType::Int16)
+		("UInt16",     ast::BuiltinType::UInt16)
+		("Int32",      ast::BuiltinType::Int32)
+		("UInt32",     ast::BuiltinType::UInt32)
+		("Int64",      ast::BuiltinType::Int64)
+		("UInt64",     ast::BuiltinType::UInt64)
+		("Boolean",    ast::BuiltinType::Boolean)
+		("String",     ast::BuiltinType::String)
+		("Float",      ast::BuiltinType::Float)
+		("Double",     ast::BuiltinType::Double)
+		("ByteBuffer", ast::BuiltinType::ByteBuffer)
+		("Integer",    ast::BuiltinType::Int32)
 		;
 
 	fqn_

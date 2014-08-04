@@ -12,17 +12,17 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef FRANCA_INITIALIZER_TYPES_HPP
-#define FRANCA_INITIALIZER_TYPES_HPP
+#ifndef FIDLER_AST_INITIALIZER_HPP
+#define FIDLER_AST_INITIALIZER_HPP
 
 #include <string>
 #include <vector>
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
 
-#include "expression_types.hpp"
+#include "ast/expression.hpp"
 
-namespace franca
+namespace ast
 {
 
 struct CompoundInitializer;
@@ -60,6 +60,6 @@ struct BracketInitializer
 	std::vector<ElementInitializer> elements;
 };
 
-} // namespace franca
+} // namespace ast
 
-#endif /* FRANCA_INITIALIZER_TYPES_HPP */
+#endif /* FIDLER_AST_INITIALIZER_HPP */

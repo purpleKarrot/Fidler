@@ -15,7 +15,7 @@
 #ifndef FRANCA_INITIALIZER_GRAMMAR_HPP
 #define FRANCA_INITIALIZER_GRAMMAR_HPP
 
-#include "initializer_types.hpp"
+#include "ast/initializer.hpp"
 #include "comment_grammar.hpp"
 #include "expression_grammar.hpp"
 
@@ -25,7 +25,7 @@ namespace franca
 {
 
 class InitializerGrammar:
-		public boost::spirit::qi::grammar<const char*, SkipGrammar, InitializerExpression()>
+		public boost::spirit::qi::grammar<const char*, SkipGrammar, ast::InitializerExpression()>
 {
 public:
 	InitializerGrammar();
@@ -34,11 +34,11 @@ private:
 	template<typename T>
 	using Rule = boost::spirit::qi::rule<const char*, SkipGrammar, T>;
 
-	Rule<InitializerExpression()> initializer_;
-	Rule<FieldInitializer()> field_initializer_;
-	Rule<ElementInitializer()> element_initializer_;
-	Rule<CompoundInitializer()> compound_initializer_;
-	Rule<BracketInitializer()> bracket_initializer_;
+	Rule<ast::InitializerExpression()> initializer_;
+	Rule<ast::FieldInitializer()> field_initializer_;
+	Rule<ast::ElementInitializer()> element_initializer_;
+	Rule<ast::CompoundInitializer()> compound_initializer_;
+	Rule<ast::BracketInitializer()> bracket_initializer_;
 
 	ExpressionGrammar expression_;
 	Rule<std::string()> id_;

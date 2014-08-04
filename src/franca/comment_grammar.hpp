@@ -15,7 +15,7 @@
 #ifndef FRANCA_COMMENT_GRAMMAR_HPP
 #define FRANCA_COMMENT_GRAMMAR_HPP
 
-#include "comment_types.hpp"
+#include "ast/comment.hpp"
 
 #include <boost/spirit/home/qi/nonterminal/grammar.hpp>
 #include <boost/spirit/home/qi/nonterminal/rule.hpp>

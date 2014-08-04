@@ -17,10 +17,10 @@
 
 #include <boost/spirit/home/qi.hpp>
 
-FIDLER_REFLECT(franca::CompoundInitializer, (elements))
-FIDLER_REFLECT(franca::BracketInitializer, (elements))
-FIDLER_REFLECT(franca::FieldInitializer, (element)(value))
-FIDLER_REFLECT(franca::ElementInitializer, (first)(second))
+FIDLER_REFLECT(ast::CompoundInitializer, (elements))
+FIDLER_REFLECT(ast::BracketInitializer, (elements))
+FIDLER_REFLECT(ast::FieldInitializer, (element)(value))
+FIDLER_REFLECT(ast::ElementInitializer, (first)(second))
 
 namespace franca
 {

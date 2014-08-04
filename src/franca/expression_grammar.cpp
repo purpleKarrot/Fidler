@@ -19,23 +19,23 @@
 
 #include <boost/fusion/adapted/std_pair.hpp>
 
-FIDLER_REFLECT(franca::Expression, (left)(right))
-FIDLER_REFLECT(franca::NullCoalescingExpression, (left)(right))
-FIDLER_REFLECT(franca::LogicalOrExpression, (left)(right))
-FIDLER_REFLECT(franca::LogicalAndExpression, (left)(right))
-FIDLER_REFLECT(franca::InclusiveOrExpression, (left)(right))
-FIDLER_REFLECT(franca::ExclusiveOrExpression, (left)(right))
-FIDLER_REFLECT(franca::AndExpression, (left)(right))
-FIDLER_REFLECT(franca::EqualityExpression, (left)(right))
-FIDLER_REFLECT(franca::RelationalExpression, (left)(right))
-FIDLER_REFLECT(franca::ShiftExpression, (left)(right))
-FIDLER_REFLECT(franca::AdditiveExpression, (left)(right))
-FIDLER_REFLECT(franca::MultiplicativeExpression, (left)(right))
-FIDLER_REFLECT(franca::PrefixExpression, (op)(expr))
-FIDLER_REFLECT(franca::PostfixExpression, (base)(postfix))
-FIDLER_REFLECT(franca::PostfixExpression::MemberAccess, (member))
-FIDLER_REFLECT(franca::PostfixExpression::Subscript, (value))
-FIDLER_REFLECT(franca::Identifier, (name))
+FIDLER_REFLECT(ast::Expression, (left)(right))
+FIDLER_REFLECT(ast::NullCoalescingExpression, (left)(right))
+FIDLER_REFLECT(ast::LogicalOrExpression, (left)(right))
+FIDLER_REFLECT(ast::LogicalAndExpression, (left)(right))
+FIDLER_REFLECT(ast::InclusiveOrExpression, (left)(right))
+FIDLER_REFLECT(ast::ExclusiveOrExpression, (left)(right))
+FIDLER_REFLECT(ast::AndExpression, (left)(right))
+FIDLER_REFLECT(ast::EqualityExpression, (left)(right))
+FIDLER_REFLECT(ast::RelationalExpression, (left)(right))
+FIDLER_REFLECT(ast::ShiftExpression, (left)(right))
+FIDLER_REFLECT(ast::AdditiveExpression, (left)(right))
+FIDLER_REFLECT(ast::MultiplicativeExpression, (left)(right))
+FIDLER_REFLECT(ast::PrefixExpression, (op)(expr))
+FIDLER_REFLECT(ast::PostfixExpression, (base)(postfix))
+FIDLER_REFLECT(ast::PostfixExpression::MemberAccess, (member))
+FIDLER_REFLECT(ast::PostfixExpression::Subscript, (value))
+FIDLER_REFLECT(ast::Identifier, (name))
 
 namespace franca
 {
@@ -147,38 +147,38 @@ ExpressionGrammar::ExpressionGrammar() :
 		;
 
 	prefix_op_.add
-		("+", PrefixExpression::plus)
-		("-", PrefixExpression::minus)
-		("!", PrefixExpression::negate)
-		("~", PrefixExpression::complement)
+		("+", ast::PrefixExpression::plus)
+		("-", ast::PrefixExpression::minus)
+		("!", ast::PrefixExpression::negate)
+		("~", ast::PrefixExpression::complement)
 		;
 
 	equality_op_.add
-		("==", EqualityExpression::eq)
-		("!=", EqualityExpression::ne)
+		("==", ast::EqualityExpression::eq)
+		("!=", ast::EqualityExpression::ne)
 		;
 
 	relational_op_.add
-		("<", RelationalExpression::lt)
-		("<=", RelationalExpression::le)
-		(">", RelationalExpression::gt)
-		(">=", RelationalExpression::ge)
+		("<", ast::RelationalExpression::lt)
+		("<=", ast::RelationalExpression::le)
+		(">", ast::RelationalExpression::gt)
+		(">=", ast::RelationalExpression::ge)
 		;
 
 	shift_op_.add
-		("<<", ShiftExpression::lshift)
-		(">>", ShiftExpression::rshift)
+		("<<", ast::ShiftExpression::lshift)
+		(">>", ast::ShiftExpression::rshift)
 		;
 
 	additive_op_.add
-		("+", AdditiveExpression::plus)
-		("-", AdditiveExpression::minus)
+		("+", ast::AdditiveExpression::plus)
+		("-", ast::AdditiveExpression::minus)
 		;
 
 	multiplicative_op_.add
-		("*", MultiplicativeExpression::mul)
-		("/", MultiplicativeExpression::div)
-		("%", MultiplicativeExpression::mod)
+		("*", ast::MultiplicativeExpression::mul)
+		("/", ast::MultiplicativeExpression::div)
+		("%", ast::MultiplicativeExpression::mod)
 		;
 
 	id_

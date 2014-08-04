@@ -32,7 +32,7 @@ add_executable(fidler
   src/franca/model_grammar.hpp
   src/main.cpp
   )
-#target_include_directories(fidler PRIVATE src)
+target_include_directories(fidler PRIVATE src)
 target_compile_options(fidler PRIVATE -std=c++11)
 
 file(GLOB_RECURSE fidl_files "*.fidl")

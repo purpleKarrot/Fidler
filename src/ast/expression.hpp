@@ -12,15 +12,15 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef FRANCA_EXPRESSION_TYPES_HPP
-#define FRANCA_EXPRESSION_TYPES_HPP
+#ifndef FIDLER_AST_EXPRESSION_HPP
+#define FIDLER_AST_EXPRESSION_HPP
 
 #include <string>
 #include <vector>
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
 
-namespace franca
+namespace ast
 {
 
 struct Identifier
@@ -204,6 +204,6 @@ struct Expression
 	boost::optional<Right> right;
 };
 
-} // namespace franca
+} // namespace ast
 
-#endif /* FRANCA_EXPRESSION_TYPES_HPP */
+#endif /* FIDLER_AST_EXPRESSION_HPP */

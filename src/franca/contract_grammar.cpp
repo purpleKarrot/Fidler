@@ -18,29 +18,29 @@
 #include <boost/spirit/home/qi.hpp>
 #include <boost/fusion/adapted/struct/adapt_struct.hpp>
 
-FIDLER_REFLECT(franca::Contract,
+FIDLER_REFLECT(ast::Contract,
 	(variables)
 	(state_graph)
 )
 
-FIDLER_REFLECT(franca::Declaration,
+FIDLER_REFLECT(ast::Declaration,
 	(type)
 	(is_array)
 	(name)
 	(rhs)
 )
 
-FIDLER_REFLECT(franca::StateGraph,
+FIDLER_REFLECT(ast::StateGraph,
 	(initial)
 	(states)
 )
 
-FIDLER_REFLECT(franca::State,
+FIDLER_REFLECT(ast::State,
 	(name)
 	(transitions)
 )
 
-FIDLER_REFLECT(franca::Transition,
+FIDLER_REFLECT(ast::Transition,
 	(trigger)
 	(event)
 	(guard)
@@ -48,17 +48,17 @@ FIDLER_REFLECT(franca::Transition,
 	(action)
 )
 
-FIDLER_REFLECT(franca::Block,
+FIDLER_REFLECT(ast::Block,
 	(statements)
 )
 
-FIDLER_REFLECT(franca::Assignment,
+FIDLER_REFLECT(ast::Assignment,
 	(lhs)
 	(op)
 	(rhs)
 )
 
-FIDLER_REFLECT(franca::IfClause,
+FIDLER_REFLECT(ast::IfClause,
 	(condition)
 	(then_statements)
 )
@@ -115,12 +115,12 @@ ContractGrammar::ContractGrammar() :
 		;
 
 	trigger_.add
-		("call",    Trigger::call)
-		("respond", Trigger::respond)
-		("signal",  Trigger::signal)
-		("set",     Trigger::set)
-		("update",  Trigger::update)
-		("error",   Trigger::error)
+		("call",    ast::Trigger::call)
+		("respond", ast::Trigger::respond)
+		("signal",  ast::Trigger::signal)
+		("set",     ast::Trigger::set)
+		("update",  ast::Trigger::update)
+		("error",   ast::Trigger::error)
 		;
 
 	block_
@@ -152,17 +152,17 @@ ContractGrammar::ContractGrammar() :
 		;
 
 	assignment_op_.add
-		("=", Assignment::assign)
-		("*=", Assignment::mul_assign)
-		("/=", Assignment::div_assign)
-		("%=", Assignment::mod_assign)
-		("+=", Assignment::plus_assign)
-		("-=", Assignment::minus_assign)
-		("<<=", Assignment::lshift_assign)
-		(">>=", Assignment::rshift_assign)
-		("&=", Assignment::and_assign)
-		("^=", Assignment::xor_assign)
-		("|=", Assignment::or_assign)
+		("=", ast::Assignment::assign)
+		("*=", ast::Assignment::mul_assign)
+		("/=", ast::Assignment::div_assign)
+		("%=", ast::Assignment::mod_assign)
+		("+=", ast::Assignment::plus_assign)
+		("-=", ast::Assignment::minus_assign)
+		("<<=", ast::Assignment::lshift_assign)
+		(">>=", ast::Assignment::rshift_assign)
+		("&=", ast::Assignment::and_assign)
+		("^=", ast::Assignment::xor_assign)
+		("|=", ast::Assignment::or_assign)
 		;
 
 	fqn_

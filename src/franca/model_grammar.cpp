@@ -25,12 +25,12 @@
 #include <boost/spirit/home/qi.hpp>
 #include <boost/spirit/home/phoenix.hpp>
 
-FIDLER_REFLECT(franca::Version,
+FIDLER_REFLECT(ast::Version,
 	(major)
 	(minor)
 )
 
-FIDLER_REFLECT(franca::Attribute,
+FIDLER_REFLECT(ast::Attribute,
 	(type)
 	(is_array)
 	(name)
@@ -38,27 +38,27 @@ FIDLER_REFLECT(franca::Attribute,
 	(no_subscriptions)
 )
 
-FIDLER_REFLECT(franca::Argument,
+FIDLER_REFLECT(ast::Argument,
 	(type)
 	(is_array)
 	(name)
 )
 
-FIDLER_REFLECT(franca::Model,
+FIDLER_REFLECT(ast::Model,
 	(name)
 	(imports)
 	(type_collections)
 	(interfaces)
 )
 
-FIDLER_REFLECT(franca::TypeCollection,
+FIDLER_REFLECT(ast::TypeCollection,
 	(name)
 	(version)
 	(types)
 	(constants)
 )
 
-FIDLER_REFLECT(franca::Interface,
+FIDLER_REFLECT(ast::Interface,
 	(name)
 	(base)
 	(managed_interfaces)
@@ -71,7 +71,7 @@ FIDLER_REFLECT(franca::Interface,
 	(constants)
 )
 
-FIDLER_REFLECT(franca::Method,
+FIDLER_REFLECT(ast::Method,
 	(name)
 	(fire_and_forget)
 	(in_args)
@@ -79,20 +79,20 @@ FIDLER_REFLECT(franca::Method,
 	(error)
 )
 
-FIDLER_REFLECT(franca::Broadcast,
+FIDLER_REFLECT(ast::Broadcast,
 	(name)
 	(selective)
 	(out_args)
 )
 
-FIDLER_REFLECT(franca::ConstantDef,
+FIDLER_REFLECT(ast::ConstantDef,
 	(type)
 	(is_array)
 	(name)
 	(rhs)
 )
 
-FIDLER_REFLECT(franca::Enumerator,
+FIDLER_REFLECT(ast::Enumerator,
 	(name)
 	(value)
 )
