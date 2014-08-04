@@ -12,9 +12,6 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef FRANCA_TYPESYSTEM_GRAMMAR_IPP
-#define FRANCA_TYPESYSTEM_GRAMMAR_IPP
-
 #include "typesystem_grammar.hpp"
 
 #include <boost/spirit/home/qi.hpp>
@@ -210,5 +207,3 @@ TypeDefinitionGrammar::TypeDefinitionGrammar() :
 }
 
 } // namespace franca
-
-#endif /* FRANCA_TYPESYSTEM_GRAMMAR_IPP */
