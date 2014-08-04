@@ -13,28 +13,14 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "initializer_grammar.hpp"
+#include "util/reflect.hpp"
 
 #include <boost/spirit/home/qi.hpp>
-#include <boost/fusion/adapted/struct/adapt_struct.hpp>
 
-
-BOOST_FUSION_ADAPT_STRUCT(franca::CompoundInitializer,
-	(std::vector<franca::FieldInitializer>, elements)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::BracketInitializer,
-	(std::vector<franca::ElementInitializer>, elements)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::FieldInitializer,
-	(std::string, element)
-	(franca::InitializerExpression, value)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::ElementInitializer,
-	(franca::InitializerExpression, first)
-	(boost::optional<franca::InitializerExpression>, second)
-)
+FIDLER_REFLECT(franca::CompoundInitializer, (elements))
+FIDLER_REFLECT(franca::BracketInitializer, (elements))
+FIDLER_REFLECT(franca::FieldInitializer, (element)(value))
+FIDLER_REFLECT(franca::ElementInitializer, (first)(second))
 
 namespace franca
 {

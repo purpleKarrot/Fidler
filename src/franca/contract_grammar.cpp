@@ -13,53 +13,54 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "contract_grammar.hpp"
+#include "util/reflect.hpp"
 
 #include <boost/spirit/home/qi.hpp>
 #include <boost/fusion/adapted/struct/adapt_struct.hpp>
 
-BOOST_FUSION_ADAPT_STRUCT(franca::Contract,
-	(std::vector<franca::Declaration>, variables)
-	(franca::StateGraph, state_graph)
+FIDLER_REFLECT(franca::Contract,
+	(variables)
+	(state_graph)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::Declaration,
-	(franca::Type, type)
-	(bool, is_array)
-	(std::string, name)
-	(boost::optional<franca::InitializerExpression>, rhs)
+FIDLER_REFLECT(franca::Declaration,
+	(type)
+	(is_array)
+	(name)
+	(rhs)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::StateGraph,
-	(std::string, initial)
-	(std::vector<franca::State>, states)
+FIDLER_REFLECT(franca::StateGraph,
+	(initial)
+	(states)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::State,
-	(std::string, name)
-	(std::vector<franca::Transition>, transitions)
+FIDLER_REFLECT(franca::State,
+	(name)
+	(transitions)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::Transition,
-	(franca::Trigger, trigger)
-	(std::string, event)
-	(boost::optional<franca::Expression>, guard)
-	(std::string, to)
-	(boost::optional<franca::Block>, action)
+FIDLER_REFLECT(franca::Transition,
+	(trigger)
+	(event)
+	(guard)
+	(to)
+	(action)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::Block,
-	(std::vector<franca::Statement>, statements)
+FIDLER_REFLECT(franca::Block,
+	(statements)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::Assignment,
-	(std::string, lhs)
-	(franca::Assignment::Operator, op)
-	(franca::Expression, rhs)
+FIDLER_REFLECT(franca::Assignment,
+	(lhs)
+	(op)
+	(rhs)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::IfClause,
-	(franca::Expression, condition)
-	(std::vector<franca::Statement>, then_statements)
+FIDLER_REFLECT(franca::IfClause,
+	(condition)
+	(then_statements)
 )
 
 namespace franca

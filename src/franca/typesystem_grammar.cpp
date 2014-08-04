@@ -13,60 +13,59 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "typesystem_grammar.hpp"
+#include "util/reflect.hpp"
 
 #include <boost/spirit/home/qi.hpp>
 
-#include <boost/fusion/adapted/struct/adapt_struct.hpp>
-
-BOOST_FUSION_ADAPT_STRUCT(franca::IntegerInterval,
-	(int, lower_bound)
-	(int, upper_bound)
+FIDLER_REFLECT(franca::IntegerInterval,
+	(lower_bound)
+	(upper_bound)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::ArrayType,
-	(std::string, name)
-	(franca::Type, element_type)
+FIDLER_REFLECT(franca::ArrayType,
+	(name)
+	(element_type)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::AliasType,
-	(std::string, name)
-	(franca::Type, actual_type)
+FIDLER_REFLECT(franca::AliasType,
+	(name)
+	(actual_type)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::StructType,
-	(std::string, name)
-	(boost::optional<std::string>, base)
-	(bool, is_polymorphic)
-	(std::vector<franca::Field>, elements)
+FIDLER_REFLECT(franca::StructType,
+	(name)
+	(base)
+	(is_polymorphic)
+	(elements)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::UnionType,
-	(std::string, name)
-	(boost::optional<std::string>, base)
-	(std::vector<franca::Field>, elements)
+FIDLER_REFLECT(franca::UnionType,
+	(name)
+	(base)
+	(elements)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::MapType,
-	(std::string, name)
-	(franca::Type, key_type)
-	(franca::Type, value_type)
+FIDLER_REFLECT(franca::MapType,
+	(name)
+	(key_type)
+	(value_type)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::Field,
-	(franca::Type, type)
-	(bool, is_array)
-	(std::string, name)
+FIDLER_REFLECT(franca::Field,
+	(type)
+	(is_array)
+	(name)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::Enumerator,
-	(std::string, name)
-	(franca::Expression, value)
+FIDLER_REFLECT(franca::Enumerator,
+	(name)
+	(value)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::EnumerationType,
-	(std::string, name)
-	(boost::optional<std::string>, base)
-	(std::vector<franca::Enumerator>, enumerators)
+FIDLER_REFLECT(franca::EnumerationType,
+	(name)
+	(base)
+	(enumerators)
 )
 
 namespace franca

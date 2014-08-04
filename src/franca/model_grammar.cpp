@@ -13,6 +13,7 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "model_grammar.hpp"
+#include "util/reflect.hpp"
 
 #include <boost/spirit/include/qi_char.hpp>
 #include <boost/spirit/include/qi_directive.hpp>
@@ -24,78 +25,76 @@
 #include <boost/spirit/home/qi.hpp>
 #include <boost/spirit/home/phoenix.hpp>
 
-#include <boost/fusion/adapted/struct/adapt_struct.hpp>
-
-BOOST_FUSION_ADAPT_STRUCT(franca::Version,
-	(int, major)
-	(int, minor)
+FIDLER_REFLECT(franca::Version,
+	(major)
+	(minor)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::Attribute,
-	(franca::Type, type)
-	(bool, is_array)
-	(std::string, name)
-	(bool, read_only)
-	(bool, no_subscriptions)
+FIDLER_REFLECT(franca::Attribute,
+	(type)
+	(is_array)
+	(name)
+	(read_only)
+	(no_subscriptions)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::Argument,
-	(franca::Type, type)
-	(bool, is_array)
-	(std::string, name)
+FIDLER_REFLECT(franca::Argument,
+	(type)
+	(is_array)
+	(name)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::Model,
-	(std::string, name)
-	(std::vector<std::string>, imports)
-	(std::vector<franca::TypeCollection>, type_collections)
-	(std::vector<franca::Interface>, interfaces)
+FIDLER_REFLECT(franca::Model,
+	(name)
+	(imports)
+	(type_collections)
+	(interfaces)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::TypeCollection,
-	(boost::optional<std::string>, name)
-	(boost::optional<franca::Version>, version)
-	(std::vector<franca::TypeDefinition>, types)
-	(std::vector<franca::ConstantDef>, constants)
+FIDLER_REFLECT(franca::TypeCollection,
+	(name)
+	(version)
+	(types)
+	(constants)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::Interface,
-	(std::string, name)
-	(boost::optional<std::string>, base)
-	(std::vector<std::string>, managed_interfaces)
-	(boost::optional<franca::Version>, version)
-	(std::vector<franca::Attribute>, attributes)
-	(std::vector<franca::Method>, methods)
-	(std::vector<franca::Broadcast>, broadcasts)
-	(boost::optional<franca::Contract>, contract)
-	(std::vector<franca::TypeDefinition>, types)
-	(std::vector<franca::ConstantDef>, constants)
+FIDLER_REFLECT(franca::Interface,
+	(name)
+	(base)
+	(managed_interfaces)
+	(version)
+	(attributes)
+	(methods)
+	(broadcasts)
+	(contract)
+	(types)
+	(constants)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::Method,
-	(std::string, name)
-	(bool, fire_and_forget)
-	(std::vector<franca::Argument>, in_args)
-	(std::vector<franca::Argument>, out_args)
-	(franca::Error, error)
+FIDLER_REFLECT(franca::Method,
+	(name)
+	(fire_and_forget)
+	(in_args)
+	(out_args)
+	(error)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::Broadcast,
-	(std::string, name)
-	(bool, selective)
-	(std::vector<franca::Argument>, out_args)
+FIDLER_REFLECT(franca::Broadcast,
+	(name)
+	(selective)
+	(out_args)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::ConstantDef,
-	(franca::Type, type)
-	(bool, is_array)
-	(std::string, name)
-	(franca::InitializerExpression, rhs)
+FIDLER_REFLECT(franca::ConstantDef,
+	(type)
+	(is_array)
+	(name)
+	(rhs)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(franca::Enumerator,
-	(std::string, name)
-	(franca::Expression, value)
+FIDLER_REFLECT(franca::Enumerator,
+	(name)
+	(value)
 )
 
 namespace franca

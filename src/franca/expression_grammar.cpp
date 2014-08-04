@@ -13,93 +13,29 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "expression_grammar.hpp"
+#include "util/reflect.hpp"
 
 #include <boost/spirit/home/qi.hpp>
 
 #include <boost/fusion/adapted/std_pair.hpp>
-#include <boost/fusion/adapted/struct/adapt_struct.hpp>
 
-BOOST_FUSION_ADAPT_STRUCT(franca::Expression,
-	(franca::NullCoalescingExpression, left)
-	(boost::optional<franca::Expression::Right>, right)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::NullCoalescingExpression,
-	(franca::LogicalOrExpression, left)
-	(boost::optional<franca::NullCoalescingExpression::Right>, right)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::LogicalOrExpression,
-	(franca::LogicalAndExpression, left)
-	(boost::optional<franca::LogicalOrExpression::Self>, right)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::LogicalAndExpression,
-	(franca::InclusiveOrExpression, left)
-	(boost::optional<franca::LogicalAndExpression::Self>, right)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::InclusiveOrExpression,
-	(franca::ExclusiveOrExpression, left)
-	(boost::optional<franca::InclusiveOrExpression::Self>, right)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::ExclusiveOrExpression,
-	(franca::AndExpression, left)
-	(boost::optional<franca::ExclusiveOrExpression::Self>, right)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::AndExpression,
-	(franca::EqualityExpression, left)
-	(boost::optional<franca::AndExpression::Self>, right)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::EqualityExpression,
-	(franca::RelationalExpression, left)
-	(boost::optional<franca::EqualityExpression::Right>, right)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::RelationalExpression,
-	(franca::ShiftExpression, left)
-	(boost::optional<franca::RelationalExpression::Right>, right)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::ShiftExpression,
-	(franca::AdditiveExpression, left)
-	(std::vector<franca::ShiftExpression::Right>, right)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::AdditiveExpression,
-	(franca::MultiplicativeExpression, left)
-	(std::vector<franca::AdditiveExpression::Right>, right)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::MultiplicativeExpression,
-	(franca::PrefixExpression, left)
-	(std::vector<franca::MultiplicativeExpression::Right>, right)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::PrefixExpression,
-	(boost::optional<franca::PrefixExpression::Op>, op)
-	(franca::PostfixExpression, expr)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::PostfixExpression,
-	(franca::PrimaryExpression, base)
-	(std::vector<franca::PostfixExpression::Postfix>, postfix)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::PostfixExpression::MemberAccess,
-	(std::string, member)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::PostfixExpression::Subscript,
-	(boost::recursive_wrapper<franca::Expression>, value)
-)
-
-BOOST_FUSION_ADAPT_STRUCT(franca::Identifier,
-	(std::string, name)
-)
+FIDLER_REFLECT(franca::Expression, (left)(right))
+FIDLER_REFLECT(franca::NullCoalescingExpression, (left)(right))
+FIDLER_REFLECT(franca::LogicalOrExpression, (left)(right))
+FIDLER_REFLECT(franca::LogicalAndExpression, (left)(right))
+FIDLER_REFLECT(franca::InclusiveOrExpression, (left)(right))
+FIDLER_REFLECT(franca::ExclusiveOrExpression, (left)(right))
+FIDLER_REFLECT(franca::AndExpression, (left)(right))
+FIDLER_REFLECT(franca::EqualityExpression, (left)(right))
+FIDLER_REFLECT(franca::RelationalExpression, (left)(right))
+FIDLER_REFLECT(franca::ShiftExpression, (left)(right))
+FIDLER_REFLECT(franca::AdditiveExpression, (left)(right))
+FIDLER_REFLECT(franca::MultiplicativeExpression, (left)(right))
+FIDLER_REFLECT(franca::PrefixExpression, (op)(expr))
+FIDLER_REFLECT(franca::PostfixExpression, (base)(postfix))
+FIDLER_REFLECT(franca::PostfixExpression::MemberAccess, (member))
+FIDLER_REFLECT(franca::PostfixExpression::Subscript, (value))
+FIDLER_REFLECT(franca::Identifier, (name))
 
 namespace franca
 {
