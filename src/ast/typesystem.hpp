@@ -68,7 +68,7 @@ struct Enumerator
 {
 	boost::optional<AnnotationBlock> comment;
 	std::string name;
-	Expression value;
+	boost::optional<Expression> value;
 };
 
 struct EnumerationType

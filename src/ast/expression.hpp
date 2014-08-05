@@ -148,6 +148,12 @@ struct AndExpression
 {
 	using Self = boost::recursive_wrapper<AndExpression>;
 
+	AndExpression() = default;
+	AndExpression(Self const& other) :
+		AndExpression(other.get())
+	{
+	}
+
 	EqualityExpression left;
 	boost::optional<Self> right;
 };
@@ -155,6 +161,12 @@ struct AndExpression
 struct ExclusiveOrExpression
 {
 	using Self = boost::recursive_wrapper<ExclusiveOrExpression>;
+
+	ExclusiveOrExpression() = default;
+	ExclusiveOrExpression(Self const& other) :
+		ExclusiveOrExpression(other.get())
+	{
+	}
 
 	AndExpression left;
 	boost::optional<Self> right;
@@ -164,6 +176,12 @@ struct InclusiveOrExpression
 {
 	using Self = boost::recursive_wrapper<InclusiveOrExpression>;
 
+	InclusiveOrExpression() = default;
+	InclusiveOrExpression(Self const& other) :
+		InclusiveOrExpression(other.get())
+	{
+	}
+
 	ExclusiveOrExpression left;
 	boost::optional<Self> right;
 };
@@ -171,6 +189,12 @@ struct InclusiveOrExpression
 struct LogicalAndExpression
 {
 	using Self = boost::recursive_wrapper<LogicalAndExpression>;
+
+	LogicalAndExpression() = default;
+	LogicalAndExpression(Self const& other) :
+		LogicalAndExpression(other.get())
+	{
+	}
 
 	InclusiveOrExpression left;
 	boost::optional<Self> right;
@@ -180,6 +204,12 @@ struct LogicalOrExpression
 {
 	using Self = boost::recursive_wrapper<LogicalOrExpression>;
 
+	LogicalOrExpression() = default;
+	LogicalOrExpression(Self const& other) :
+		LogicalOrExpression(other.get())
+	{
+	}
+
 	LogicalAndExpression left;
 	boost::optional<Self> right;
 };
@@ -187,6 +217,12 @@ struct LogicalOrExpression
 struct NullCoalescingExpression
 {
 	using Right = boost::recursive_wrapper<NullCoalescingExpression>;
+
+	NullCoalescingExpression() = default;
+	NullCoalescingExpression(Right const& other) :
+		NullCoalescingExpression(other.get())
+	{
+	}
 
 	LogicalOrExpression left;
 	boost::optional<Right> right;
@@ -199,6 +235,12 @@ struct Expression
 		boost::recursive_wrapper<Expression>,
 		boost::recursive_wrapper<Expression>
 	>;
+
+	Expression() = default;
+	Expression(boost::recursive_wrapper<Expression> const& other) :
+			Expression(other.get())
+	{
+	}
 
 	NullCoalescingExpression left;
 	boost::optional<Right> right;

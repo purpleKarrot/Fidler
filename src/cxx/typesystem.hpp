@@ -16,6 +16,7 @@
 #define FIDLER_CXX_TYPESYSTEM_HPP
 
 #include "ast/typesystem.hpp"
+#include "cxx/expression.hpp"
 #include "util/karma.hpp"
 
 namespace cxx
@@ -55,6 +56,7 @@ private:
 	util::karma_rule<ast::Field()> field_;
 
 	TypeGrammar type_;
+	ExpressionGrammar expression_;
 };
 
 } // namespace cxx

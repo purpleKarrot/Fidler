@@ -16,7 +16,6 @@
 #include "util/reflect.hpp"
 
 #include <boost/spirit/home/karma.hpp>
-#include <boost/fusion/adapted/struct/adapt_struct.hpp>
 
 FIDLER_REFLECT(ast::IntegerInterval,
 	(lower_bound)
@@ -58,7 +57,7 @@ FIDLER_REFLECT(ast::Field,
 
 FIDLER_REFLECT(ast::Enumerator,
 	(name)
-	(name)
+	(value)
 )
 
 FIDLER_REFLECT(ast::EnumerationType,
@@ -178,8 +177,7 @@ TypeDefinitionGrammar::TypeDefinitionGrammar() :
 
 	enumerator_
 		%= karma::string
-		<< " = "
-		<< karma::string
+		<< -(" = " << expression_)
 		<< ",\n"
 		;
 }

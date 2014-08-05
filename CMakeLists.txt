@@ -30,6 +30,8 @@ add_executable(fidler
   src/franca/typesystem_grammar.hpp
   src/franca/model_grammar.cpp
   src/franca/model_grammar.hpp
+  src/cxx/expression.cpp
+  src/cxx/expression.hpp
   src/cxx/model.cpp
   src/cxx/model.hpp
   src/cxx/typesystem.cpp
