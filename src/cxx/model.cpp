@@ -32,6 +32,7 @@ FIDLER_REFLECT(ast::ConstantDef,
 	(type)
 	(is_array)
 	(name)
+	(rhs)
 )
 
 namespace cxx
@@ -61,7 +62,10 @@ ModelGrammar::ModelGrammar() :
 		%= "const "
 		<< type_
 		<< (!karma::bool_(true) | "[]")
+		<< ' '
 		<< karma::string
+		<< " = "
+		<< initializer_
 		<< ";\n"
 		;
 }

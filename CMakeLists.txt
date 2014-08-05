@@ -32,6 +32,8 @@ add_executable(fidler
   src/franca/model_grammar.hpp
   src/cxx/expression.cpp
   src/cxx/expression.hpp
+  src/cxx/initializer.cpp
+  src/cxx/initializer.hpp
   src/cxx/model.cpp
   src/cxx/model.hpp
   src/cxx/typesystem.cpp

@@ -12,33 +12,32 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef FIDLER_CXX_MODEL_HPP
-#define FIDLER_CXX_MODEL_HPP
+#ifndef FIDLER_CXX_INITIALIZER_HPP
+#define FIDLER_CXX_INITIALIZER_HPP
 
-#include "ast/model.hpp"
+#include "ast/initializer.hpp"
+#include "cxx/expression.hpp"
 #include "util/karma.hpp"
-#include "cxx/typesystem.hpp"
-#include "cxx/initializer.hpp"
 
 namespace cxx
 {
 
-class ModelGrammar: public util::karma_grammar<ast::Model()>
+class InitializerGrammar:
+		public util::karma_grammar<ast::InitializerExpression()>
 {
 public:
-	ModelGrammar();
+	InitializerGrammar();
 
 private:
-	util::karma_rule<ast::Model()> model_;
+	util::karma_rule<ast::InitializerExpression()> initializer_;
+	util::karma_rule<ast::FieldInitializer()> field_initializer_;
+	util::karma_rule<ast::ElementInitializer()> element_initializer_;
+	util::karma_rule<ast::CompoundInitializer()> compound_initializer_;
+	util::karma_rule<ast::BracketInitializer()> bracket_initializer_;
 
-	TypeGrammar type_;
-	TypeDefinitionGrammar type_definition_;
-	InitializerGrammar initializer_;
-
-	util::karma_rule<ast::ConstantDef()> constant_def_;
-	util::karma_rule<ast::TypeCollection()> type_collection_;
+	ExpressionGrammar expression_;
 };
 
 } // namespace cxx
 
-#endif /* FIDLER_CXX_MODEL_HPP */
+#endif /* FIDLER_CXX_INITIALIZER_HPP */

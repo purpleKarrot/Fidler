@@ -61,6 +61,6 @@ private:
 	util::karma_rule<std::string()> id_;
 };
 
-} // namespace franca
+} // namespace cxx
 
 #endif /* FIDLER_CXX_EXPRESSION_HPP */

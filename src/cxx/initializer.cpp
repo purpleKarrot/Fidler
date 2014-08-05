@@ -12,33 +12,53 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef FIDLER_CXX_MODEL_HPP
-#define FIDLER_CXX_MODEL_HPP
-
-#include "ast/model.hpp"
-#include "util/karma.hpp"
-#include "cxx/typesystem.hpp"
 #include "cxx/initializer.hpp"
+#include "util/reflect.hpp"
+
+#include <boost/spirit/home/karma.hpp>
+
+FIDLER_REFLECT(ast::CompoundInitializer, (elements))
+FIDLER_REFLECT(ast::BracketInitializer, (elements))
+FIDLER_REFLECT(ast::FieldInitializer, (element)(value))
+FIDLER_REFLECT(ast::ElementInitializer, (first)(second))
 
 namespace cxx
 {
 
-class ModelGrammar: public util::karma_grammar<ast::Model()>
+InitializerGrammar::InitializerGrammar() :
+		InitializerGrammar::base_type(initializer_)
 {
-public:
-	ModelGrammar();
+	namespace karma = boost::spirit::karma;
 
-private:
-	util::karma_rule<ast::Model()> model_;
+	initializer_
+		%= expression_
+		| compound_initializer_
+		| bracket_initializer_
+		;
 
-	TypeGrammar type_;
-	TypeDefinitionGrammar type_definition_;
-	InitializerGrammar initializer_;
+	compound_initializer_
+		%= '{'
+		<< -(field_initializer_ % ", ")
+		<< '}'
+		;
 
-	util::karma_rule<ast::ConstantDef()> constant_def_;
-	util::karma_rule<ast::TypeCollection()> type_collection_;
-};
+	bracket_initializer_
+		%= '{'
+		<< -(element_initializer_ % ", ")
+		<< '}'
+		;
+
+	field_initializer_
+		%= "."
+		<< karma::string
+		<< " = "
+		<< initializer_
+		;
+
+	element_initializer_
+		%= initializer_
+		<< -(" => " << initializer_)
+		;
+}
 
 } // namespace cxx
-
-#endif /* FIDLER_CXX_MODEL_HPP */
