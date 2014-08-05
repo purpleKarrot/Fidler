@@ -13,6 +13,7 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "cxx/model.hpp"
+#include "util/algorithm.hpp"
 #include "util/reflect.hpp"
 
 #include <boost/spirit/home/karma.hpp>
@@ -26,6 +27,7 @@ FIDLER_REFLECT(ast::TypeCollection,
 	(name)
 	(types)
 	(constants)
+	(name)
 )
 
 FIDLER_REFLECT(ast::ConstantDef,
@@ -37,6 +39,11 @@ FIDLER_REFLECT(ast::ConstantDef,
 
 namespace cxx
 {
+
+void name_convention(std::string& str)
+{
+	str = util::str_tolower(util::camel_to_underscore(str));
+}
 
 ModelGrammar::ModelGrammar() :
 		ModelGrammar::base_type(model_)
@@ -51,11 +58,10 @@ ModelGrammar::ModelGrammar() :
 		;
 
 	type_collection_
-		%= "collection '"
-		<< -karma::string
-		<< "'\n"
+		%= -("namespace " << karma::string[name_convention] << "\n{\n")
 		<< *type_definition_
 		<< *constant_def_
+		<< -("} // namespace " << karma::string << "\n\n")
 		;
 
 	constant_def_

@@ -38,6 +38,8 @@ add_executable(fidler
   src/cxx/model.hpp
   src/cxx/typesystem.cpp
   src/cxx/typesystem.hpp
+  src/util/algorithm.cpp
+  src/util/algorithm.hpp
   src/main.cpp
   )
 target_include_directories(fidler PRIVATE src)
