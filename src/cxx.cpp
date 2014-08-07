@@ -12,25 +12,20 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include <iostream>
 #include <fidler/cxx.hpp>
-#include <fidler/franca.hpp>
 
-int main(int argc, char* argv[])
+#include <boost/spirit/home/karma/generate.hpp>
+
+#include "cxx/model.hpp"
+
+namespace fidler
 {
-	std::cout << "Parsing " << argv[1] << std::endl;
 
-	fidler::ast::Model model;
-
-	if (!fidler::read_franca(argv[1], model))
-	{
-		return -1;
-	}
-
-	if (!fidler::write_cxx(model))
-	{
-		return -1;
-	}
-
-	return 0;
+bool write_cxx(ast::Model const& model)
+{
+	std::ostream_iterator<char> sink(std::cout);
+	cxx::ModelGrammar grammar;
+	return boost::spirit::karma::generate(sink, grammar, model);
 }
+
+} // namespace fidler

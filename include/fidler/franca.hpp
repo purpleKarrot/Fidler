@@ -12,25 +12,17 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include <iostream>
-#include <fidler/cxx.hpp>
-#include <fidler/franca.hpp>
+#ifndef FIDLER_FRANCA_HPP
+#define FIDLER_FRANCA_HPP
 
-int main(int argc, char* argv[])
+#include <string>
+#include <fidler/ast/model.hpp>
+
+namespace fidler
 {
-	std::cout << "Parsing " << argv[1] << std::endl;
 
-	fidler::ast::Model model;
+bool read_franca(const char* filename, ast::Model& model);
 
-	if (!fidler::read_franca(argv[1], model))
-	{
-		return -1;
-	}
+} // namespace fidler
 
-	if (!fidler::write_cxx(model))
-	{
-		return -1;
-	}
-
-	return 0;
-}
+#endif /* FIDLER_FRANCA_HPP */

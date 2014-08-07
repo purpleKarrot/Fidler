@@ -17,7 +17,7 @@ project(Fidler VERSION 0.1 LANGUAGES CXX)
 
 enable_testing()
 
-add_executable(fidler
+add_library(libfidler
   src/franca/comment_grammar.cpp
   src/franca/comment_grammar.hpp
   src/franca/contract_grammar.cpp
@@ -39,10 +39,17 @@ add_executable(fidler
   src/cxx/typesystem.cpp
   src/cxx/typesystem.hpp
   src/util/algorithm.cpp
+  src/cxx.cpp
+  src/franca.cpp
+  )
+set_target_properties(libfidler PROPERTIES OUTPUT_NAME fidler)
+target_include_directories(libfidler PUBLIC include)
+target_compile_options(libfidler PUBLIC -std=c++11)
+
+add_executable(fidler
   src/main.cpp
   )
-target_include_directories(fidler PRIVATE include)
-target_compile_options(fidler PRIVATE -std=c++11)
+target_link_libraries(fidler PRIVATE libfidler)
 
 file(GLOB_RECURSE fidl_files "*.fidl")
 foreach(file IN LISTS fidl_files)
