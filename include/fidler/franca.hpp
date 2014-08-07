@@ -15,13 +15,13 @@
 #ifndef FIDLER_FRANCA_HPP
 #define FIDLER_FRANCA_HPP
 
-#include <string>
 #include <fidler/ast/model.hpp>
+#include <fidler/export.hpp>
 
 namespace fidler
 {
 
-bool read_franca(const char* filename, ast::Model& model);
+FIDLER_EXPORT bool read_franca(const char* filename, ast::Model& model);
 
 } // namespace fidler
 

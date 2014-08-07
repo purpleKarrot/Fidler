@@ -16,11 +16,12 @@
 #define FIDLER_CXX_HPP
 
 #include <fidler/ast/model.hpp>
+#include <fidler/export.hpp>
 
 namespace fidler
 {
 
-bool write_cxx(ast::Model const& model);
+FIDLER_EXPORT bool write_cxx(ast::Model const& model);
 
 } // namespace fidler
 

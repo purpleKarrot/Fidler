@@ -16,6 +16,7 @@ cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(Fidler VERSION 0.1 LANGUAGES CXX)
 
 enable_testing()
+include(GenerateExportHeader)
 
 add_library(libfidler
   src/franca/comment_grammar.cpp
@@ -42,8 +43,24 @@ add_library(libfidler
   src/cxx.cpp
   src/franca.cpp
   )
-set_target_properties(libfidler PROPERTIES OUTPUT_NAME fidler)
-target_include_directories(libfidler PUBLIC include)
+
+generate_export_header(libfidler
+  EXPORT_FILE_NAME include/fidler/export.hpp
+  BASE_NAME fidler
+  )
+
+set_target_properties(libfidler PROPERTIES
+  OUTPUT_NAME fidler
+  CXX_VISIBILITY_PRESET hidden
+  VISIBILITY_INLINES_HIDDEN 1
+  )
+
+target_include_directories(libfidler
+  PUBLIC
+    ${Fidler_SOURCE_DIR}/include
+    ${Fidler_BINARY_DIR}/include
+  )
+
 target_compile_options(libfidler PUBLIC -std=c++11)
 
 add_executable(fidler

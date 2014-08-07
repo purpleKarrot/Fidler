@@ -15,6 +15,12 @@
 language: cpp
 compiler: gcc
 
+env:
+  - BUILD_SHARED_LIBS="ON" CMAKE_BUILD_TYPE="Release"
+  - BUILD_SHARED_LIBS="OFF" CMAKE_BUILD_TYPE="Release"
+  - BUILD_SHARED_LIBS="ON" CMAKE_BUILD_TYPE="Debug"
+  - BUILD_SHARED_LIBS="OFF" CMAKE_BUILD_TYPE="Debug"
+
 before_install:
   - sudo add-apt-repository -y ppa:boost-latest/ppa
   - sudo add-apt-repository -y ppa:purplekarrot/cmake
@@ -32,6 +38,6 @@ before_script:
   - cd build
 
 script:
-  - cmake ..
+  - cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} ..
   - cmake --build . --target all
   - ctest --output-on-failure .
