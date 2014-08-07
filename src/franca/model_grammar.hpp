@@ -15,13 +15,15 @@
 #ifndef FRANCA_MODEL_GRAMMAR_HPP
 #define FRANCA_MODEL_GRAMMAR_HPP
 
-#include "ast/model.hpp"
 #include "comment_grammar.hpp"
 #include "contract_grammar.hpp"
 #include "typesystem_grammar.hpp"
 #include "initializer_grammar.hpp"
 
 #include <boost/spirit/include/qi_nonterminal.hpp>
+
+#include <fidler/ast/model.hpp>
+namespace ast = fidler::ast;
 
 namespace franca
 {

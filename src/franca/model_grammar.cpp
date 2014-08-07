@@ -13,7 +13,6 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "model_grammar.hpp"
-#include "util/reflect.hpp"
 
 #include <boost/spirit/include/qi_char.hpp>
 #include <boost/spirit/include/qi_directive.hpp>
@@ -24,6 +23,8 @@
 
 #include <boost/spirit/home/qi.hpp>
 #include <boost/spirit/home/phoenix.hpp>
+
+#include <fidler/util/reflect.hpp>
 
 FIDLER_REFLECT(ast::Version,
 	(major)

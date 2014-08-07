@@ -15,11 +15,13 @@
 #ifndef FRANCA_INITIALIZER_GRAMMAR_HPP
 #define FRANCA_INITIALIZER_GRAMMAR_HPP
 
-#include "ast/initializer.hpp"
 #include "comment_grammar.hpp"
 #include "expression_grammar.hpp"
 
 #include <boost/spirit/include/qi_nonterminal.hpp>
+
+#include <fidler/ast/initializer.hpp>
+namespace ast = fidler::ast;
 
 namespace franca
 {

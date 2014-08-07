@@ -15,9 +15,11 @@
 #ifndef FIDLER_CXX_INITIALIZER_HPP
 #define FIDLER_CXX_INITIALIZER_HPP
 
-#include "ast/initializer.hpp"
-#include "cxx/expression.hpp"
-#include "util/karma.hpp"
+#include "expression.hpp"
+#include "../util/karma.hpp"
+
+#include <fidler/ast/initializer.hpp>
+namespace ast = fidler::ast;
 
 namespace cxx
 {

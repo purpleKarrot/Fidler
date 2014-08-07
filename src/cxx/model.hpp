@@ -15,10 +15,12 @@
 #ifndef FIDLER_CXX_MODEL_HPP
 #define FIDLER_CXX_MODEL_HPP
 
-#include "ast/model.hpp"
-#include "util/karma.hpp"
-#include "cxx/typesystem.hpp"
-#include "cxx/initializer.hpp"
+#include "typesystem.hpp"
+#include "initializer.hpp"
+#include "../util/karma.hpp"
+
+#include <fidler/ast/model.hpp>
+namespace ast = fidler::ast;
 
 namespace cxx
 {

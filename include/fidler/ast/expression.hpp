@@ -20,6 +20,8 @@
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
 
+namespace fidler
+{
 namespace ast
 {
 
@@ -247,5 +249,6 @@ struct Expression
 };
 
 } // namespace ast
+} // namespace fidler
 
 #endif /* FIDLER_AST_EXPRESSION_HPP */

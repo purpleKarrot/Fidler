@@ -15,8 +15,10 @@
 #ifndef FIDLER_CXX_EXPRESSION_HPP
 #define FIDLER_CXX_EXPRESSION_HPP
 
-#include "ast/expression.hpp"
-#include "util/karma.hpp"
+#include "../util/karma.hpp"
+
+#include <fidler/ast/expression.hpp>
+namespace ast = fidler::ast;
 
 namespace cxx
 {

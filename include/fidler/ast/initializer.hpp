@@ -20,8 +20,10 @@
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
 
-#include "ast/expression.hpp"
+#include <fidler/ast/expression.hpp>
 
+namespace fidler
+{
 namespace ast
 {
 
@@ -61,5 +63,6 @@ struct BracketInitializer
 };
 
 } // namespace ast
+} // namespace fidler
 
 #endif /* FIDLER_AST_INITIALIZER_HPP */

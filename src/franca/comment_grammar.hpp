@@ -15,10 +15,11 @@
 #ifndef FRANCA_COMMENT_GRAMMAR_HPP
 #define FRANCA_COMMENT_GRAMMAR_HPP
 
-#include "ast/comment.hpp"
-
 #include <boost/spirit/home/qi/nonterminal/grammar.hpp>
 #include <boost/spirit/home/qi/nonterminal/rule.hpp>
+
+#include <fidler/ast/comment.hpp>
+namespace ast = fidler::ast;
 
 namespace franca
 {

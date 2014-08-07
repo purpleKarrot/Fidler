@@ -15,12 +15,14 @@
 #ifndef FRANCA_TYPESYSTEM_GRAMMAR_HPP
 #define FRANCA_TYPESYSTEM_GRAMMAR_HPP
 
-#include "ast/typesystem.hpp"
 #include "comment_grammar.hpp"
 #include "expression_grammar.hpp"
 
 #include <boost/spirit/include/qi_nonterminal.hpp>
 #include <boost/spirit/include/qi_symbols.hpp>
+
+#include <fidler/ast/typesystem.hpp>
+namespace ast = fidler::ast;
 
 namespace franca
 {

@@ -20,10 +20,12 @@
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
 
-#include "ast/contract.hpp"
-#include "ast/typesystem.hpp"
-#include "ast/initializer.hpp"
+#include <fidler/ast/contract.hpp>
+#include <fidler/ast/typesystem.hpp>
+#include <fidler/ast/initializer.hpp>
 
+namespace fidler
+{
 namespace ast
 {
 
@@ -116,5 +118,6 @@ struct Model
 };
 
 } // namespace ast
+} // namespace fidler
 
 #endif /* FIDLER_AST_MODEL_HPP */

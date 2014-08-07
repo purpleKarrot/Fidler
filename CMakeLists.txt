@@ -39,10 +39,9 @@ add_executable(fidler
   src/cxx/typesystem.cpp
   src/cxx/typesystem.hpp
   src/util/algorithm.cpp
-  src/util/algorithm.hpp
   src/main.cpp
   )
-target_include_directories(fidler PRIVATE src)
+target_include_directories(fidler PRIVATE include)
 target_compile_options(fidler PRIVATE -std=c++11)
 
 file(GLOB_RECURSE fidl_files "*.fidl")

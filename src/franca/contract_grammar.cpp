@@ -13,10 +13,11 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "contract_grammar.hpp"
-#include "util/reflect.hpp"
 
 #include <boost/spirit/home/qi.hpp>
 #include <boost/fusion/adapted/struct/adapt_struct.hpp>
+
+#include <fidler/util/reflect.hpp>
 
 FIDLER_REFLECT(ast::Contract,
 	(variables)

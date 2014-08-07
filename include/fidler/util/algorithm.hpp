@@ -12,25 +12,25 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef FIDLER_AST_COMMENT_HPP
-#define FIDLER_AST_COMMENT_HPP
+#ifndef FIDLER_UTIL_ALGORITHM_HPP
+#define FIDLER_UTIL_ALGORITHM_HPP
 
 #include <string>
-#include <vector>
 
-namespace ast
+namespace fidler
+{
+namespace util
 {
 
-struct Annotation
-{
-	std::string raw_text;
-};
+std::string capitalize(std::string str);
 
-struct AnnotationBlock
-{
-	std::vector<Annotation> elements;
-};
+std::string str_toupper(std::string str);
+std::string str_tolower(std::string str);
 
-} // namespace ast
+std::string underscore_to_camel(std::string input);
+std::string camel_to_underscore(std::string input);
 
-#endif /* FIDLER_AST_COMMENT_HPP */
+} // namespace util
+} // namespace fidler
+
+#endif /* FIDLER_UTIL_ALGORITHM_HPP */

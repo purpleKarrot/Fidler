@@ -15,12 +15,14 @@
 #ifndef FRANCA_EXPRESSION_GRAMMAR_HPP
 #define FRANCA_EXPRESSION_GRAMMAR_HPP
 
-#include "ast/expression.hpp"
 #include "comment_grammar.hpp"
 
 #include <boost/spirit/include/qi_nonterminal.hpp>
 #include <boost/spirit/include/qi_symbols.hpp>
 namespace qi = boost::spirit::qi;
+
+#include <fidler/ast/expression.hpp>
+namespace ast = fidler::ast;
 
 namespace franca
 {

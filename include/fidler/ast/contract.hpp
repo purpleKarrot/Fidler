@@ -20,11 +20,13 @@
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
 
-#include "ast/comment.hpp"
-#include "ast/typesystem.hpp"
-#include "ast/expression.hpp"
-#include "ast/initializer.hpp"
+#include <fidler/ast/comment.hpp>
+#include <fidler/ast/typesystem.hpp>
+#include <fidler/ast/expression.hpp>
+#include <fidler/ast/initializer.hpp>
 
+namespace fidler
+{
 namespace ast
 {
 
@@ -117,5 +119,6 @@ struct Contract
 };
 
 } // namespace ast
+} // namespace fidler
 
 #endif /* FIDLER_AST_CONTRACT_HPP */

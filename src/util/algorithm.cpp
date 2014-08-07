@@ -12,11 +12,14 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include "algorithm.hpp"
+#include <fidler/util/algorithm.hpp>
 #include <boost/xpressive/xpressive.hpp>
 #include <boost/xpressive/regex_algorithms.hpp>
 #include <boost/xpressive/regex_primitives.hpp>
 #include <boost/xpressive/regex_actions.hpp>
+
+namespace fidler
+{
 
 namespace util
 {
@@ -63,3 +66,4 @@ std::string camel_to_underscore(std::string str)
 }
 
 } // namespace util
+} // namespace fidler

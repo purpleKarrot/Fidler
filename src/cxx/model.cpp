@@ -12,11 +12,12 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include "cxx/model.hpp"
-#include "util/algorithm.hpp"
-#include "util/reflect.hpp"
+#include "model.hpp"
 
 #include <boost/spirit/home/karma.hpp>
+
+#include <fidler/util/algorithm.hpp>
+#include <fidler/util/reflect.hpp>
 
 FIDLER_REFLECT(ast::Model,
 	(name)
@@ -42,6 +43,7 @@ namespace cxx
 
 void name_convention(std::string& str)
 {
+	namespace util = fidler::util;
 	str = util::str_tolower(util::camel_to_underscore(str));
 }
 

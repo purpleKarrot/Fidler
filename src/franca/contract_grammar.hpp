@@ -15,13 +15,15 @@
 #ifndef FRANCA_CONTRACT_GRAMMAR_HPP
 #define FRANCA_CONTRACT_GRAMMAR_HPP
 
-#include "ast/contract.hpp"
 #include "comment_grammar.hpp"
 #include "initializer_grammar.hpp"
 #include "expression_grammar.hpp"
 #include "typesystem_grammar.hpp"
 
 #include <boost/spirit/include/qi_nonterminal.hpp>
+
+#include <fidler/ast/contract.hpp>
+namespace ast = fidler::ast;
 
 namespace franca
 {

@@ -12,11 +12,12 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include "cxx/expression.hpp"
-#include "util/reflect.hpp"
+#include "expression.hpp"
 
 #include <boost/spirit/home/karma.hpp>
 #include <boost/fusion/adapted/std_pair.hpp>
+
+#include <fidler/util/reflect.hpp>
 
 FIDLER_REFLECT(ast::Expression, (left)(right))
 FIDLER_REFLECT(ast::NullCoalescingExpression, (left)(right))

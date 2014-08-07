@@ -13,9 +13,10 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "initializer_grammar.hpp"
-#include "util/reflect.hpp"
 
 #include <boost/spirit/home/qi.hpp>
+
+#include <fidler/util/reflect.hpp>
 
 FIDLER_REFLECT(ast::CompoundInitializer, (elements))
 FIDLER_REFLECT(ast::BracketInitializer, (elements))

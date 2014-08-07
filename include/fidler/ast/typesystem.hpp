@@ -20,9 +20,11 @@
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
 
-#include "ast/comment.hpp"
-#include "ast/expression.hpp"
+#include <fidler/ast/comment.hpp>
+#include <fidler/ast/expression.hpp>
 
+namespace fidler
+{
 namespace ast
 {
 
@@ -130,5 +132,6 @@ using TypeDefinition = boost::variant
 >;
 
 } // namespace ast
+} // namespace fidler
 
 #endif /* FIDLER_AST_TYPESYSTEM_HPP */

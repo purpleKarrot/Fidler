@@ -15,9 +15,11 @@
 #ifndef FIDLER_CXX_TYPESYSTEM_HPP
 #define FIDLER_CXX_TYPESYSTEM_HPP
 
-#include "ast/typesystem.hpp"
-#include "cxx/expression.hpp"
-#include "util/karma.hpp"
+#include "expression.hpp"
+#include "../util/karma.hpp"
+
+#include <fidler/ast/typesystem.hpp>
+namespace ast = fidler::ast;
 
 namespace cxx
 {
