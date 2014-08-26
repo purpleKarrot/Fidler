@@ -12,26 +12,18 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include <iostream>
-#include <fidler/cxx.hpp>
-#include <fidler/franca.hpp>
-#include <fidler/dbusxml.hpp>
+#ifndef FIDLER_DBUSXML_HPP
+#define FIDLER_DBUSXML_HPP
 
-int main(int argc, char* argv[])
+#include <string>
+#include <fidler/ast/model.hpp>
+
+namespace fidler
 {
-	std::cout << "Parsing " << argv[1] << std::endl;
 
-	fidler::ast::Model model;
+bool read_dbusxml(const char* filename, ast::Model& model);
+bool write_dbusxml(const char* filename, ast::Model const& model);
 
-	if (!fidler::read_dbusxml(argv[1], model))
-	{
-		return -1;
-	}
+} // namespace fidler
 
-	if (!fidler::write_franca("out.fidl", model))
-	{
-		return -1;
-	}
-
-	return 0;
-}
+#endif /* FIDLER_DBUSXML_HPP */

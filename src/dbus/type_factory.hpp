@@ -12,26 +12,36 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include <iostream>
-#include <fidler/cxx.hpp>
-#include <fidler/franca.hpp>
-#include <fidler/dbusxml.hpp>
+#ifndef DBUSXML_TYPE_FACTORY_HPP
+#define DBUSXML_TYPE_FACTORY_HPP
 
-int main(int argc, char* argv[])
+#include <fidler/ast/typesystem.hpp>
+#include <unordered_map>
+
+namespace dbusxml
 {
-	std::cout << "Parsing " << argv[1] << std::endl;
 
-	fidler::ast::Model model;
+class TypeFactory
+{
+	using Type = fidler::ast::Type;
+	using TypeDefinition = fidler::ast::TypeDefinition;
+	using StringIterator = std::string::const_iterator;
 
-	if (!fidler::read_dbusxml(argv[1], model))
-	{
-		return -1;
-	}
+public:
+	TypeFactory(std::vector<TypeDefinition>& types);
 
-	if (!fidler::write_franca("out.fidl", model))
-	{
-		return -1;
-	}
+	Type lookup(std::string const& signature);
 
-	return 0;
-}
+private:
+	std::string make_name();
+	Type parse(StringIterator& it, StringIterator last);
+
+private:
+	std::size_t counter = 0;
+	std::vector<TypeDefinition>& types;
+	std::unordered_map<std::string, std::string> names;
+};
+
+} // namespace dbusxml
+
+#endif /* DBUSXML_TYPE_FACTORY_HPP */

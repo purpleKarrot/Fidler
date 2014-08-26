@@ -54,6 +54,13 @@ add_library(libfidler
   src/cxx/model.hpp
   src/cxx/typesystem.cpp
   src/cxx/typesystem.hpp
+  
+  src/dbus/pugixml.cpp
+  src/dbus/pugixml.hpp
+  src/dbus/read.cpp
+  src/dbus/type_factory.cpp
+  src/dbus/type_factory.hpp
+
   src/util/algorithm.cpp
   src/cxx.cpp
   src/franca.cpp
