@@ -13,61 +13,9 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "typesystem_grammar.hpp"
+#include "typesystem_reflection.hpp"
 
 #include <boost/spirit/home/qi.hpp>
-
-#include <fidler/util/reflect.hpp>
-
-FIDLER_REFLECT(ast::IntegerInterval,
-	(lower_bound)
-	(upper_bound)
-)
-
-FIDLER_REFLECT(ast::ArrayType,
-	(name)
-	(element_type)
-)
-
-FIDLER_REFLECT(ast::AliasType,
-	(name)
-	(actual_type)
-)
-
-FIDLER_REFLECT(ast::StructType,
-	(name)
-	(base)
-	(is_polymorphic)
-	(elements)
-)
-
-FIDLER_REFLECT(ast::UnionType,
-	(name)
-	(base)
-	(elements)
-)
-
-FIDLER_REFLECT(ast::MapType,
-	(name)
-	(key_type)
-	(value_type)
-)
-
-FIDLER_REFLECT(ast::Field,
-	(type)
-	(is_array)
-	(name)
-)
-
-FIDLER_REFLECT(ast::Enumerator,
-	(name)
-	(value)
-)
-
-FIDLER_REFLECT(ast::EnumerationType,
-	(name)
-	(base)
-	(enumerators)
-)
 
 namespace franca
 {

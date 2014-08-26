@@ -13,29 +13,9 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "expression_grammar.hpp"
+#include "expression_reflection.hpp"
 
 #include <boost/spirit/home/qi.hpp>
-#include <boost/fusion/adapted/std_pair.hpp>
-
-#include <fidler/util/reflect.hpp>
-
-FIDLER_REFLECT(ast::Expression, (left)(right))
-FIDLER_REFLECT(ast::NullCoalescingExpression, (left)(right))
-FIDLER_REFLECT(ast::LogicalOrExpression, (left)(right))
-FIDLER_REFLECT(ast::LogicalAndExpression, (left)(right))
-FIDLER_REFLECT(ast::InclusiveOrExpression, (left)(right))
-FIDLER_REFLECT(ast::ExclusiveOrExpression, (left)(right))
-FIDLER_REFLECT(ast::AndExpression, (left)(right))
-FIDLER_REFLECT(ast::EqualityExpression, (left)(right))
-FIDLER_REFLECT(ast::RelationalExpression, (left)(right))
-FIDLER_REFLECT(ast::ShiftExpression, (left)(right))
-FIDLER_REFLECT(ast::AdditiveExpression, (left)(right))
-FIDLER_REFLECT(ast::MultiplicativeExpression, (left)(right))
-FIDLER_REFLECT(ast::PrefixExpression, (op)(expr))
-FIDLER_REFLECT(ast::PostfixExpression, (base)(postfix))
-FIDLER_REFLECT(ast::PostfixExpression::MemberAccess, (member))
-FIDLER_REFLECT(ast::PostfixExpression::Subscript, (value))
-FIDLER_REFLECT(ast::Identifier, (name))
 
 namespace franca
 {

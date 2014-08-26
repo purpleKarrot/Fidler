@@ -13,6 +13,7 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "model_grammar.hpp"
+#include "model_reflection.hpp"
 
 #include <boost/spirit/include/qi_char.hpp>
 #include <boost/spirit/include/qi_directive.hpp>
@@ -23,80 +24,6 @@
 
 #include <boost/spirit/home/qi.hpp>
 #include <boost/spirit/home/phoenix.hpp>
-
-#include <fidler/util/reflect.hpp>
-
-FIDLER_REFLECT(ast::Version,
-	(major)
-	(minor)
-)
-
-FIDLER_REFLECT(ast::Attribute,
-	(type)
-	(is_array)
-	(name)
-	(read_only)
-	(no_subscriptions)
-)
-
-FIDLER_REFLECT(ast::Argument,
-	(type)
-	(is_array)
-	(name)
-)
-
-FIDLER_REFLECT(ast::Model,
-	(name)
-	(imports)
-	(type_collections)
-	(interfaces)
-)
-
-FIDLER_REFLECT(ast::TypeCollection,
-	(name)
-	(version)
-	(types)
-	(constants)
-)
-
-FIDLER_REFLECT(ast::Interface,
-	(name)
-	(base)
-	(managed_interfaces)
-	(version)
-	(attributes)
-	(methods)
-	(broadcasts)
-	(contract)
-	(types)
-	(constants)
-)
-
-FIDLER_REFLECT(ast::Method,
-	(name)
-	(fire_and_forget)
-	(in_args)
-	(out_args)
-	(error)
-)
-
-FIDLER_REFLECT(ast::Broadcast,
-	(name)
-	(selective)
-	(out_args)
-)
-
-FIDLER_REFLECT(ast::ConstantDef,
-	(type)
-	(is_array)
-	(name)
-	(rhs)
-)
-
-FIDLER_REFLECT(ast::Enumerator,
-	(name)
-	(value)
-)
 
 namespace franca
 {

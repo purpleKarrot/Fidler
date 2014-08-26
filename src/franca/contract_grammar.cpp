@@ -13,56 +13,9 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "contract_grammar.hpp"
+#include "contract_reflection.hpp"
 
 #include <boost/spirit/home/qi.hpp>
-#include <boost/fusion/adapted/struct/adapt_struct.hpp>
-
-#include <fidler/util/reflect.hpp>
-
-FIDLER_REFLECT(ast::Contract,
-	(variables)
-	(state_graph)
-)
-
-FIDLER_REFLECT(ast::Declaration,
-	(type)
-	(is_array)
-	(name)
-	(rhs)
-)
-
-FIDLER_REFLECT(ast::StateGraph,
-	(initial)
-	(states)
-)
-
-FIDLER_REFLECT(ast::State,
-	(name)
-	(transitions)
-)
-
-FIDLER_REFLECT(ast::Transition,
-	(trigger)
-	(event)
-	(guard)
-	(to)
-	(action)
-)
-
-FIDLER_REFLECT(ast::Block,
-	(statements)
-)
-
-FIDLER_REFLECT(ast::Assignment,
-	(lhs)
-	(op)
-	(rhs)
-)
-
-FIDLER_REFLECT(ast::IfClause,
-	(condition)
-	(then_statements)
-)
 
 namespace franca
 {

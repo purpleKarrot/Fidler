@@ -12,49 +12,15 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include "initializer_grammar.hpp"
-#include "initializer_reflection.hpp"
+#ifndef FRANCA_INITIALIZER_REFLECTION_HPP
+#define FRANCA_INITIALIZER_REFLECTION_HPP
 
-#include <boost/spirit/home/qi.hpp>
+#include <fidler/ast/initializer.hpp>
+#include <fidler/util/reflect.hpp>
 
-namespace franca
-{
+FIDLER_REFLECT(fidler::ast::CompoundInitializer, (elements))
+FIDLER_REFLECT(fidler::ast::BracketInitializer, (elements))
+FIDLER_REFLECT(fidler::ast::FieldInitializer, (element)(value))
+FIDLER_REFLECT(fidler::ast::ElementInitializer, (first)(second))
 
-InitializerGrammar::InitializerGrammar() :
-		InitializerGrammar::base_type(initializer_)
-{
-	initializer_
-		%= expression_
-		| compound_initializer_
-		| bracket_initializer_
-		;
-
-	compound_initializer_
-		%= '{'
-		> -(field_initializer_ % ',')
-		> '}'
-		;
-
-	bracket_initializer_
-		%= '['
-		> -(element_initializer_ % ',')
-		> ']'
-		;
-
-	field_initializer_
-		%= id_
-		> ':'
-		> initializer_
-		;
-
-	element_initializer_
-		%= initializer_
-		> -("=>" > initializer_)
-		;
-
-	id_
-		%= qi::lexeme[-qi::lit('^') >> (qi::alpha | '_') >> *(qi::alnum | '_')]
-		;
-}
-
-} // namespace franca
+#endif /* FRANCA_INITIALIZER_REFLECTION_HPP */

@@ -12,49 +12,55 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include "initializer_grammar.hpp"
-#include "initializer_reflection.hpp"
+#ifndef FRANCA_CONTRACT_REFLECTION_HPP
+#define FRANCA_CONTRACT_REFLECTION_HPP
 
-#include <boost/spirit/home/qi.hpp>
+#include <fidler/ast/contract.hpp>
+#include <fidler/util/reflect.hpp>
 
-namespace franca
-{
+FIDLER_REFLECT(fidler::ast::Contract,
+	(variables)
+	(state_graph)
+)
 
-InitializerGrammar::InitializerGrammar() :
-		InitializerGrammar::base_type(initializer_)
-{
-	initializer_
-		%= expression_
-		| compound_initializer_
-		| bracket_initializer_
-		;
+FIDLER_REFLECT(fidler::ast::Declaration,
+	(type)
+	(is_array)
+	(name)
+	(rhs)
+)
 
-	compound_initializer_
-		%= '{'
-		> -(field_initializer_ % ',')
-		> '}'
-		;
+FIDLER_REFLECT(fidler::ast::StateGraph,
+	(initial)
+	(states)
+)
 
-	bracket_initializer_
-		%= '['
-		> -(element_initializer_ % ',')
-		> ']'
-		;
+FIDLER_REFLECT(fidler::ast::State,
+	(name)
+	(transitions)
+)
 
-	field_initializer_
-		%= id_
-		> ':'
-		> initializer_
-		;
+FIDLER_REFLECT(fidler::ast::Transition,
+	(trigger)
+	(event)
+	(guard)
+	(to)
+	(action)
+)
 
-	element_initializer_
-		%= initializer_
-		> -("=>" > initializer_)
-		;
+FIDLER_REFLECT(fidler::ast::Block,
+	(statements)
+)
 
-	id_
-		%= qi::lexeme[-qi::lit('^') >> (qi::alpha | '_') >> *(qi::alnum | '_')]
-		;
-}
+FIDLER_REFLECT(fidler::ast::Assignment,
+	(lhs)
+	(op)
+	(rhs)
+)
 
-} // namespace franca
+FIDLER_REFLECT(fidler::ast::IfClause,
+	(condition)
+	(then_statements)
+)
+
+#endif /* FRANCA_CONTRACT_REFLECTION_HPP */
