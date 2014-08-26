@@ -12,7 +12,7 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include "contract_grammar.hpp"
+#include "contract_parser.hpp"
 #include "contract_reflection.hpp"
 
 #include <boost/spirit/home/qi.hpp>
@@ -20,8 +20,8 @@
 namespace franca
 {
 
-ContractGrammar::ContractGrammar() :
-		ContractGrammar::base_type(contract_)
+ContractParser::ContractParser() :
+		ContractParser::base_type(contract_)
 {
 	namespace qi = boost::spirit::qi;
 

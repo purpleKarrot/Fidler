@@ -21,8 +21,11 @@ include(GenerateExportHeader)
 add_library(libfidler
   src/franca/comment_grammar.cpp
   src/franca/comment_grammar.hpp
-  src/franca/contract_grammar.cpp
-  src/franca/contract_grammar.hpp
+  src/franca/contract_generator.cpp
+  src/franca/contract_generator.hpp
+  src/franca/contract_parser.cpp
+  src/franca/contract_parser.hpp
+  src/franca/contract_reflection.hpp
   src/franca/expression_generator.cpp
   src/franca/expression_generator.hpp
   src/franca/expression_parser.cpp

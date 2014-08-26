@@ -16,7 +16,7 @@
 #define FRANCA_MODEL_PARSER_HPP
 
 #include "comment_grammar.hpp"
-#include "contract_grammar.hpp"
+#include "contract_parser.hpp"
 #include "typesystem_parser.hpp"
 #include "initializer_parser.hpp"
 
@@ -44,7 +44,7 @@ private:
 	TypeDefinitionParser type_definition_;
 	ExpressionParser expression_;
 	InitializerParser initializer_;
-	ContractGrammar contract_;
+	ContractParser contract_;
 
 	Rule<ast::Version()> version_;
 	Rule<std::string()> import_;

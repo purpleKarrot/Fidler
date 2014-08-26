@@ -18,6 +18,7 @@
 #include <fidler/ast/model.hpp>
 #include "../util/karma.hpp"
 
+#include "contract_generator.hpp"
 #include "expression_generator.hpp"
 #include "initializer_generator.hpp"
 #include "typesystem_generator.hpp"
@@ -36,7 +37,7 @@ private:
 	TypeGenerator type_;
 	TypeDefinitionGenerator type_definition_;
 	InitializerGenerator initializer_;
-	util::karma_rule<fidler::ast::Contract()> contract_;
+	ContractGenerator contract_;
 	ExpressionGenerator expression_;
 
 	util::karma_rule<std::string()> import_;
