@@ -16,9 +16,11 @@
 
 #include <fstream>
 #include <boost/spirit/home/qi/parse.hpp>
+#include <boost/spirit/home/karma/generate.hpp>
 
 #include "franca/comment_grammar.hpp"
-#include "franca/model_grammar.hpp"
+#include "franca/model_generator.hpp"
+#include "franca/model_parser.hpp"
 
 namespace fidler
 {
@@ -31,12 +33,19 @@ bool read_franca(const char* filename, ast::Model& model)
 	std::string content = buffer.str();
 
 	franca::SkipGrammar skip;
-	franca::ModelGrammar grammar;
+	franca::ModelParser grammar;
 
 	const char* begin = content.c_str();
 	const char* end = begin + content.length();
 
 	return boost::spirit::qi::phrase_parse(begin, end, grammar, skip, model);
+}
+
+bool write_franca(const char* filename, ast::Model const& model)
+{
+	std::ostream_iterator<char> sink(std::cout);
+	franca::ModelGenerator grammar;
+	return boost::spirit::karma::generate(sink, grammar, model);
 }
 
 } // namespace fidler

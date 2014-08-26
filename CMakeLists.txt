@@ -19,6 +19,7 @@ enable_testing()
 include(GenerateExportHeader)
 
 add_library(libfidler
+
   src/franca/comment_grammar.cpp
   src/franca/comment_grammar.hpp
   src/franca/contract_grammar.cpp
@@ -29,8 +30,12 @@ add_library(libfidler
   src/franca/initializer_grammar.hpp
   src/franca/typesystem_grammar.cpp
   src/franca/typesystem_grammar.hpp
-  src/franca/model_grammar.cpp
-  src/franca/model_grammar.hpp
+  src/franca/model_generator.cpp
+  src/franca/model_generator.hpp
+  src/franca/model_parser.cpp
+  src/franca/model_parser.hpp
+  src/franca/model_reflection.hpp
+  
   src/cxx/expression.cpp
   src/cxx/expression.hpp
   src/cxx/initializer.cpp

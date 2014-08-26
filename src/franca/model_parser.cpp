@@ -12,7 +12,7 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include "model_grammar.hpp"
+#include "model_parser.hpp"
 #include "model_reflection.hpp"
 
 #include <boost/spirit/include/qi_char.hpp>
@@ -49,8 +49,8 @@ void error_handler(const char* begin, const char* end, const char* where,
 		;
 }
 
-ModelGrammar::ModelGrammar() :
-		ModelGrammar::base_type(model_)
+ModelParser::ModelParser() :
+		ModelParser::base_type(model_)
 {
 	namespace qi = boost::spirit::qi;
 	using namespace boost::spirit::qi::labels;

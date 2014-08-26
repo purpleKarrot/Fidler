@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	if (!fidler::write_cxx(model))
+	if (!fidler::write_franca("out.fidl", model))
 	{
 		return -1;
 	}

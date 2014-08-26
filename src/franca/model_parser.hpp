@@ -12,8 +12,8 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef FRANCA_MODEL_GRAMMAR_HPP
-#define FRANCA_MODEL_GRAMMAR_HPP
+#ifndef FRANCA_MODEL_PARSER_HPP
+#define FRANCA_MODEL_PARSER_HPP
 
 #include "comment_grammar.hpp"
 #include "contract_grammar.hpp"
@@ -28,11 +28,11 @@ namespace ast = fidler::ast;
 namespace franca
 {
 
-class ModelGrammar:
+class ModelParser:
 		public boost::spirit::qi::grammar<const char*, SkipGrammar, ast::Model()>
 {
 public:
-	ModelGrammar();
+	ModelParser();
 
 private:
 	template<typename T>
@@ -65,4 +65,4 @@ private:
 
 } // namespace franca
 
-#endif /* FRANCA_MODEL_GRAMMAR_HPP */
+#endif /* FRANCA_MODEL_PARSER_HPP */

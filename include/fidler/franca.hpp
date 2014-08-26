@@ -22,6 +22,7 @@ namespace fidler
 {
 
 FIDLER_EXPORT bool read_franca(const char* filename, ast::Model& model);
+FIDLER_EXPORT bool write_franca(const char* filename, ast::Model const& model);
 
 } // namespace fidler
 
