@@ -17,7 +17,7 @@
 
 #include "comment_grammar.hpp"
 #include "contract_grammar.hpp"
-#include "typesystem_grammar.hpp"
+#include "typesystem_parser.hpp"
 #include "initializer_grammar.hpp"
 
 #include <boost/spirit/include/qi_nonterminal.hpp>
@@ -40,8 +40,8 @@ private:
 
 	Rule<ast::Model()> model_;
 
-	TypeGrammar type_;
-	TypeDefinitionGrammar type_definition_;
+	TypeParser type_;
+	TypeDefinitionParser type_definition_;
 	ExpressionGrammar expression_;
 	InitializerGrammar initializer_;
 	ContractGrammar contract_;

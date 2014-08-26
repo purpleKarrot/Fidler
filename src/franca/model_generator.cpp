@@ -127,6 +127,7 @@ ModelGenerator::ModelGenerator() :
 	argument_
 		%= type_
 		<< (karma::omit[karma::bool_(true)] << "[]" | "")
+		<< ' '
 		<< karma::string
 		;
 }

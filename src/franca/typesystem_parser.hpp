@@ -12,8 +12,8 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef FRANCA_TYPESYSTEM_GRAMMAR_HPP
-#define FRANCA_TYPESYSTEM_GRAMMAR_HPP
+#ifndef FRANCA_TYPESYSTEM_PARSER_HPP
+#define FRANCA_TYPESYSTEM_PARSER_HPP
 
 #include "comment_grammar.hpp"
 #include "expression_grammar.hpp"
@@ -27,11 +27,11 @@ namespace ast = fidler::ast;
 namespace franca
 {
 
-class TypeGrammar:
+class TypeParser:
 		public boost::spirit::qi::grammar<const char*, SkipGrammar, ast::Type()>
 {
 public:
-	TypeGrammar();
+	TypeParser();
 
 private:
 	template<typename T>
@@ -48,11 +48,11 @@ private:
 	Rule<std::string()> id_;
 };
 
-class TypeDefinitionGrammar:
+class TypeDefinitionParser:
 		public boost::spirit::qi::grammar<const char*, SkipGrammar, ast::TypeDefinition()>
 {
 public:
-	TypeDefinitionGrammar();
+	TypeDefinitionParser();
 
 private:
 	template<typename T>
@@ -60,7 +60,7 @@ private:
 
 	Rule<ast::TypeDefinition()> type_definition_;
 
-	TypeGrammar type_;
+	TypeParser type_;
 	ExpressionGrammar expression_;
 
 	Rule<ast::ArrayType()> array_type_;
@@ -79,4 +79,4 @@ private:
 
 } // namespace franca
 
-#endif /* FRANCA_TYPESYSTEM_GRAMMAR_HPP */
+#endif /* FRANCA_TYPESYSTEM_PARSER_HPP */

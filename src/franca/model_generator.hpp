@@ -18,6 +18,8 @@
 #include <fidler/ast/model.hpp>
 #include "../util/karma.hpp"
 
+#include "typesystem_generator.hpp"
+
 namespace franca
 {
 
@@ -29,11 +31,9 @@ public:
 private:
 	util::karma_rule<fidler::ast::Model()> model_;
 
-	//	TypeGrammar type_;
-	//	TypeDefinitionGrammar type_definition_;
+	TypeGenerator type_;
+	TypeDefinitionGenerator type_definition_;
 	//	InitializerGrammar initializer_;
-	util::karma_rule<fidler::ast::Type()> type_;
-	util::karma_rule<fidler::ast::TypeDefinition()> type_definition_;
 	util::karma_rule<fidler::ast::InitializerExpression()> initializer_;
 	util::karma_rule<fidler::ast::Contract()> contract_;
 	util::karma_rule<fidler::ast::Expression()> expression_;

@@ -53,7 +53,7 @@ InitializerGrammar::InitializerGrammar() :
 		;
 
 	id_
-		%= qi::lexeme[-qi::lit('^') >> (qi::alpha | '_') >> *(qi::alnum | '_')]
+		%= qi::lexeme[-qi::lit('^') >> (qi::alpha | qi::char_('_')) >> *(qi::alnum | qi::char_('_'))]
 		;
 }
 

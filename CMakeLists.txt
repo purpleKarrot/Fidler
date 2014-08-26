@@ -28,14 +28,16 @@ add_library(libfidler
   src/franca/expression_grammar.hpp
   src/franca/initializer_grammar.cpp
   src/franca/initializer_grammar.hpp
-  src/franca/typesystem_grammar.cpp
-  src/franca/typesystem_grammar.hpp
   src/franca/model_generator.cpp
   src/franca/model_generator.hpp
   src/franca/model_parser.cpp
   src/franca/model_parser.hpp
   src/franca/model_reflection.hpp
-  
+  src/franca/typesystem_generator.cpp
+  src/franca/typesystem_generator.hpp
+  src/franca/typesystem_parser.cpp
+  src/franca/typesystem_parser.hpp
+  src/franca/typesystem_reflection.hpp
   src/cxx/expression.cpp
   src/cxx/expression.hpp
   src/cxx/initializer.cpp

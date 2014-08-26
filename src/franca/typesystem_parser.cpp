@@ -12,7 +12,7 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include "typesystem_grammar.hpp"
+#include "typesystem_parser.hpp"
 #include "typesystem_reflection.hpp"
 
 #include <boost/spirit/home/qi.hpp>
@@ -20,8 +20,8 @@
 namespace franca
 {
 
-TypeGrammar::TypeGrammar() :
-		TypeGrammar::base_type(type_)
+TypeParser::TypeParser() :
+		TypeParser::base_type(type_)
 {
 	namespace qi = boost::spirit::qi;
 
@@ -68,8 +68,8 @@ TypeGrammar::TypeGrammar() :
 		;
 }
 
-TypeDefinitionGrammar::TypeDefinitionGrammar() :
-		TypeDefinitionGrammar::base_type(type_definition_)
+TypeDefinitionParser::TypeDefinitionParser() :
+		TypeDefinitionParser::base_type(type_definition_)
 {
 	namespace qi = boost::spirit::qi;
 
@@ -150,7 +150,7 @@ TypeDefinitionGrammar::TypeDefinitionGrammar() :
 		;
 
 	id_
-		%= qi::lexeme[-qi::lit('^') >> (qi::alpha | '_') >> *(qi::alnum | '_')]
+		%= qi::lexeme[-qi::lit('^') >> (qi::alpha | qi::char_('_')) >> *(qi::alnum | qi::char_('_'))]
 		;
 }
 

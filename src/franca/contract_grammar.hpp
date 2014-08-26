@@ -18,7 +18,7 @@
 #include "comment_grammar.hpp"
 #include "initializer_grammar.hpp"
 #include "expression_grammar.hpp"
-#include "typesystem_grammar.hpp"
+#include "typesystem_parser.hpp"
 
 #include <boost/spirit/include/qi_nonterminal.hpp>
 
@@ -54,7 +54,7 @@ private:
 
 	Rule<ast::Declaration()> declaration_;
 
-	TypeGrammar type_;
+	TypeParser type_;
 	ExpressionGrammar expression_;
 	InitializerGrammar initializer_;
 	Rule<std::string()> fqn_;
