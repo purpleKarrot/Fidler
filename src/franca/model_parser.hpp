@@ -42,7 +42,7 @@ private:
 
 	TypeParser type_;
 	TypeDefinitionParser type_definition_;
-	ExpressionGrammar expression_;
+	ExpressionParser expression_;
 	InitializerGrammar initializer_;
 	ContractGrammar contract_;
 

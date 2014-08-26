@@ -18,6 +18,8 @@
 #include <fidler/ast/typesystem.hpp>
 #include "../util/karma.hpp"
 
+#include "expression_generator.hpp"
+
 namespace franca
 {
 
@@ -43,8 +45,7 @@ private:
 	util::karma_rule<fidler::ast::TypeDefinition()> type_definition_;
 
 	TypeGenerator type_;
-	//ExpressionGenerator expression_;
-	util::karma_rule<fidler::ast::Expression()> expression_;
+	ExpressionGenerator expression_;
 
 	util::karma_rule<fidler::ast::ArrayType()> array_type_;
 	util::karma_rule<fidler::ast::EnumerationType()> enumeration_type_;

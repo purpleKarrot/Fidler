@@ -19,13 +19,15 @@ enable_testing()
 include(GenerateExportHeader)
 
 add_library(libfidler
-
   src/franca/comment_grammar.cpp
   src/franca/comment_grammar.hpp
   src/franca/contract_grammar.cpp
   src/franca/contract_grammar.hpp
-  src/franca/expression_grammar.cpp
-  src/franca/expression_grammar.hpp
+  src/franca/expression_generator.cpp
+  src/franca/expression_generator.hpp
+  src/franca/expression_parser.cpp
+  src/franca/expression_parser.hpp
+  src/franca/expression_reflection.hpp
   src/franca/initializer_grammar.cpp
   src/franca/initializer_grammar.hpp
   src/franca/model_generator.cpp

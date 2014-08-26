@@ -16,7 +16,7 @@
 #define FRANCA_TYPESYSTEM_PARSER_HPP
 
 #include "comment_grammar.hpp"
-#include "expression_grammar.hpp"
+#include "expression_parser.hpp"
 
 #include <boost/spirit/include/qi_nonterminal.hpp>
 #include <boost/spirit/include/qi_symbols.hpp>
@@ -61,7 +61,7 @@ private:
 	Rule<ast::TypeDefinition()> type_definition_;
 
 	TypeParser type_;
-	ExpressionGrammar expression_;
+	ExpressionParser expression_;
 
 	Rule<ast::ArrayType()> array_type_;
 	Rule<ast::EnumerationType()> enumeration_type_;

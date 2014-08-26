@@ -128,6 +128,7 @@ TypeDefinitionGenerator::TypeDefinitionGenerator() :
 		%= "    "
 		<< type_
 		<< (karma::omit[karma::bool_(true)] << "[]" | "")
+		<< ' '
 		<< karma::string
 		<< '\n'
 		;

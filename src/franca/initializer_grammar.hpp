@@ -16,7 +16,7 @@
 #define FRANCA_INITIALIZER_GRAMMAR_HPP
 
 #include "comment_grammar.hpp"
-#include "expression_grammar.hpp"
+#include "expression_parser.hpp"
 
 #include <boost/spirit/include/qi_nonterminal.hpp>
 
@@ -42,7 +42,7 @@ private:
 	Rule<ast::CompoundInitializer()> compound_initializer_;
 	Rule<ast::BracketInitializer()> bracket_initializer_;
 
-	ExpressionGrammar expression_;
+	ExpressionParser expression_;
 	Rule<std::string()> id_;
 };
 

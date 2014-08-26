@@ -12,8 +12,8 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef FRANCA_EXPRESSION_GRAMMAR_HPP
-#define FRANCA_EXPRESSION_GRAMMAR_HPP
+#ifndef FRANCA_EXPRESSION_PARSER_HPP
+#define FRANCA_EXPRESSION_PARSER_HPP
 
 #include "comment_grammar.hpp"
 
@@ -27,11 +27,11 @@ namespace ast = fidler::ast;
 namespace franca
 {
 
-class ExpressionGrammar:
+class ExpressionParser:
 		public boost::spirit::qi::grammar<const char*, SkipGrammar, ast::Expression()>
 {
 public:
-	ExpressionGrammar();
+	ExpressionParser();
 
 private:
 	template<typename T>
@@ -77,4 +77,4 @@ private:
 
 } // namespace franca
 
-#endif /* FRANCA_EXPRESSION_GRAMMAR_HPP */
+#endif /* FRANCA_EXPRESSION_PARSER_HPP */

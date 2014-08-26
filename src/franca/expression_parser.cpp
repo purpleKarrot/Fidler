@@ -12,7 +12,7 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include "expression_grammar.hpp"
+#include "expression_parser.hpp"
 #include "expression_reflection.hpp"
 
 #include <boost/spirit/home/qi.hpp>
@@ -20,8 +20,8 @@
 namespace franca
 {
 
-ExpressionGrammar::ExpressionGrammar() :
-		ExpressionGrammar::base_type(expression_)
+ExpressionParser::ExpressionParser() :
+		ExpressionParser::base_type(expression_)
 {
 	expression_
 		%= null_coalescing_expr_

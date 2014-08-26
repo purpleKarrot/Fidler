@@ -98,7 +98,7 @@ ModelGenerator::ModelGenerator() :
 
 	error_
 		%= karma::string
-		| ('{' << *enumerator_ << '}')
+		| ('{' << (enumerator_ % ", ") << '}')
 		;
 
 	enumerator_
