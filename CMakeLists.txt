@@ -28,8 +28,11 @@ add_library(libfidler
   src/franca/expression_parser.cpp
   src/franca/expression_parser.hpp
   src/franca/expression_reflection.hpp
-  src/franca/initializer_grammar.cpp
-  src/franca/initializer_grammar.hpp
+  src/franca/initializer_generator.cpp
+  src/franca/initializer_generator.hpp
+  src/franca/initializer_parser.cpp
+  src/franca/initializer_parser.hpp
+  src/franca/initializer_reflection.hpp
   src/franca/model_generator.cpp
   src/franca/model_generator.hpp
   src/franca/model_parser.cpp

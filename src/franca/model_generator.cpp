@@ -122,6 +122,7 @@ ModelGenerator::ModelGenerator() :
 		<< karma::string
 		<< " = "
 		<< initializer_
+		<< karma::eol
 		;
 
 	argument_

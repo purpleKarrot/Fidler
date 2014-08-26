@@ -12,49 +12,33 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include "initializer_grammar.hpp"
-#include "initializer_reflection.hpp"
+#ifndef FRANCA_INITIALIZER_GENERATOR_HPP
+#define FRANCA_INITIALIZER_GENERATOR_HPP
 
-#include <boost/spirit/home/qi.hpp>
+#include <fidler/ast/initializer.hpp>
+#include "../util/karma.hpp"
+
+#include "expression_generator.hpp"
 
 namespace franca
 {
 
-InitializerGrammar::InitializerGrammar() :
-		InitializerGrammar::base_type(initializer_)
+class InitializerGenerator:
+		public util::karma_grammar<fidler::ast::InitializerExpression()>
 {
-	initializer_
-		%= expression_
-		| compound_initializer_
-		| bracket_initializer_
-		;
+public:
+	InitializerGenerator();
 
-	compound_initializer_
-		%= '{'
-		> -(field_initializer_ % ',')
-		> '}'
-		;
+private:
+	util::karma_rule<fidler::ast::InitializerExpression()> initializer_;
+	util::karma_rule<fidler::ast::FieldInitializer()> field_initializer_;
+	util::karma_rule<fidler::ast::ElementInitializer()> element_initializer_;
+	util::karma_rule<fidler::ast::CompoundInitializer()> compound_initializer_;
+	util::karma_rule<fidler::ast::BracketInitializer()> bracket_initializer_;
 
-	bracket_initializer_
-		%= '['
-		> -(element_initializer_ % ',')
-		> ']'
-		;
-
-	field_initializer_
-		%= id_
-		> ':'
-		> initializer_
-		;
-
-	element_initializer_
-		%= initializer_
-		> -("=>" > initializer_)
-		;
-
-	id_
-		%= qi::lexeme[-qi::lit('^') >> (qi::alpha | qi::char_('_')) >> *(qi::alnum | qi::char_('_'))]
-		;
-}
+	ExpressionGenerator expression_;
+};
 
 } // namespace franca
+
+#endif /* FRANCA_INITIALIZER_GENERATOR_HPP */

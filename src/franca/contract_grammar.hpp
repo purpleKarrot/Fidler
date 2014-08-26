@@ -16,7 +16,7 @@
 #define FRANCA_CONTRACT_GRAMMAR_HPP
 
 #include "comment_grammar.hpp"
-#include "initializer_grammar.hpp"
+#include "initializer_parser.hpp"
 #include "expression_parser.hpp"
 #include "typesystem_parser.hpp"
 
@@ -56,7 +56,7 @@ private:
 
 	TypeParser type_;
 	ExpressionParser expression_;
-	InitializerGrammar initializer_;
+	InitializerParser initializer_;
 	Rule<std::string()> fqn_;
 	Rule<std::string()> id_;
 

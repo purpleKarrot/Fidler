@@ -19,6 +19,7 @@
 #include "../util/karma.hpp"
 
 #include "expression_generator.hpp"
+#include "initializer_generator.hpp"
 #include "typesystem_generator.hpp"
 
 namespace franca
@@ -34,8 +35,7 @@ private:
 
 	TypeGenerator type_;
 	TypeDefinitionGenerator type_definition_;
-	//	InitializerGrammar initializer_;
-	util::karma_rule<fidler::ast::InitializerExpression()> initializer_;
+	InitializerGenerator initializer_;
 	util::karma_rule<fidler::ast::Contract()> contract_;
 	ExpressionGenerator expression_;
 
