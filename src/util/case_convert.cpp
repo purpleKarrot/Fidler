@@ -40,29 +40,25 @@ Iterator make_camel_case(Iterator first, Iterator last)
 	return result;
 }
 
-std::string to_camel_case(std::string str)
+void camel_case(std::string& str)
 {
 	if (!str.empty())
 	{
 		str.erase(make_camel_case(begin(str), end(str)), end(str));
 		str[0] = std::tolower(str[0]);
 	}
-
-	return str;
 }
 
-std::string to_pascal_case(std::string str)
+void pascal_case(std::string& str)
 {
 	if (!str.empty())
 	{
 		str.erase(make_camel_case(begin(str), end(str)), end(str));
 		str[0] = std::toupper(str[0]);
 	}
-
-	return str;
 }
 
-std::string to_snake_case(std::string str)
+void snake_case(std::string& str)
 {
 	for (auto i = begin(str); i != end(str); ++i)
 	{
@@ -75,7 +71,6 @@ std::string to_snake_case(std::string str)
 	}
 
 	transform(begin(str), end(str), begin(str), tolower);
-	return str;
 }
 
 } // namespace fidler

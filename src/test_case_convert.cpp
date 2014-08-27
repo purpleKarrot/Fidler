@@ -15,20 +15,38 @@
 #include <fidler/util/case_convert.hpp>
 #include <boost/detail/lightweight_test.hpp>
 
+static std::string to_camel_case(std::string str)
+{
+	fidler::camel_case(str);
+	return str;
+}
+
+static std::string to_pascal_case(std::string str)
+{
+	fidler::pascal_case(str);
+	return str;
+}
+
+static std::string to_snake_case(std::string str)
+{
+	fidler::snake_case(str);
+	return str;
+}
+
 int main()
 {
-	BOOST_TEST_EQ(fidler::to_camel_case("helloWorld"),  "helloWorld");
-	BOOST_TEST_EQ(fidler::to_camel_case("HelloWorld"),  "helloWorld");
-	BOOST_TEST_EQ(fidler::to_camel_case("hello_world"), "helloWorld");
+	BOOST_TEST_EQ(to_camel_case("helloWorld"),  "helloWorld");
+	BOOST_TEST_EQ(to_camel_case("HelloWorld"),  "helloWorld");
+	BOOST_TEST_EQ(to_camel_case("hello_world"), "helloWorld");
 
-	BOOST_TEST_EQ(fidler::to_pascal_case("helloWorld"),  "HelloWorld");
-	BOOST_TEST_EQ(fidler::to_pascal_case("HelloWorld"),  "HelloWorld");
-	BOOST_TEST_EQ(fidler::to_pascal_case("hello_world"), "HelloWorld");
+	BOOST_TEST_EQ(to_pascal_case("helloWorld"),  "HelloWorld");
+	BOOST_TEST_EQ(to_pascal_case("HelloWorld"),  "HelloWorld");
+	BOOST_TEST_EQ(to_pascal_case("hello_world"), "HelloWorld");
 
-	BOOST_TEST_EQ(fidler::to_snake_case("HELLOWorld"),  "hello_world");
-	BOOST_TEST_EQ(fidler::to_snake_case("helloWorld"),  "hello_world");
-	BOOST_TEST_EQ(fidler::to_snake_case("HelloWorld"),  "hello_world");
-	BOOST_TEST_EQ(fidler::to_snake_case("hello_world"), "hello_world");
+	BOOST_TEST_EQ(to_snake_case("HELLOWorld"),  "hello_world");
+	BOOST_TEST_EQ(to_snake_case("helloWorld"),  "hello_world");
+	BOOST_TEST_EQ(to_snake_case("HelloWorld"),  "hello_world");
+	BOOST_TEST_EQ(to_snake_case("hello_world"), "hello_world");
 
 	return boost::report_errors();
 }

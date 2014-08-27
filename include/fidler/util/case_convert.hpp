@@ -22,13 +22,13 @@ namespace fidler
 {
 
 //! convert to camelCase
-FIDLER_EXPORT std::string to_camel_case(std::string str);
+FIDLER_EXPORT void camel_case(std::string& str);
 
 //! convert to PascalCase
-FIDLER_EXPORT std::string to_pascal_case(std::string str);
+FIDLER_EXPORT void pascal_case(std::string& str);
 
 //! convert to snake_case
-FIDLER_EXPORT std::string to_snake_case(std::string str);
+FIDLER_EXPORT void snake_case(std::string& str);
 
 } // namespace fidler
 
