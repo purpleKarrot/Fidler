@@ -54,7 +54,7 @@ add_library(libfidler
   src/cxx/model.hpp
   src/cxx/typesystem.cpp
   src/cxx/typesystem.hpp
-  src/util/algorithm.cpp
+  src/util/case_convert.cpp
   src/cxx.cpp
   src/franca.cpp
   )
@@ -96,3 +96,7 @@ foreach(file IN LISTS fidl_files)
     COMMAND $<TARGET_FILE:fidler> ${file}
     )
 endforeach()
+
+add_executable(test_case_convert src/test_case_convert.cpp)
+target_link_libraries(test_case_convert PRIVATE libfidler)
+add_test(NAME case_convert COMMAND $<TARGET_FILE:test_case_convert>)

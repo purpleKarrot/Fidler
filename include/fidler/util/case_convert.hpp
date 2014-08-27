@@ -16,21 +16,20 @@
 #define FIDLER_UTIL_ALGORITHM_HPP
 
 #include <string>
+#include <fidler/export.hpp>
 
 namespace fidler
 {
-namespace util
-{
 
-std::string capitalize(std::string str);
+//! convert to camelCase
+FIDLER_EXPORT std::string to_camel_case(std::string str);
 
-std::string str_toupper(std::string str);
-std::string str_tolower(std::string str);
+//! convert to PascalCase
+FIDLER_EXPORT std::string to_pascal_case(std::string str);
 
-std::string underscore_to_camel(std::string input);
-std::string camel_to_underscore(std::string input);
+//! convert to snake_case
+FIDLER_EXPORT std::string to_snake_case(std::string str);
 
-} // namespace util
 } // namespace fidler
 
 #endif /* FIDLER_UTIL_ALGORITHM_HPP */
