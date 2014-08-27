@@ -66,7 +66,7 @@ struct Method
 	bool fire_and_forget;
 	std::vector<Argument> in_args;
 	std::vector<Argument> out_args;
-	Error error;
+	boost::optional<Error> error;
 };
 
 struct Broadcast

@@ -29,7 +29,7 @@ ContractGenerator::ContractGenerator() :
 
 	contract_
 		%= "  contract\n  {\n"
-		<< -("    vars\n    {\n" << *declaration_ << "    }\n")
+		<< -karma::buffer["    vars\n    {\n" << +declaration_ << "    }\n"]
 		<< state_graph_
 		<< "  }\n"
 		;
@@ -65,7 +65,7 @@ ContractGenerator::ContractGenerator() :
 		<< trigger_
 		<< ' '
 		<< karma::string
-		<< -(" [" << expression_ << ']')
+		<< -karma::buffer[" [" << expression_ << ']']
 		<< " -> "
 		<< karma::string
 		<< -block_

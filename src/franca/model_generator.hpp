@@ -44,6 +44,7 @@ private:
 	util::karma_rule<fidler::ast::Version()> version_;
 	util::karma_rule<fidler::ast::Attribute()> attribute_;
 	util::karma_rule<fidler::ast::Argument()> argument_;
+	util::karma_rule<std::vector<fidler::ast::Argument>()> argument_list_;
 	util::karma_rule<fidler::ast::Error()> error_;
 	util::karma_rule<fidler::ast::Enumerator()> enumerator_;
 	util::karma_rule<fidler::ast::Method()> method_;

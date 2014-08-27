@@ -54,7 +54,7 @@ ModelGenerator::ModelGenerator() :
 		%= "interface "
 		<< karma::string
 		<< -(" extends " << karma::string)
-		<< -(" manages " << (karma::string % ", "))
+		<< -karma::buffer[" manages " << (karma::string % ", ")]
 		<< "\n{\n"
 		<< -version_
 		<< *attribute_
@@ -90,15 +90,15 @@ ModelGenerator::ModelGenerator() :
 		<< karma::string
 		<< (!karma::bool_(true) | " fireAndForget")
 		<< "\n  {\n"
-		<< -("    in { " << (argument_ % "; ") << " }\n")
-		<< -("    out { " << (argument_ % "; ") << " }\n")
-		<< -("    error " << error_ << "\n")
+		<< -karma::buffer["    in" << argument_list_]
+		<< -karma::buffer["    out" << argument_list_]
+		<< -karma::buffer["    error" << error_ << "\n"]
 		<< "  }\n"
 		;
 
 	error_
-		%= karma::string
-		| ('{' << (enumerator_ % ", ") << '}')
+		%= (' ' << karma::string)
+		| ("\n    {\n" << *("      " << enumerator_ << '\n') << "    }")
 		;
 
 	enumerator_
@@ -111,7 +111,7 @@ ModelGenerator::ModelGenerator() :
 		<< karma::string
 		<< (!karma::bool_(true) | " selective")
 		<< "\n  {\n"
-		<< -("    out { " << (argument_ % "; ") << " }\n")
+		<< -karma::buffer["    out" << argument_list_]
 		<< "  }\n"
 		;
 
@@ -123,6 +123,12 @@ ModelGenerator::ModelGenerator() :
 		<< " = "
 		<< initializer_
 		<< karma::eol
+		;
+
+	argument_list_
+		%= "\n    {\n"
+		<< +("      " << argument_ << '\n')
+		<< "    }\n"
 		;
 
 	argument_
