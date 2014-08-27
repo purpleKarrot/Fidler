@@ -37,7 +37,7 @@ ContractGenerator::ContractGenerator() :
 	declaration_
 		%= "      "
 		<< type_
-		<< (karma::omit[karma::bool_(true)] << "[]" | "")
+		<< (!karma::bool_(true) | "[]")
 		<< ' '
 		<< karma::string
 		<< -(" = " << initializer_)

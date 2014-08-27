@@ -99,7 +99,7 @@ TypeDefinitionGenerator::TypeDefinitionGenerator() :
 		%= "  struct "
 		<< karma::string
 		<< -(" extends " << karma::string)
-		<< (karma::omit[karma::bool_(true)] << " polymorphic" | "")
+		<< (!karma::bool_(true) | " polymorphic")
 		<< "\n  {\n"
 		<< *field_
 		<< "  }\n"
@@ -127,7 +127,7 @@ TypeDefinitionGenerator::TypeDefinitionGenerator() :
 	field_
 		%= "    "
 		<< type_
-		<< (karma::omit[karma::bool_(true)] << "[]" | "")
+		<< (!karma::bool_(true) | "[]")
 		<< ' '
 		<< karma::string
 		<< '\n'

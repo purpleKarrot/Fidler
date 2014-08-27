@@ -77,18 +77,18 @@ ModelGenerator::ModelGenerator() :
 	attribute_
 		%= "  attribute "
 		<< type_
-		<< (karma::omit[karma::bool_(true)] << "[]" | "")
+		<< (!karma::bool_(true) | "[]")
 		<< ' '
 		<< karma::string
-		<< (karma::omit[karma::bool_(true)] << " readonly" | "")
-		<< (karma::omit[karma::bool_(true)] << " noSubscriptions" | "")
+		<< (!karma::bool_(true) | " readonly")
+		<< (!karma::bool_(true) | " noSubscriptions")
 		<< karma::eol
 		;
 
 	method_
 		%= "  method "
 		<< karma::string
-		<< (karma::omit[karma::bool_(true)] << " fireAndForget" | "")
+		<< (!karma::bool_(true) | " fireAndForget")
 		<< "\n  {\n"
 		<< -("    in { " << (argument_ % "; ") << " }\n")
 		<< -("    out { " << (argument_ % "; ") << " }\n")
@@ -109,7 +109,7 @@ ModelGenerator::ModelGenerator() :
 	broadcast_
 		%= "  broadcast "
 		<< karma::string
-		<< (karma::omit[karma::bool_(true)] << " selective" | "")
+		<< (!karma::bool_(true) | " selective")
 		<< "\n  {\n"
 		<< -("    out { " << (argument_ % "; ") << " }\n")
 		<< "  }\n"
@@ -118,7 +118,7 @@ ModelGenerator::ModelGenerator() :
 	constant_def_
 		%= "  const "
 		<< type_
-		<< (karma::omit[karma::bool_(true)] << "[]" | "")
+		<< (!karma::bool_(true) | "[]")
 		<< karma::string
 		<< " = "
 		<< initializer_
@@ -127,7 +127,7 @@ ModelGenerator::ModelGenerator() :
 
 	argument_
 		%= type_
-		<< (karma::omit[karma::bool_(true)] << "[]" | "")
+		<< (!karma::bool_(true) | "[]")
 		<< ' '
 		<< karma::string
 		;
