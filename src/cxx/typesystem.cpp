@@ -118,53 +118,53 @@ TypeDefinitionGrammar::TypeDefinitionGrammar() :
 		;
 
 	array_type_
-		%= "using "
+		%= "  using "
 		<< karma::string
 		<< " = std::vector<"
 		<< type_
-		<< ">;\n"
+		<< ">;\n\n"
 		;
 
 	alias_type_
-		%= "using "
+		%= "  using "
 		<< karma::string
 		<< " = "
 		<< type_
-		<< ";\n"
+		<< ";\n\n"
 		;
 
 	enumeration_type_
-		%= "enum class "
+		%= "  enum class "
 		<< karma::string
-		<< "\n{\n"
-		<< *("  " << enumerator_)
-		<< "};\n"
+		<< "\n  {\n"
+		<< *("    " << enumerator_)
+		<< "  };\n\n"
 		;
 
 	struct_type_
-		%= "struct "
+		%= "  struct "
 		<< karma::string
-		<< "\n{\n"
-		<< *("  " << field_)
-		<< "};\n"
+		<< "\n  {\n"
+		<< *("    " << field_)
+		<< "  };\n\n"
 		;
 
 	union_type_
-		%= "union "
+		%= "  union "
 		<< karma::string
-		<< "\n{\n"
-		<< *("  " << field_)
-		<< "};\n"
+		<< "\n  {\n"
+		<< *("    " << field_)
+		<< "  };\n\n"
 		;
 
 	map_type_
-		%= "using "
+		%= "  using "
 		<< karma::string
 		<< " = std::map<"
 		<< type_
 		<< ", "
 		<< type_
-		<< ">;\n"
+		<< ">;\n\n"
 		;
 
 	field_

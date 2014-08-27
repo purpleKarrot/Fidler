@@ -37,8 +37,12 @@ private:
 	TypeDefinitionGrammar type_definition_;
 	InitializerGrammar initializer_;
 
-	util::karma_rule<ast::ConstantDef()> constant_def_;
-	util::karma_rule<ast::TypeCollection()> type_collection_;
+	util::karma_rule<fidler::ast::TypeCollection()> type_collection_;
+	util::karma_rule<fidler::ast::Interface()> interface_;
+	util::karma_rule<fidler::ast::Method()> method_;
+	util::karma_rule<fidler::ast::Broadcast()> broadcast_;
+	util::karma_rule<fidler::ast::Argument()> argument_;
+	util::karma_rule<fidler::ast::ConstantDef()> constant_def_;
 };
 
 } // namespace cxx

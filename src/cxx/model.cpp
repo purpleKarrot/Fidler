@@ -16,18 +16,44 @@
 
 #include <boost/spirit/home/karma.hpp>
 
-#include <fidler/util/algorithm.hpp>
+#include <fidler/util/case_convert.hpp>
 #include <fidler/util/reflect.hpp>
 
 FIDLER_REFLECT(ast::Model,
 	(name)
 	(type_collections)
+	(interfaces)
 )
 
 FIDLER_REFLECT(ast::TypeCollection,
 	(name)
 	(types)
 	(constants)
+	(name)
+)
+
+FIDLER_REFLECT(fidler::ast::Interface,
+	(name)
+	(types)
+	(methods)
+	(broadcasts)
+	(constants)
+)
+
+FIDLER_REFLECT(ast::Method,
+	(name)
+	(in_args)
+)
+
+FIDLER_REFLECT(ast::Broadcast,
+	(name)
+	(out_args)
+)
+
+FIDLER_REFLECT(ast::Argument,
+	(is_array)
+	(type)
+	(is_array)
 	(name)
 )
 
@@ -41,12 +67,6 @@ FIDLER_REFLECT(ast::ConstantDef,
 namespace cxx
 {
 
-void name_convention(std::string& str)
-{
-	namespace util = fidler::util;
-	str = util::str_tolower(util::camel_to_underscore(str));
-}
-
 ModelGrammar::ModelGrammar() :
 		ModelGrammar::base_type(model_)
 {
@@ -57,13 +77,49 @@ ModelGrammar::ModelGrammar() :
 		<< karma::string
 		<< "'\n"
 		<< *type_collection_
+		<< *interface_
 		;
 
 	type_collection_
-		%= -("namespace " << karma::string[name_convention] << "\n{\n")
+		%= -("namespace " << karma::string[fidler::snake_case] << "\n{\n")
 		<< *type_definition_
 		<< *constant_def_
 		<< -("} // namespace " << karma::string << "\n\n")
+		;
+
+	interface_
+		%= "class "
+		<< karma::string[fidler::pascal_case]
+		<< "\n{\n"
+		<< *type_definition_
+		<< *method_
+		<< *broadcast_
+		<< *constant_def_
+		<< "};\n"
+		;
+
+	method_
+		%= "  void "
+		<< karma::string[fidler::snake_case]
+		<< '('
+		<< -(argument_ % ", ")
+		<< ");\n\n"
+		;
+
+	broadcast_
+		%= "  connection on_"
+		<< karma::string[fidler::snake_case]
+		<< "(std::function<void("
+		<< -(argument_ % ", ")
+		<< ")> handler);\n\n"
+		;
+
+	argument_
+		%= (!karma::bool_(true) | "std::vector<")
+		<< type_
+		<< (!karma::bool_(true) | '>')
+		<< " const& "
+		<< karma::string
 		;
 
 	constant_def_
