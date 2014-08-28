@@ -43,7 +43,8 @@ bool read_franca(const char* filename, ast::Model& model)
 
 bool write_franca(const char* filename, ast::Model const& model)
 {
-	std::ostream_iterator<char> sink(std::cout);
+	std::ofstream file(filename);
+	std::ostream_iterator<char> sink(file);
 	franca::ModelGenerator grammar;
 	return boost::spirit::karma::generate(sink, grammar, model);
 }
