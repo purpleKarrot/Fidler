@@ -41,4 +41,22 @@ using karma_symbols = boost::spirit::karma::symbols<T, char const*>;
 
 } // namespace util
 
+namespace boost { namespace spirit { namespace traits
+{
+
+// This handles recursive variants.
+template<typename Attribute, typename Exposed>
+struct extract_from_attribute<recursive_wrapper<Attribute>, Exposed>
+{
+	typedef Attribute const& type;
+
+	template<typename Context>
+	static type call(recursive_wrapper<Attribute> const& attr, Context& ctx)
+	{
+		return extract_from<Exposed>(attr.get(), ctx);
+	}
+};
+
+}}} // namespace boost::spirit::traits
+
 #endif /* FIDLER_UTIL_KARMA_HPP */

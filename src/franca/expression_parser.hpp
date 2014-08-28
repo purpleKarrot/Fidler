@@ -41,6 +41,7 @@ private:
 	using Symbols = boost::spirit::qi::symbols<char, T>;
 
 	Rule<ast::Expression()> expression_;
+	Rule<std::pair<ast::Expression, ast::Expression>()> expression_pair_;
 
 	Rule<ast::Identifier()> identifier_;
 	Rule<ast::CurrentError()> current_error_;

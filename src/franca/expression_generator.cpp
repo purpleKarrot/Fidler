@@ -33,7 +33,14 @@ ExpressionGenerator::ExpressionGenerator() :
 
 	expression_
 		%= null_coalescing_expr_
-		<< -(" ? " << expression_ << " : " << expression_)
+		<< -expression_pair_
+		;
+
+	expression_pair_
+		%= " ? "
+		<< expression_
+		<< " : "
+		<< expression_
 		;
 
 	null_coalescing_expr_

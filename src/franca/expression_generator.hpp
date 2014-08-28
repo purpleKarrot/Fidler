@@ -29,6 +29,7 @@ public:
 
 private:
 	util::karma_rule<fidler::ast::Expression()> expression_;
+	util::karma_rule<std::pair<fidler::ast::Expression, fidler::ast::Expression>()> expression_pair_;
 
 	util::karma_rule<fidler::ast::Identifier()> identifier_;
 	util::karma_rule<fidler::ast::CurrentError()> current_error_;

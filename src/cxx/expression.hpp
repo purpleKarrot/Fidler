@@ -30,6 +30,7 @@ public:
 
 private:
 	util::karma_rule<ast::Expression()> expression_;
+	util::karma_rule<std::pair<ast::Expression, ast::Expression>()> expression_pair_;
 
 	util::karma_rule<ast::Identifier()> identifier_;
 	util::karma_rule<ast::CurrentError()> current_error_;

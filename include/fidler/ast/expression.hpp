@@ -48,6 +48,13 @@ using PrimaryExpression = boost::variant
 	boost::recursive_wrapper<Expression>
 >;
 
+template<typename Left, typename Right>
+struct BinaryExpression
+{
+	Left left;
+	boost::optional<boost::recursive_wrapper<Right>> right;
+};
+
 struct PostfixExpression
 {
 	struct MemberAccess
@@ -146,106 +153,39 @@ struct EqualityExpression
 	boost::optional<Right> right; // std::vector ?
 };
 
-struct AndExpression
+struct AndExpression:
+		BinaryExpression<EqualityExpression, AndExpression>
 {
-	using Self = boost::recursive_wrapper<AndExpression>;
-
-	AndExpression() = default;
-	AndExpression(Self const& other) :
-		AndExpression(other.get())
-	{
-	}
-
-	EqualityExpression left;
-	boost::optional<Self> right;
 };
 
-struct ExclusiveOrExpression
+struct ExclusiveOrExpression:
+		BinaryExpression<AndExpression, ExclusiveOrExpression>
 {
-	using Self = boost::recursive_wrapper<ExclusiveOrExpression>;
-
-	ExclusiveOrExpression() = default;
-	ExclusiveOrExpression(Self const& other) :
-		ExclusiveOrExpression(other.get())
-	{
-	}
-
-	AndExpression left;
-	boost::optional<Self> right;
 };
 
-struct InclusiveOrExpression
+struct InclusiveOrExpression:
+		BinaryExpression<ExclusiveOrExpression, InclusiveOrExpression>
 {
-	using Self = boost::recursive_wrapper<InclusiveOrExpression>;
-
-	InclusiveOrExpression() = default;
-	InclusiveOrExpression(Self const& other) :
-		InclusiveOrExpression(other.get())
-	{
-	}
-
-	ExclusiveOrExpression left;
-	boost::optional<Self> right;
 };
 
-struct LogicalAndExpression
+struct LogicalAndExpression:
+		BinaryExpression<InclusiveOrExpression, LogicalAndExpression>
 {
-	using Self = boost::recursive_wrapper<LogicalAndExpression>;
-
-	LogicalAndExpression() = default;
-	LogicalAndExpression(Self const& other) :
-		LogicalAndExpression(other.get())
-	{
-	}
-
-	InclusiveOrExpression left;
-	boost::optional<Self> right;
 };
 
-struct LogicalOrExpression
+struct LogicalOrExpression:
+		BinaryExpression<LogicalAndExpression, LogicalOrExpression>
 {
-	using Self = boost::recursive_wrapper<LogicalOrExpression>;
-
-	LogicalOrExpression() = default;
-	LogicalOrExpression(Self const& other) :
-		LogicalOrExpression(other.get())
-	{
-	}
-
-	LogicalAndExpression left;
-	boost::optional<Self> right;
 };
 
-struct NullCoalescingExpression
+struct NullCoalescingExpression:
+		BinaryExpression<LogicalOrExpression, NullCoalescingExpression>
 {
-	using Right = boost::recursive_wrapper<NullCoalescingExpression>;
-
-	NullCoalescingExpression() = default;
-	NullCoalescingExpression(Right const& other) :
-		NullCoalescingExpression(other.get())
-	{
-	}
-
-	LogicalOrExpression left;
-	boost::optional<Right> right;
 };
 
-struct Expression
+struct Expression: BinaryExpression<NullCoalescingExpression,
+		std::pair<Expression, Expression>>
 {
-	using Right = std::pair
-	<
-		boost::recursive_wrapper<Expression>,
-		boost::recursive_wrapper<Expression>
-	>;
-
-	Expression() = default;
-	Expression(boost::recursive_wrapper<Expression> const& other) :
-			Expression(other.get())
-	{
-	}
-
-	NullCoalescingExpression left;
-	boost::optional<Right> right;
 };
 
 } // namespace ast
