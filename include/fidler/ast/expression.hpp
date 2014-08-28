@@ -82,6 +82,23 @@ using PrimaryExpression = boost::variant
 template<typename Left, typename Right>
 struct BinaryExpression
 {
+	BinaryExpression() = default;
+	BinaryExpression(BinaryExpression&&) = default;
+	BinaryExpression(BinaryExpression const&) = default;
+	BinaryExpression& operator=(BinaryExpression&&) = default;
+	BinaryExpression& operator=(BinaryExpression const&) = default;
+
+	template<typename T>
+	BinaryExpression(T val) : left{std::move(val)} {}
+
+	template<typename T>
+	BinaryExpression& operator=(T val)
+	{
+		left = std::move(val);
+		right = boost::none;
+		return *this;
+	}
+
 	Left left;
 	boost::optional<boost::recursive_wrapper<Right>> right;
 };
@@ -90,6 +107,23 @@ struct BinaryExpression
 template<typename Operator, typename Operand>
 struct OperatorExpression
 {
+	OperatorExpression() = default;
+	OperatorExpression(OperatorExpression&&) = default;
+	OperatorExpression(OperatorExpression const&) = default;
+	OperatorExpression& operator=(OperatorExpression&&) = default;
+	OperatorExpression& operator=(OperatorExpression const&) = default;
+
+	template<typename T>
+	OperatorExpression(T val) : left{std::move(val)} {}
+
+	template<typename T>
+	OperatorExpression& operator=(T val)
+	{
+		left = std::move(val);
+		right.clear();
+		return *this;
+	}
+
 	Operand left;
 	std::vector<std::pair<Operator, Operand>> right;
 };
@@ -118,68 +152,82 @@ struct PostfixExpression
 
 struct PrefixExpression
 {
+	PrefixExpression() = default;
+	PrefixExpression(PrefixExpression&&) = default;
+	PrefixExpression(PrefixExpression const&) = default;
+	PrefixExpression& operator=(PrefixExpression&&) = default;
+	PrefixExpression& operator=(PrefixExpression const&) = default;
+
+	template<typename T>
+	PrefixExpression(T val) : expr{std::move(val)} {}
+
+	template<typename T>
+	PrefixExpression& operator=(T val)
+	{
+		op = boost::none;
+		expr = std::move(val);
+		return *this;
+	}
+
 	boost::optional<PrefixOperator> op;
 	PostfixExpression expr;
 };
 
-struct MultiplicativeExpression:
-		OperatorExpression<MultiplicativeOperator, PrefixExpression>
-{
-};
+using MultiplicativeExpression =
+		OperatorExpression<MultiplicativeOperator, PrefixExpression>;
 
-struct AdditiveExpression:
-		OperatorExpression<AdditiveOperator, MultiplicativeExpression>
-{
-};
+using AdditiveExpression =
+		OperatorExpression<AdditiveOperator, MultiplicativeExpression>;
 
-struct ShiftExpression:
-		OperatorExpression<ShiftOperator, AdditiveExpression>
-{
-};
+using ShiftExpression =
+		OperatorExpression<ShiftOperator, AdditiveExpression>;
 
-struct RelationalExpression:
-		OperatorExpression<RelationalOperator, ShiftExpression>
-{
-};
+using RelationalExpression =
+		OperatorExpression<RelationalOperator, ShiftExpression>;
 
-struct EqualityExpression:
-		OperatorExpression<EqualityOperator, RelationalExpression>
-{
-};
+using EqualityExpression =
+		OperatorExpression<EqualityOperator, RelationalExpression>;
 
 struct AndExpression:
 		BinaryExpression<EqualityExpression, AndExpression>
 {
+	using BinaryExpression::BinaryExpression;
 };
 
 struct ExclusiveOrExpression:
 		BinaryExpression<AndExpression, ExclusiveOrExpression>
 {
+	using BinaryExpression::BinaryExpression;
 };
 
 struct InclusiveOrExpression:
 		BinaryExpression<ExclusiveOrExpression, InclusiveOrExpression>
 {
+	using BinaryExpression::BinaryExpression;
 };
 
 struct LogicalAndExpression:
 		BinaryExpression<InclusiveOrExpression, LogicalAndExpression>
 {
+	using BinaryExpression::BinaryExpression;
 };
 
 struct LogicalOrExpression:
 		BinaryExpression<LogicalAndExpression, LogicalOrExpression>
 {
+	using BinaryExpression::BinaryExpression;
 };
 
 struct NullCoalescingExpression:
 		BinaryExpression<LogicalOrExpression, NullCoalescingExpression>
 {
+	using BinaryExpression::BinaryExpression;
 };
 
 struct Expression: BinaryExpression<NullCoalescingExpression,
 		std::pair<Expression, Expression>>
 {
+	using BinaryExpression::BinaryExpression;
 };
 
 } // namespace ast
