@@ -24,12 +24,12 @@ ExpressionGenerator::ExpressionGenerator() :
 		ExpressionGenerator::base_type(expression_)
 {
 	namespace karma = boost::spirit::karma;
-	using fidler::ast::PrefixExpression;
-	using fidler::ast::EqualityExpression;
-	using fidler::ast::RelationalExpression;
-	using fidler::ast::ShiftExpression;
-	using fidler::ast::AdditiveExpression;
-	using fidler::ast::MultiplicativeExpression;
+	using fidler::ast::PrefixOperator;
+	using fidler::ast::EqualityOperator;
+	using fidler::ast::RelationalOperator;
+	using fidler::ast::ShiftOperator;
+	using fidler::ast::AdditiveOperator;
+	using fidler::ast::MultiplicativeOperator;
 
 	expression_
 		%= null_coalescing_expr_
@@ -75,12 +75,12 @@ ExpressionGenerator::ExpressionGenerator() :
 
 	equality_expr_
 		%= relational_expr_
-		<< -(equality_op_ << relational_expr_)
+		<< *(equality_op_ << relational_expr_)
 		;
 
 	relational_expr_
 		%= shift_expr_
-		<< -(relational_op_ << shift_expr_)
+		<< *(relational_op_ << shift_expr_)
 		;
 
 	shift_expr_
@@ -137,38 +137,38 @@ ExpressionGenerator::ExpressionGenerator() :
 //		;
 
 	prefix_op_.add
-		(PrefixExpression::plus,       "+")
-		(PrefixExpression::minus,      "-")
-		(PrefixExpression::negate,     "!")
-		(PrefixExpression::complement, "~")
+		(PrefixOperator::plus,       "+")
+		(PrefixOperator::minus,      "-")
+		(PrefixOperator::negate,     "!")
+		(PrefixOperator::complement, "~")
 		;
 
 	equality_op_.add
-		(EqualityExpression::eq, " == ")
-		(EqualityExpression::ne, " != ")
+		(EqualityOperator::eq, " == ")
+		(EqualityOperator::ne, " != ")
 		;
 
 	relational_op_.add
-		(RelationalExpression::lt, " < ")
-		(RelationalExpression::le, " <= ")
-		(RelationalExpression::gt, " > ")
-		(RelationalExpression::ge, " >= ")
+		(RelationalOperator::lt, " < ")
+		(RelationalOperator::le, " <= ")
+		(RelationalOperator::gt, " > ")
+		(RelationalOperator::ge, " >= ")
 		;
 
 	shift_op_.add
-		(ShiftExpression::lshift, " << ")
-		(ShiftExpression::rshift, " >> ")
+		(ShiftOperator::lshift, " << ")
+		(ShiftOperator::rshift, " >> ")
 		;
 
 	additive_op_.add
-		(AdditiveExpression::plus,  " + ")
-		(AdditiveExpression::minus, " - ")
+		(AdditiveOperator::plus,  " + ")
+		(AdditiveOperator::minus, " - ")
 		;
 
 	multiplicative_op_.add
-		(MultiplicativeExpression::mul, " * ")
-		(MultiplicativeExpression::div, " / ")
-		(MultiplicativeExpression::mod, " % ")
+		(MultiplicativeOperator::mul, " * ")
+		(MultiplicativeOperator::div, " / ")
+		(MultiplicativeOperator::mod, " % ")
 		;
 }
 

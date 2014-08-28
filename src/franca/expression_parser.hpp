@@ -66,12 +66,12 @@ private:
 	Rule<ast::NullCoalescingExpression()> null_coalescing_expr_;
 
 	Symbols<bool> bool_;
-	Symbols<ast::PrefixExpression::Op> prefix_op_;
-	Symbols<ast::EqualityExpression::op> equality_op_;
-	Symbols<ast::RelationalExpression::op> relational_op_;
-	Symbols<ast::ShiftExpression::op> shift_op_;
-	Symbols<ast::AdditiveExpression::op> additive_op_;
-	Symbols<ast::MultiplicativeExpression::op> multiplicative_op_;
+	Symbols<ast::PrefixOperator> prefix_op_;
+	Symbols<ast::EqualityOperator> equality_op_;
+	Symbols<ast::RelationalOperator> relational_op_;
+	Symbols<ast::ShiftOperator> shift_op_;
+	Symbols<ast::AdditiveOperator> additive_op_;
+	Symbols<ast::MultiplicativeOperator> multiplicative_op_;
 
 	Rule<std::string()> id_;
 };

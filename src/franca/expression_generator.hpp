@@ -53,12 +53,12 @@ private:
 	util::karma_rule<fidler::ast::LogicalOrExpression()> logical_or_expr_;
 	util::karma_rule<fidler::ast::NullCoalescingExpression()> null_coalescing_expr_;
 
-	util::karma_symbols<fidler::ast::PrefixExpression::Op> prefix_op_;
-	util::karma_symbols<fidler::ast::EqualityExpression::op> equality_op_;
-	util::karma_symbols<fidler::ast::RelationalExpression::op> relational_op_;
-	util::karma_symbols<fidler::ast::ShiftExpression::op> shift_op_;
-	util::karma_symbols<fidler::ast::AdditiveExpression::op> additive_op_;
-	util::karma_symbols<fidler::ast::MultiplicativeExpression::op> multiplicative_op_;
+	util::karma_symbols<fidler::ast::PrefixOperator> prefix_op_;
+	util::karma_symbols<fidler::ast::EqualityOperator> equality_op_;
+	util::karma_symbols<fidler::ast::RelationalOperator> relational_op_;
+	util::karma_symbols<fidler::ast::ShiftOperator> shift_op_;
+	util::karma_symbols<fidler::ast::AdditiveOperator> additive_op_;
+	util::karma_symbols<fidler::ast::MultiplicativeOperator> multiplicative_op_;
 };
 
 } // namespace franca

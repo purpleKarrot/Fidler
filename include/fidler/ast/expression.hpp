@@ -25,6 +25,36 @@ namespace fidler
 namespace ast
 {
 
+enum class PrefixOperator
+{
+	plus, minus, negate, complement
+};
+
+enum class MultiplicativeOperator
+{
+	mul, div, mod
+};
+
+enum class AdditiveOperator
+{
+	plus, minus
+};
+
+enum class ShiftOperator
+{
+	lshift, rshift
+};
+
+enum class RelationalOperator
+{
+	lt, le, gt, ge
+};
+
+enum class EqualityOperator
+{
+	eq, ne
+};
+
 struct Identifier
 {
 	std::string name;
@@ -48,11 +78,20 @@ using PrimaryExpression = boost::variant
 	boost::recursive_wrapper<Expression>
 >;
 
+//TODO: find a better name and/or refactor.
 template<typename Left, typename Right>
 struct BinaryExpression
 {
 	Left left;
 	boost::optional<boost::recursive_wrapper<Right>> right;
+};
+
+//TODO: find a better name and/or refactor.
+template<typename Operator, typename Operand>
+struct OperatorExpression
+{
+	Operand left;
+	std::vector<std::pair<Operator, Operand>> right;
 };
 
 struct PostfixExpression
@@ -79,78 +118,33 @@ struct PostfixExpression
 
 struct PrefixExpression
 {
-	enum Op
-	{
-		plus, minus, negate, complement
-	};
-
-	boost::optional<Op> op;
+	boost::optional<PrefixOperator> op;
 	PostfixExpression expr;
 };
 
-struct MultiplicativeExpression
+struct MultiplicativeExpression:
+		OperatorExpression<MultiplicativeOperator, PrefixExpression>
 {
-	enum op
-	{
-		mul, div, mod
-	};
-
-	using Right = std::pair<op, PrefixExpression>;
-
-	PrefixExpression left;
-	std::vector<Right> right;
 };
 
-struct AdditiveExpression
+struct AdditiveExpression:
+		OperatorExpression<AdditiveOperator, MultiplicativeExpression>
 {
-	enum op
-	{
-		plus, minus
-	};
-
-	using Right = std::pair<op, MultiplicativeExpression>;
-
-	MultiplicativeExpression left;
-	std::vector<Right> right;
 };
 
-struct ShiftExpression
+struct ShiftExpression:
+		OperatorExpression<ShiftOperator, AdditiveExpression>
 {
-	enum op
-	{
-		lshift, rshift
-	};
-
-	using Right = std::pair<op, AdditiveExpression>;
-
-	AdditiveExpression left;
-	std::vector<Right> right;
 };
 
-struct RelationalExpression
+struct RelationalExpression:
+		OperatorExpression<RelationalOperator, ShiftExpression>
 {
-	enum op
-	{
-		lt, le, gt, ge
-	};
-
-	using Right = std::pair<op, ShiftExpression>;
-
-	ShiftExpression left;
-	boost::optional<Right> right;
 };
 
-struct EqualityExpression
+struct EqualityExpression:
+		OperatorExpression<EqualityOperator, RelationalExpression>
 {
-	enum op
-	{
-		eq, ne
-	};
-
-	using Right = std::pair<op, RelationalExpression>;
-
-	RelationalExpression left;
-	boost::optional<Right> right; // std::vector ?
 };
 
 struct AndExpression:

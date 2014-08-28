@@ -54,12 +54,12 @@ private:
 	util::karma_rule<ast::LogicalOrExpression()> logical_or_expr_;
 	util::karma_rule<ast::NullCoalescingExpression()> null_coalescing_expr_;
 
-	util::karma_symbols<ast::PrefixExpression::Op> prefix_op_;
-	util::karma_symbols<ast::EqualityExpression::op> equality_op_;
-	util::karma_symbols<ast::RelationalExpression::op> relational_op_;
-	util::karma_symbols<ast::ShiftExpression::op> shift_op_;
-	util::karma_symbols<ast::AdditiveExpression::op> additive_op_;
-	util::karma_symbols<ast::MultiplicativeExpression::op> multiplicative_op_;
+	util::karma_symbols<ast::PrefixOperator> prefix_op_;
+	util::karma_symbols<ast::EqualityOperator> equality_op_;
+	util::karma_symbols<ast::RelationalOperator> relational_op_;
+	util::karma_symbols<ast::ShiftOperator> shift_op_;
+	util::karma_symbols<ast::AdditiveOperator> additive_op_;
+	util::karma_symbols<ast::MultiplicativeOperator> multiplicative_op_;
 
 	util::karma_rule<std::string()> id_;
 };

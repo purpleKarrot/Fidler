@@ -44,6 +44,12 @@ ExpressionGrammar::ExpressionGrammar() :
 		ExpressionGrammar::base_type(expression_)
 {
 	namespace karma = boost::spirit::karma;
+	using fidler::ast::PrefixOperator;
+	using fidler::ast::EqualityOperator;
+	using fidler::ast::RelationalOperator;
+	using fidler::ast::ShiftOperator;
+	using fidler::ast::AdditiveOperator;
+	using fidler::ast::MultiplicativeOperator;
 
 	expression_
 		%= null_coalescing_expr_
@@ -89,12 +95,12 @@ ExpressionGrammar::ExpressionGrammar() :
 
 	equality_expr_
 		%= relational_expr_
-		<< -(equality_op_ << relational_expr_)
+		<< *(equality_op_ << relational_expr_)
 		;
 
 	relational_expr_
 		%= shift_expr_
-		<< -(relational_op_ << shift_expr_)
+		<< *(relational_op_ << shift_expr_)
 		;
 
 	shift_expr_
@@ -152,38 +158,38 @@ ExpressionGrammar::ExpressionGrammar() :
 		;
 
 	prefix_op_.add
-		(ast::PrefixExpression::plus, "+")
-		(ast::PrefixExpression::minus, "-")
-		(ast::PrefixExpression::negate, "!")
-		(ast::PrefixExpression::complement, "~")
+		(PrefixOperator::plus, "+")
+		(PrefixOperator::minus, "-")
+		(PrefixOperator::negate, "!")
+		(PrefixOperator::complement, "~")
 		;
 
 	equality_op_.add
-		(ast::EqualityExpression::eq, " == ")
-		(ast::EqualityExpression::ne, " != ")
+		(EqualityOperator::eq, " == ")
+		(EqualityOperator::ne, " != ")
 		;
 
 	relational_op_.add
-		(ast::RelationalExpression::lt, " < ")
-		(ast::RelationalExpression::le, " <= ")
-		(ast::RelationalExpression::gt, " > ")
-		(ast::RelationalExpression::ge, " >= ")
+		(RelationalOperator::lt, " < ")
+		(RelationalOperator::le, " <= ")
+		(RelationalOperator::gt, " > ")
+		(RelationalOperator::ge, " >= ")
 		;
 
 	shift_op_.add
-		(ast::ShiftExpression::lshift, " << ")
-		(ast::ShiftExpression::rshift, " >> ")
+		(ShiftOperator::lshift, " << ")
+		(ShiftOperator::rshift, " >> ")
 		;
 
 	additive_op_.add
-		(ast::AdditiveExpression::plus, " + ")
-		(ast::AdditiveExpression::minus, " - ")
+		(AdditiveOperator::plus, " + ")
+		(AdditiveOperator::minus, " - ")
 		;
 
 	multiplicative_op_.add
-		(ast::MultiplicativeExpression::mul, " * ")
-		(ast::MultiplicativeExpression::div, " / ")
-		(ast::MultiplicativeExpression::mod, " % ")
+		(MultiplicativeOperator::mul, " * ")
+		(MultiplicativeOperator::div, " / ")
+		(MultiplicativeOperator::mod, " % ")
 		;
 }
 
