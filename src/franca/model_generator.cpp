@@ -15,7 +15,10 @@
 #include "model_generator.hpp"
 #include "model_reflection.hpp"
 
-#include <boost/spirit/home/karma.hpp>
+#include <boost/spirit/home/karma/string.hpp>
+#include <boost/spirit/home/karma/numeric.hpp>
+#include <boost/spirit/home/karma/operator.hpp>
+#include <boost/spirit/home/karma/auxiliary.hpp>
 
 namespace franca
 {

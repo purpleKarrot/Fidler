@@ -15,15 +15,18 @@
 #include "model_parser.hpp"
 #include "model_reflection.hpp"
 
-#include <boost/spirit/include/qi_char.hpp>
-#include <boost/spirit/include/qi_directive.hpp>
-#include <boost/spirit/include/qi_numeric.hpp>
-#include <boost/spirit/include/qi_operator.hpp>
-#include <boost/spirit/include/qi_string.hpp>
-#include <boost/spirit/include/qi_eoi.hpp>
+#include <boost/spirit/home/qi/action.hpp>
+#include <boost/spirit/home/qi/auxiliary.hpp>
+#include <boost/spirit/home/qi/char.hpp>
+#include <boost/spirit/home/qi/directive.hpp>
+#include <boost/spirit/home/qi/numeric.hpp>
+#include <boost/spirit/home/qi/operator.hpp>
+#include <boost/spirit/home/qi/string.hpp>
 
-#include <boost/spirit/home/qi.hpp>
-#include <boost/spirit/home/phoenix.hpp>
+#include <boost/spirit/home/phoenix/bind.hpp>
+#include <boost/spirit/home/phoenix/container.hpp>
+#include <boost/spirit/home/phoenix/fusion.hpp>
+#include <boost/spirit/home/phoenix/operator.hpp>
 
 namespace franca
 {

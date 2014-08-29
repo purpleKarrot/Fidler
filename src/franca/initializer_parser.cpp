@@ -15,7 +15,10 @@
 #include "initializer_parser.hpp"
 #include "initializer_reflection.hpp"
 
-#include <boost/spirit/home/qi.hpp>
+#include <boost/spirit/home/qi/char.hpp>
+#include <boost/spirit/home/qi/directive.hpp>
+#include <boost/spirit/home/qi/operator.hpp>
+#include <boost/spirit/home/qi/string.hpp>
 
 namespace franca
 {

@@ -15,7 +15,9 @@
 #include "typesystem_generator.hpp"
 #include "typesystem_reflection.hpp"
 
-#include <boost/spirit/home/karma.hpp>
+#include <boost/spirit/home/karma/string.hpp>
+#include <boost/spirit/home/karma/numeric.hpp>
+#include <boost/spirit/home/karma/operator.hpp>
 
 namespace franca
 {

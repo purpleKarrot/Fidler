@@ -15,7 +15,10 @@
 #include "contract_generator.hpp"
 #include "contract_reflection.hpp"
 
-#include <boost/spirit/home/karma.hpp>
+#include <boost/spirit/home/karma/string.hpp>
+#include <boost/spirit/home/karma/numeric.hpp>
+#include <boost/spirit/home/karma/operator.hpp>
+#include <boost/spirit/home/karma/auxiliary/eol.hpp>
 
 namespace franca
 {
