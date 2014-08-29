@@ -15,19 +15,82 @@
 #include <iostream>
 #include <fidler/cxx.hpp>
 #include <fidler/franca.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+
+namespace
+{
+
+using Read = bool (*)(const char*, fidler::ast::Model&);
+using Write = bool (*)(const char*, fidler::ast::Model const&);
+
+struct Format
+{
+	const char* name;
+	const char* ext;
+	Read read;
+	Write write;
+};
+
+Format formats[] =
+{
+	{ "franca", ".fidl", fidler::read_franca, fidler::write_franca },
+	{ "cxx", ".cxx", nullptr, fidler::write_cxx },
+};
+
+Read determine_reader(std::string const& filename)
+{
+	for (auto&& fmt : formats)
+	{
+		if (fmt.read && fmt.ext && boost::ends_with(filename, fmt.ext))
+			return fmt.read;
+	}
+
+	return nullptr;
+}
+
+Write determine_writer(std::string const& filename)
+{
+	for (auto&& fmt : formats)
+	{
+		if (fmt.write && fmt.ext && boost::ends_with(filename, fmt.ext))
+			return fmt.write;
+	}
+
+	return nullptr;
+}
+
+} // namespace
 
 int main(int argc, char* argv[])
 {
-	std::cout << "Parsing " << argv[1] << std::endl;
+	if (argc != 3)
+	{
+		std::cerr << "Usage: " << argv[0] << "input output\n";
+		return -1;
+	}
+
+	Read read = determine_reader(argv[1]);
+	if (!read)
+	{
+		std::cerr << "Cannot determine reader.\n";
+		return -1;
+	}
+
+	Write write = determine_writer(argv[2]);
+	if (!write)
+	{
+		std::cerr << "Cannot determine reader.\n";
+		return -1;
+	}
 
 	fidler::ast::Model model;
 
-	if (!fidler::read_franca(argv[1], model))
+	if (!read(argv[1], model))
 	{
 		return -1;
 	}
 
-	if (!fidler::write_franca("out.fidl", model))
+	if (!write(argv[2], model))
 	{
 		return -1;
 	}

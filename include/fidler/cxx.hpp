@@ -21,7 +21,7 @@
 namespace fidler
 {
 
-FIDLER_EXPORT bool write_cxx(ast::Model const& model);
+FIDLER_EXPORT bool write_cxx(const char* filename, ast::Model const& model);
 
 } // namespace fidler
 

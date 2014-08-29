@@ -13,6 +13,7 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include <fidler/cxx.hpp>
+#include <fstream>
 
 #include <boost/spirit/home/karma/generate.hpp>
 
@@ -21,9 +22,10 @@
 namespace fidler
 {
 
-bool write_cxx(ast::Model const& model)
+bool write_cxx(const char* filename, ast::Model const& model)
 {
-	std::ostream_iterator<char> sink(std::cout);
+	std::ofstream file(filename);
+	std::ostream_iterator<char> sink(file);
 	cxx::ModelGrammar grammar;
 	return boost::spirit::karma::generate(sink, grammar, model);
 }

@@ -93,7 +93,7 @@ foreach(file IN LISTS fidl_files)
   list(REMOVE_DUPLICATES name)
   string(REPLACE ";" "." name "${name}")
   add_test(NAME "${name}"
-    COMMAND $<TARGET_FILE:fidler> ${file}
+    COMMAND $<TARGET_FILE:fidler> ${file} out.fidl
     )
 endforeach()
 
