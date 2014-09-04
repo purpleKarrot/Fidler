@@ -70,7 +70,17 @@ void snake_case(std::string& str)
 		}
 	}
 
+	lower_case(str);
+}
+
+void lower_case(std::string& str)
+{
 	transform(begin(str), end(str), begin(str), tolower);
+}
+
+void upper_case(std::string& str)
+{
+	transform(begin(str), end(str), begin(str), toupper);
 }
 
 } // namespace fidler

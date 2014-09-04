@@ -30,6 +30,12 @@ FIDLER_EXPORT void pascal_case(std::string& str);
 //! convert to snake_case
 FIDLER_EXPORT void snake_case(std::string& str);
 
+//! make all elements lower case
+FIDLER_EXPORT void lower_case(std::string& str);
+
+//! make all elements upper case
+FIDLER_EXPORT void upper_case(std::string& str);
+
 } // namespace fidler
 
 #endif /* FIDLER_UTIL_ALGORITHM_HPP */
