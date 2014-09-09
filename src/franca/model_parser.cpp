@@ -23,10 +23,7 @@
 #include <boost/spirit/home/qi/operator.hpp>
 #include <boost/spirit/home/qi/string.hpp>
 
-#include <boost/spirit/home/phoenix/bind.hpp>
-#include <boost/spirit/home/phoenix/container.hpp>
-#include <boost/spirit/home/phoenix/fusion.hpp>
-#include <boost/spirit/home/phoenix/operator.hpp>
+#include <boost/phoenix.hpp>
 
 namespace franca
 {

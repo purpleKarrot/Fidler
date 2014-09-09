@@ -19,7 +19,7 @@
 #include <boost/spirit/include/qi_operator.hpp>
 #include <boost/spirit/repository/include/qi_confix.hpp>
 
-#include <boost/spirit/home/phoenix.hpp>
+#include <boost/phoenix.hpp>
 
 namespace franca
 {
