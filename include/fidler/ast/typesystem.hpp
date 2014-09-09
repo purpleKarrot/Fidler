@@ -48,8 +48,8 @@ enum class BuiltinType
 
 struct IntegerInterval
 {
-	int lower_bound;
-	int upper_bound;
+	int lower_bound = 0;
+	int upper_bound = 0;
 };
 
 using Type = boost::variant
@@ -85,7 +85,7 @@ struct Field
 {
 	boost::optional<AnnotationBlock> comment;
 	Type type;
-	bool is_array;
+	bool is_array = false;
 	std::string name;
 };
 
@@ -94,7 +94,7 @@ struct StructType
 	boost::optional<AnnotationBlock> comment;
 	std::string name;
 	boost::optional<std::string> base;
-	bool is_polymorphic;
+	bool is_polymorphic = false;
 	std::vector<Field> elements;
 };
 

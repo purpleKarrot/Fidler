@@ -31,25 +31,25 @@ namespace ast
 
 struct Version
 {
-	int major;
-	int minor;
+	int major = 0;
+	int minor = 0;
 };
 
 struct Attribute
 {
 	boost::optional<AnnotationBlock> comment;
 	Type type;
-	bool is_array;
+	bool is_array = false;
 	std::string name;
-	bool read_only;
-	bool no_subscriptions;
+	bool read_only = false;
+	bool no_subscriptions = false;
 };
 
 struct Argument
 {
 	boost::optional<AnnotationBlock> comment;
 	Type type;
-	bool is_array;
+	bool is_array = false;
 	std::string name;
 	boost::optional<InitializerExpression> init;
 };
@@ -64,7 +64,7 @@ struct Method
 {
 	boost::optional<AnnotationBlock> comment;
 	std::string name;
-	bool fire_and_forget;
+	bool fire_and_forget = false;
 	std::vector<Argument> in_args;
 	std::vector<Argument> out_args;
 	boost::optional<Error> error;
@@ -74,14 +74,14 @@ struct Broadcast
 {
 	boost::optional<AnnotationBlock> comment;
 	std::string name;
-	bool selective;
+	bool selective = false;
 	std::vector<Argument> out_args;
 };
 
 struct ConstantDef
 {
 	Type type;
-	bool is_array;
+	bool is_array = false;
 	std::string name;
 	InitializerExpression rhs;
 };

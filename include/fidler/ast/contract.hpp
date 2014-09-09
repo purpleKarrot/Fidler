@@ -107,7 +107,7 @@ struct StateGraph
 struct Declaration
 {
 	Type type;
-	bool is_array;
+	bool is_array = false;
 	std::string name;
 	boost::optional<InitializerExpression> rhs;
 };
