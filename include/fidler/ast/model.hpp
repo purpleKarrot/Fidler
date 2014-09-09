@@ -51,6 +51,7 @@ struct Argument
 	Type type;
 	bool is_array;
 	std::string name;
+	boost::optional<InitializerExpression> init;
 };
 
 using Error = boost::variant

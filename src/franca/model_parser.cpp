@@ -160,6 +160,7 @@ ModelParser::ModelParser() :
 		%= type_
 		> qi::matches[qi::lit('[') > qi::lit(']')]
 		> id_
+		> -('=' > initializer_)
 		;
 
 	quoted_string_

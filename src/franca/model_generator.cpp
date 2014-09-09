@@ -139,6 +139,7 @@ ModelGenerator::ModelGenerator() :
 		<< (!karma::bool_(true) | "[]")
 		<< ' '
 		<< karma::string
+		<< -karma::buffer[" = " << initializer_]
 		;
 }
 

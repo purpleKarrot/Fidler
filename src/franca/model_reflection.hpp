@@ -35,6 +35,7 @@ FIDLER_REFLECT(fidler::ast::Argument,
 	(type)
 	(is_array)
 	(name)
+	(init)
 )
 
 FIDLER_REFLECT(fidler::ast::Model,
