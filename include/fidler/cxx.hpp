@@ -17,11 +17,15 @@
 
 #include <fidler/ast/model.hpp>
 #include <fidler/export.hpp>
+#include <iosfwd>
 
 namespace fidler
 {
 
 FIDLER_EXPORT bool write_cxx(const char* filename, ast::Model const& model);
+
+FIDLER_EXPORT void print_cxx_initializer(std::ostream& out,
+		ast::InitializerExpression const& init, ast::Type const& type);
 
 } // namespace fidler
 

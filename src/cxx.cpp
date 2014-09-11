@@ -30,4 +30,15 @@ bool write_cxx(const char* filename, ast::Model const& model)
 	return boost::spirit::karma::generate(sink, grammar, model);
 }
 
+void print_cxx_initializer(std::ostream& out,
+		ast::InitializerExpression const& init, ast::Type const& /*type*/)
+{
+	cxx::InitializerGrammar grammar;
+	std::ostream_iterator<char> sink(out);
+	if (!boost::spirit::karma::generate(sink, grammar, init))
+	{
+		out.setstate(std::ios::failbit);
+	}
+}
+
 } // namespace fidler
