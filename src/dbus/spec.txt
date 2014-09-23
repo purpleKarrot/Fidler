@@ -1,0 +1,63 @@
+Introspection Data Format
+
+As described in the section called “org.freedesktop.DBus.Introspectable”, objects may be introspected at runtime, returning an XML string that describes the object. The same XML format may be used in other contexts as well, for example as an "IDL" for generating static language bindings.
+
+Here is an example of introspection data:
+
+        <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+         "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+        <node name="/com/example/sample_object">
+          <interface name="com.example.SampleInterface">
+            <method name="Frobate">
+              <arg name="foo" type="i" direction="in"/>
+              <arg name="bar" type="s" direction="out"/>
+              <arg name="baz" type="a{us}" direction="out"/>
+              <annotation name="org.freedesktop.DBus.Deprecated" value="true"/>
+            </method>
+            <method name="Bazify">
+              <arg name="bar" type="(iiu)" direction="in"/>
+              <arg name="bar" type="v" direction="out"/>
+            </method>
+            <method name="Mogrify">
+              <arg name="bar" type="(iiav)" direction="in"/>
+            </method>
+            <signal name="Changed">
+              <arg name="new_value" type="b"/>
+            </signal>
+            <property name="Bar" type="y" access="readwrite"/>
+          </interface>
+          <node name="child_of_sample_object"/>
+          <node name="another_child_of_sample_object"/>
+       </node>
+      
+A more formal DTD and spec needs writing, but here are some quick notes.
+
+Only the root <node> element can omit the node name, as it's known to be the object that was introspected. If the root <node> does have a name attribute, it must be an absolute object path. If child <node> have object paths, they must be relative.
+
+If a child <node> has any sub-elements, then they must represent a complete introspection of the child. If a child <node> is empty, then it may or may not have sub-elements; the child must be introspected in order to find out. The intent is that if an object knows that its children are "fast" to introspect it can go ahead and return their information, but otherwise it can omit it.
+
+The direction element on <arg> may be omitted, in which case it defaults to "in" for method calls and "out" for signals. Signals only allow "out" so while direction may be specified, it's pointless.
+
+The possible directions are "in" and "out", unlike CORBA there is no "inout"
+
+The possible property access flags are "readwrite", "read", and "write"
+
+Multiple interfaces can of course be listed for one <node>.
+
+The "name" attribute on arguments is optional.
+
+Method, interface, property, and signal elements may have "annotations", which are generic key/value pairs of metadata. They are similar conceptually to Java's annotations and C# attributes. Well-known annotations:
+
+Name	Values (separated by ,)	Description
+org.freedesktop.DBus.Deprecated	true,false	Whether or not the entity is deprecated; defaults to false
+org.freedesktop.DBus.GLib.CSymbol	(string)	The C symbol; may be used for methods and interfaces
+org.freedesktop.DBus.Method.NoReply	true,false	If set, don't expect a reply to the method call; defaults to false.
+org.freedesktop.DBus.Property.EmitsChangedSignal	true,invalidates,false	
+If set to false, the org.freedesktop.DBus.Properties.PropertiesChanged signal, see the section called “org.freedesktop.DBus.Properties” is not guaranteed to be emitted if the property changes.
+
+If set to invalidates the signal is emitted but the value is not included in the signal.
+
+If set to true the signal is emitted with the value included.
+
+The value for the annotation defaults to true if the enclosing interface element does not specify the annotation. Otherwise it defaults to the value specified in the enclosing interface element.
+

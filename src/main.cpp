@@ -15,6 +15,8 @@
 #include <iostream>
 #include <fidler/cxx.hpp>
 #include <fidler/franca.hpp>
+#include <fidler/dbusxml.hpp>
+#include <fidler/template.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 
 namespace
@@ -34,6 +36,8 @@ struct Format
 Format formats[] =
 {
 	{ "franca", ".fidl", fidler::read_franca, fidler::write_franca },
+	{ "template", ".tpl", nullptr, fidler::write_template },
+	{ "dbusxml", ".xml", fidler::read_dbusxml, nullptr },
 	{ "cxx", ".cxx", nullptr, fidler::write_cxx },
 };
 
@@ -65,7 +69,7 @@ int main(int argc, char* argv[])
 {
 	if (argc != 3)
 	{
-		std::cerr << "Usage: " << argv[0] << "input output\n";
+		std::cerr << "Usage: " << argv[0] << " input output\n";
 		return -1;
 	}
 
@@ -87,11 +91,13 @@ int main(int argc, char* argv[])
 
 	if (!read(argv[1], model))
 	{
+		std::cerr << "error reading '" << argv[1] << "'\n";
 		return -1;
 	}
 
 	if (!write(argv[2], model))
 	{
+		std::cerr << "error writing '" << argv[2] << "'\n";
 		return -1;
 	}
 

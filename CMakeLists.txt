@@ -46,6 +46,16 @@ add_library(libfidler
   src/franca/typesystem_parser.cpp
   src/franca/typesystem_parser.hpp
   src/franca/typesystem_reflection.hpp
+  src/mustache/context.hpp
+  src/mustache/engine.cpp
+  src/mustache/engine.hpp
+  src/mustache/get_element.cpp
+  src/mustache/get_element.hpp
+  src/dbus/pugixml.cpp
+  src/dbus/pugixml.hpp
+  src/dbus/read.cpp
+  src/dbus/type_factory.cpp
+  src/dbus/type_factory.hpp
   src/cxx/expression.cpp
   src/cxx/expression.hpp
   src/cxx/initializer.cpp
@@ -57,6 +67,7 @@ add_library(libfidler
   src/util/case_convert.cpp
   src/cxx.cpp
   src/franca.cpp
+  src/template.cpp
   )
 
 generate_export_header(libfidler
