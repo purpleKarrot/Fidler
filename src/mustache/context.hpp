@@ -18,25 +18,14 @@
 #include <iosfwd>
 #include <memory>
 #include <vector>
-#include <iostream>
+#include <boost/optional.hpp>
 #include "engine.hpp"
 #include "to_string.hpp"
+#include "is_empty.hpp"
 #include "get_element.hpp"
 
 namespace mustache
 {
-
-template<typename T>
-bool empty(T const& v)
-{
-	return false;
-}
-
-template<typename T>
-bool empty(std::vector<T> const& v)
-{
-	return v.empty();
-}
 
 class Context
 {
@@ -56,7 +45,7 @@ public:
 			return Context();
 		}
 
-		Context tmp = model->do_get(name);
+		Context tmp = model->get_(name);
 
 		if (tmp)
 		{
@@ -77,27 +66,27 @@ public:
 
 	bool empty() const
 	{
-		return !model || model->is_empty();
+		return !model || model->is_empty_();
 	}
 
-	friend std::string to_string(Context const& ctx)
+	std::string to_string() const
 	{
-		return ctx.model ? ctx.model->do_to_string() : "";
+		return model ? model->to_string_() : "";
 	}
 
 	Engine::Iter render(Renderer& renderer) const
 	{
-		return model->do_render(renderer);
+		return model->render_(renderer);
 	}
 
 private:
 	struct Concept
 	{
 		virtual ~Concept() = default;
-		virtual bool is_empty() const = 0;
-		virtual std::string do_to_string() const = 0;
-		virtual Engine::Iter do_render(Renderer &renderer) const = 0;
-		virtual Context do_get(std::string const& name) const = 0;
+		virtual bool is_empty_() const = 0;
+		virtual std::string to_string_() const = 0;
+		virtual Engine::Iter render_(Renderer &renderer) const = 0;
+		virtual Context get_(std::string const& name) const = 0;
 	};
 
 	template<typename T>
@@ -115,30 +104,39 @@ private:
 		}
 
 		template<typename U, typename F>
+		static Engine::Iter visit(boost::optional<U> const& value, F&& function)
+		{
+			assert(value);
+			return function(*value);
+		}
+
+		template<typename U, typename F>
 		static Engine::Iter visit(std::vector<U> const& value, F&& function)
 		{
 			Engine::Iter it;
 			for (auto&& elem : value)
 			{
+				// TODO: iterate with index
+				// TODO: create Context with idx and value
+				// TODO: create Context from value, with idx+value as parent
 				it = function(elem);
 			}
 			return it;
 		}
 
-		bool is_empty() const override
+		bool is_empty_() const override
 		{
-			using mustache::empty;
-			return empty(ref);
+			return is_empty(ref);
 		}
 
-		std::string do_to_string() const override
+		std::string to_string_() const override
 		{
 			using std::to_string;
 			using mustache::to_string;
 			return to_string(ref);
 		}
 
-		Engine::Iter do_render(Renderer& render) const override
+		Engine::Iter render_(Renderer& render) const override
 		{
 			visit(ref, [&render](Context const& v)
 			{
@@ -146,7 +144,7 @@ private:
 			});
 		}
 
-		Context do_get(std::string const& name) const override
+		Context get_(std::string const& name) const override
 		{
 			return get_element(ref, name);
 		}

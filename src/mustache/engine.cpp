@@ -21,10 +21,10 @@
 #include <string>
 #include <vector>
 #include <fidler/util/case_convert.hpp>
+#include <boost/algorithm/string/trim.hpp>
 
 namespace mustache
 {
-
 
 Renderer::Renderer(Engine const& self,
 		Engine::Iter begin, Engine::Iter end, std::ostream& out) :
@@ -44,7 +44,7 @@ Engine::Iter Renderer::render(Context const& obj) const
 }
 
 Engine::Engine(std::string path) :
-		path(std::move(path)), tag_regex("<%(#|!|/|\\^|>)?(.+?)%>")
+		path(std::move(path)), tag_regex("<%(C |P |S |U |#|!|/|\\^|>)?(.+?)%>")
 {
 }
 
@@ -89,7 +89,8 @@ Engine::Iter Engine::do_render(Iter begin, Iter end, Context const& ctx,
 			continue;
 		}
 
-		std::string const key(matches[2].first, matches[2].second);
+		std::string key(matches[2].first, matches[2].second);
+		boost::trim(key);
 
 		if (modifier == ">")
 		{
@@ -98,23 +99,24 @@ Engine::Iter Engine::do_render(Iter begin, Iter end, Context const& ctx,
 			continue;
 		}
 
-		Context value = ctx.get(key);
+		Context val = ctx.get(key);
+		Context const& value = (key == "this") ? ctx : val;
 
 		if (modifier == "#")
 		{
 			Renderer renderer(*this, begin, end, out);
-			begin = value ? value.render(renderer) : renderer.ignore();
+			begin = value.empty() ? renderer.ignore() : value.render(renderer);
 			continue;
 		}
 
 		if (modifier == "^")
 		{
 			Renderer renderer(*this, begin, end, out);
-			begin = !value ? ctx.render(renderer) : renderer.ignore();
+			begin = value.empty() ? ctx.render(renderer) : renderer.ignore();
 			continue;
 		}
 
-		auto str = to_string(value);
+		auto str = value.to_string();
 
 		switch (modifier[0])
 		{

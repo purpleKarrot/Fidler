@@ -12,19 +12,35 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include <fidler/template.hpp>
-#include <fstream>
-#include "mustache/engine.hpp"
-#include "mustache/context.hpp"
+#ifndef MUSTACHE_IS_EMPTY_HPP
+#define MUSTACHE_IS_EMPTY_HPP
 
-namespace fidler
+#include <type_traits>
+
+namespace mustache
 {
 
-bool write_template(const char* filename, ast::Model const& model)
+template<typename T, typename = decltype(!std::declval<T>())>
+std::true_type check_operator_not(const T&);
+std::false_type check_operator_not(...);
+
+template<class T>
+using has_operator_not = decltype(check_operator_not(std::declval<T>()));
+
+template<typename T>
+typename std::enable_if<has_operator_not<T>::value, bool>::type
+is_empty(T const& value)
 {
-	std::ofstream file(filename);
-	mustache::Engine engine("../templates/");
-	return file << engine.render(model);
+	return !value;
 }
 
-} // namespace fidler
+template<typename T>
+typename std::enable_if<!has_operator_not<T>::value, bool>::type
+is_empty(T const& value)
+{
+	return false;
+}
+
+} // namespace mustache
+
+#endif /* MUSTACHE_IS_EMPTY_HPP */

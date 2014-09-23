@@ -16,13 +16,26 @@
 #define MUSTACHE_TO_STRING_HPP
 
 #include <string>
+#include <cxxabi.h>
+#include <iostream>
 
 namespace mustache
 {
 
-template<typename T>
-inline std::string to_string(T&&)
+inline std::string to_string(std::string t)
 {
+	return t;
+}
+
+template<typename T>
+inline std::string to_string(T const&)
+{
+	int status = 0;
+	std::cout
+		<< "STUB: 'std::string to_string("
+		<< abi::__cxa_demangle(typeid(T).name(), 0, 0, &status)
+		<< " const&)' is not implemented.\n"
+		;
 	return "";
 }
 

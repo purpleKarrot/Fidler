@@ -13,3 +13,17 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 <% name %>
+
+<%# imports %>
+#include "<% this %>"
+<%/ imports %>
+
+<%# interfaces %>
+class <%P name %><%# base %>: <% base %><%/ base %>
+{
+public:
+<%# methods %>
+    void <%S name %>();
+<%/ methods %>
+};
+<%/ interfaces %>

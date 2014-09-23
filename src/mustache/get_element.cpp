@@ -17,6 +17,8 @@
 #include <boost/fusion/sequence/intrinsic/at_c.hpp>
 #include <boost/fusion/sequence/intrinsic/size.hpp>
 #include "../franca/model_reflection.hpp"
+#include <cxxabi.h>
+#include <iostream>
 
 namespace mustache
 {
@@ -67,6 +69,11 @@ Context get_element_(Sequence const& seq, std::string const& name, boost::mpl::t
 template<typename T>
 Context get_element_(T const& v, std::string const& name, boost::mpl::false_)
 {
+	std::cout
+		<< "STUB: '"
+		<< abi::__cxa_demangle(typeid(T).name(), 0, 0, 0)
+		<< "' is not reflected.\n"
+		;
 	return Context();
 }
 
@@ -77,7 +84,6 @@ Context get_element(Sequence const& seq, std::string const& name)
 }
 
 using namespace fidler::ast;
-
 template Context get_element<Model>(Model const&, std::string const&);
 
 } // namespace mustache
