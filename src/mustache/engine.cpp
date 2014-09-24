@@ -82,8 +82,7 @@ Engine::Iter Engine::render(Context const& ctx, std::ostream& out) const
 			continue;
 		}
 
-		auto const val = Context(ctx, tag);
-		Context const& value = (key == "this") ? ctx : val;
+		auto const value = Context(ctx, tag);
 
 		if (modifier == "#")
 		{

@@ -27,6 +27,13 @@
 namespace mustache
 {
 
+template<typename T>
+struct Element
+{
+	std::size_t index;
+	T const& value;
+};
+
 class Object
 {
 public:
@@ -90,15 +97,7 @@ private:
 	{
 		for (std::size_t i = 0; i < value.size(); ++i)
 		{
-//			template<typename Z>
-//			struct Element
-//			{
-//				std::size_t index;
-//				Z const& value;
-//			};
-//
-//			function(Element<U>{i, value[i]});
-			function(value[i]);
+			function(Element<U>{i, value[i]});
 		}
 	}
 

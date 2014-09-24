@@ -66,14 +66,47 @@ Object get_element_(Sequence const& seq, std::string const& name, boost::mpl::tr
 }
 
 template<typename T>
+struct get_element2
+{
+	static Object call(T const& v, std::string const& name)
+	{
+		std::cout
+			<< "STUB: '"
+			<< abi::__cxa_demangle(typeid(T).name(), 0, 0, 0)
+			<< "' is not reflected.\n"
+			;
+		return Object();
+	}
+};
+
+template<typename T>
+struct get_element2<Element<T>>
+{
+	static Object call(Element<T> const& v, std::string const& name)
+	{
+		if (auto obj = get_element(v.value, name))
+		{
+			return obj;
+		}
+
+		if (name == "index")
+		{
+			return v.index;
+		}
+
+		if (name == "value")
+		{
+			return v.value;
+		}
+
+		return Object();
+	}
+};
+
+template<typename T>
 Object get_element_(T const& v, std::string const& name, boost::mpl::false_)
 {
-	std::cout
-		<< "STUB: '"
-		<< abi::__cxa_demangle(typeid(T).name(), 0, 0, 0)
-		<< "' is not reflected.\n"
-		;
-	return Object();
+	return get_element2<T>::call(v, name);
 }
 
 template<typename Sequence>
