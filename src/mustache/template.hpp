@@ -12,55 +12,31 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef MUSTACHE_ENGINE_HPP
-#define MUSTACHE_ENGINE_HPP
+#ifndef MUSTACHE_TEMPLATE_HPP
+#define MUSTACHE_TEMPLATE_HPP
 
-#include <regex>
-#include <unordered_map>
-#include <iosfwd>
 #include <string>
-#include "template.hpp"
 
 namespace mustache
 {
 
-class Context;
-
-class Engine
+class Template
 {
 public:
-	explicit Engine(std::string path);
+	using Iterator = std::string::const_iterator;
 
-	std::string render(Context ctx);
+	void load(std::string path);
 
-	using Iter = std::string::const_iterator;
-	Iter do_render(Iter begin, Iter end, Context const& ctx, std::ostream& out) const;
+	Iterator begin() const;
+	Iterator end() const;
 
-private:
-	Template const* load_template(std::string const& name) const;
-
-private:
-	std::string path;
-	std::regex tag_regex;
-	mutable std::unordered_map<std::string, Template> templates;
-};
-
-class Renderer
-{
-public:
-	Renderer(Engine const& self,
-			Engine::Iter begin, Engine::Iter end, std::ostream& out) ;
-
-	Engine::Iter ignore() const;
-	Engine::Iter render(Context const& obj) const;
+	void diagnostic(Iterator b, Iterator e, std::string const& msg) const;
 
 private:
-	Engine const& self;
-	Engine::Iter begin;
-	Engine::Iter end;
-	std::ostream& out;
+	std::string filename;
+	std::string content;
 };
 
 } // namespace mustache
 
-#endif /* MUSTACHE_ENGINE_HPP */
+#endif /* MUSTACHE_TEMPLATE_HPP */

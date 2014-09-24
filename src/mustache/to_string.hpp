@@ -18,6 +18,7 @@
 #include <string>
 #include <cxxabi.h>
 #include <iostream>
+#include <boost/optional.hpp>
 
 namespace mustache
 {
@@ -37,6 +38,12 @@ inline std::string to_string(T const&)
 		<< " const&)' is not implemented.\n"
 		;
 	return "";
+}
+
+template<typename T>
+inline std::string to_string(boost::optional<T> const& value)
+{
+	return value ? to_string(*value) : "";
 }
 
 } // namespace mustache

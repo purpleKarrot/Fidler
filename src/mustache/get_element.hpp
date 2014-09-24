@@ -23,7 +23,7 @@ namespace mustache
 class Context;
 
 template<typename T>
-Context get_element(T const& v, std::string const& name);
+Context get_element(T const& v, std::string const& name, Context const* parent);
 
 } // namespace mustache
 

@@ -46,11 +46,14 @@ add_library(libfidler
   src/franca/typesystem_parser.cpp
   src/franca/typesystem_parser.hpp
   src/franca/typesystem_reflection.hpp
+  src/mustache/context.cpp
   src/mustache/context.hpp
   src/mustache/engine.cpp
   src/mustache/engine.hpp
   src/mustache/get_element.cpp
   src/mustache/get_element.hpp
+  src/mustache/template.cpp
+  src/mustache/template.hpp
   src/dbus/pugixml.cpp
   src/dbus/pugixml.hpp
   src/dbus/read.cpp

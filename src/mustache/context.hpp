@@ -30,34 +30,16 @@ namespace mustache
 class Context
 {
 public:
-	Context() = default;
+	Context(Context const* p) : parent(p)
+	{
+	}
 
 	template<typename T>
-	Context(T const& x) :
-			model(new Model<T>(x))
+	Context(T const& x, Context const* p) : model(new Model<T>(x)), parent(p)
 	{
 	}
 
-	Context get(std::string const &name) const
-	{
-		if (!model)
-		{
-			return Context();
-		}
-
-		Context tmp = model->get_(name);
-
-		if (tmp)
-		{
-			tmp.parent = this;
-		}
-		else if (parent)
-		{
-			tmp = parent->get(name);
-		}
-
-		return tmp;
-	}
+	Context get(std::string const &name) const;
 
 	explicit operator bool() const
 	{
@@ -76,7 +58,7 @@ public:
 
 	Engine::Iter render(Renderer& renderer) const
 	{
-		return model->render_(renderer);
+		return model->render_(renderer, this);
 	}
 
 private:
@@ -85,8 +67,8 @@ private:
 		virtual ~Concept() = default;
 		virtual bool is_empty_() const = 0;
 		virtual std::string to_string_() const = 0;
-		virtual Engine::Iter render_(Renderer &renderer) const = 0;
-		virtual Context get_(std::string const& name) const = 0;
+		virtual Engine::Iter render_(Renderer &renderer, Context const* parent) const = 0;
+		virtual Context get_(std::string const& name, Context const* parent) const = 0;
 	};
 
 	template<typename T>
@@ -98,20 +80,20 @@ private:
 		}
 
 		template<typename U, typename F>
-		static Engine::Iter visit(U const& value, F&& function)
+		static Engine::Iter visit(Context const* parent, U const& value, F&& function)
 		{
-			return function(value);
+			return function(Context(value, parent));
 		}
 
 		template<typename U, typename F>
-		static Engine::Iter visit(boost::optional<U> const& value, F&& function)
+		static Engine::Iter visit(Context const* parent, boost::optional<U> const& value, F&& function)
 		{
 			assert(value);
-			return function(*value);
+			return function(Context(*value, parent));
 		}
 
 		template<typename U, typename F>
-		static Engine::Iter visit(std::vector<U> const& value, F&& function)
+		static Engine::Iter visit(Context const* parent, std::vector<U> const& value, F&& function)
 		{
 			Engine::Iter it;
 			for (auto&& elem : value)
@@ -119,7 +101,7 @@ private:
 				// TODO: iterate with index
 				// TODO: create Context with idx and value
 				// TODO: create Context from value, with idx+value as parent
-				it = function(elem);
+				it = function(Context(elem, parent));
 			}
 			return it;
 		}
@@ -136,25 +118,25 @@ private:
 			return to_string(ref);
 		}
 
-		Engine::Iter render_(Renderer& render) const override
+		Engine::Iter render_(Renderer& render, Context const* parent) const override
 		{
-			visit(ref, [&render](Context const& v)
+			visit(parent, ref, [&render](Context const& v)
 			{
 				return render.render(v);
 			});
 		}
 
-		Context get_(std::string const& name) const override
+		Context get_(std::string const& name, Context const* parent) const override
 		{
-			return get_element(ref, name);
+			return get_element(ref, name, parent);
 		}
 
 		T const& ref;
 	};
 
 private:
-	Context const* parent = nullptr;
 	std::unique_ptr<Concept const> model;
+	Context const* parent;
 };
 
 } // namespace mustache

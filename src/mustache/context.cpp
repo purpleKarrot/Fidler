@@ -12,19 +12,28 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#include <fidler/template.hpp>
-#include <fstream>
-#include "mustache/engine.hpp"
-#include "mustache/context.hpp"
+#include "context.hpp"
 
-namespace fidler
+namespace mustache
 {
 
-bool write_template(const char* filename, ast::Model const& model)
+Context Context::get(std::string const &name) const
 {
-	std::ofstream file(filename);
-	mustache::Engine engine("../templates/");
-	return file << engine.render(mustache::Context(model, nullptr));
+	if (model)
+	{
+		if (auto tmp = model->get_(name, this))
+		{
+			return tmp;
+		}
+	}
+
+	if (parent)
+	{
+		return parent->get(name);
+	}
+
+	// TODO: output diagnostic, fail
+	return Context(false, this);
 }
 
-} // namespace fidler
+} // namespace mustache

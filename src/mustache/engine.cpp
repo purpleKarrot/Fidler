@@ -35,7 +35,7 @@ Renderer::Renderer(Engine const& self,
 Engine::Iter Renderer::ignore() const
 {
 	std::ostream null(nullptr);
-	return self.do_render(begin, end, Context(), null);
+	return self.do_render(begin, end, Context(nullptr), null);
 }
 
 Engine::Iter Renderer::render(Context const& obj) const
@@ -52,20 +52,18 @@ std::string Engine::render(Context ctx)
 {
 	std::ostringstream out;
 	auto const tmp = load_template("main");
-	do_render(tmp.begin(), tmp.end(), ctx, out);
+	do_render(tmp->begin(), tmp->end(), ctx, out);
 	return out.str();
 }
 
-std::string Engine::load_template(std::string const& name) const
+Template const* Engine::load_template(std::string const& name) const
 {
 	auto const inserted = templates.insert({name, {}});
 	if (inserted.second)
 	{
-		std::ifstream file(this->path + name + ".mustache");
-		using iterator = std::istreambuf_iterator<char>;
-		inserted.first->second.assign((iterator(file)), iterator());
+		inserted.first->second.load(this->path + name + ".mustache");
 	}
-	return inserted.first->second;
+	return &inserted.first->second;
 }
 
 Engine::Iter Engine::do_render(Iter begin, Iter end, Context const& ctx,
@@ -95,7 +93,7 @@ Engine::Iter Engine::do_render(Iter begin, Iter end, Context const& ctx,
 		if (modifier == ">")
 		{
 			auto const partial = this->load_template(key);
-			do_render(partial.begin(), partial.end(), ctx, out);
+			do_render(partial->begin(), partial->end(), ctx, out);
 			continue;
 		}
 
