@@ -15,128 +15,53 @@
 #ifndef MUSTACHE_CONTEXT_HPP
 #define MUSTACHE_CONTEXT_HPP
 
-#include <iosfwd>
-#include <memory>
-#include <vector>
-#include <boost/optional.hpp>
+#include "object.hpp"
 #include "engine.hpp"
-#include "to_string.hpp"
-#include "is_empty.hpp"
-#include "get_element.hpp"
 
 namespace mustache
 {
 
+struct Tag
+{
+	std::string name;
+	std::string::const_iterator begin;
+	std::string::const_iterator end;
+};
+
+class Template;
+
 class Context
 {
 public:
-	Context(Context const* p) : parent(p)
-	{
-	}
+	// null
+	Context();
 
-	template<typename T>
-	Context(T const& x, Context const* p) : model(new Model<T>(x)), parent(p)
-	{
-	}
+	// top level
+	Context(Object obj, Template const& tmp);
 
-	Context get(std::string const &name) const;
+	// partial
+	Context(Context const& ctx, Template const& tmp, Tag tag);
 
-	explicit operator bool() const
-	{
-		return bool(model);
-	}
+	// section
+	Context(Context const& ctx, Tag tag);
 
-	bool empty() const
-	{
-		return !model || model->is_empty_();
-	}
+	// for_each
+	Context(Object obj, Context const& ctx);
 
-	std::string to_string() const
-	{
-		return model ? model->to_string_() : "";
-	}
+	explicit operator bool() const;
 
-	Engine::Iter render(Renderer& renderer) const
-	{
-		return model->render_(renderer, this);
-	}
+	std::string to_string() const;
+
+	Engine::Iter render(Renderer& renderer) const;
+
+	std::string::const_iterator begin() const;
+	std::string::const_iterator end() const;
 
 private:
-	struct Concept
-	{
-		virtual ~Concept() = default;
-		virtual bool is_empty_() const = 0;
-		virtual std::string to_string_() const = 0;
-		virtual Engine::Iter render_(Renderer &renderer, Context const* parent) const = 0;
-		virtual Context get_(std::string const& name, Context const* parent) const = 0;
-	};
-
-	template<typename T>
-	struct Model: Concept
-	{
-		Model(T const &x) :
-				ref(x)
-		{
-		}
-
-		template<typename U, typename F>
-		static Engine::Iter visit(Context const* parent, U const& value, F&& function)
-		{
-			return function(Context(value, parent));
-		}
-
-		template<typename U, typename F>
-		static Engine::Iter visit(Context const* parent, boost::optional<U> const& value, F&& function)
-		{
-			assert(value);
-			return function(Context(*value, parent));
-		}
-
-		template<typename U, typename F>
-		static Engine::Iter visit(Context const* parent, std::vector<U> const& value, F&& function)
-		{
-			Engine::Iter it;
-			for (auto&& elem : value)
-			{
-				// TODO: iterate with index
-				// TODO: create Context with idx and value
-				// TODO: create Context from value, with idx+value as parent
-				it = function(Context(elem, parent));
-			}
-			return it;
-		}
-
-		bool is_empty_() const override
-		{
-			return is_empty(ref);
-		}
-
-		std::string to_string_() const override
-		{
-			using std::to_string;
-			using mustache::to_string;
-			return to_string(ref);
-		}
-
-		Engine::Iter render_(Renderer& render, Context const* parent) const override
-		{
-			visit(parent, ref, [&render](Context const& v)
-			{
-				return render.render(v);
-			});
-		}
-
-		Context get_(std::string const& name, Context const* parent) const override
-		{
-			return get_element(ref, name, parent);
-		}
-
-		T const& ref;
-	};
-
-private:
-	std::unique_ptr<Concept const> model;
-	Context const* parent;
+	Object object;
+	Context const* parent = nullptr;
+	Template const& template_;
+	Tag tag_;
 };
 
 } // namespace mustache

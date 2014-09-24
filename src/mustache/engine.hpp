@@ -31,13 +31,10 @@ class Engine
 public:
 	explicit Engine(std::string path);
 
-	std::string render(Context ctx);
-
-	using Iter = std::string::const_iterator;
-	Iter do_render(Iter begin, Iter end, Context const& ctx, std::ostream& out) const;
-
-private:
 	Template const* load_template(std::string const& name) const;
+
+	using Iter = Template::Iterator;
+	Iter render(Iter begin, Iter end, Context const& ctx, std::ostream& out) const;
 
 private:
 	std::string path;

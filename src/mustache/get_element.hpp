@@ -20,10 +20,10 @@
 namespace mustache
 {
 
-class Context;
+class Object;
 
 template<typename T>
-Context get_element(T const& v, std::string const& name, Context const* parent);
+Object get_element(T const& v, std::string const& name);
 
 } // namespace mustache
 

@@ -24,7 +24,10 @@ bool write_template(const char* filename, ast::Model const& model)
 {
 	std::ofstream file(filename);
 	mustache::Engine engine("../templates/");
-	return file << engine.render(mustache::Context(model, nullptr));
+	auto const tmp = engine.load_template("main");
+	auto const ctx = mustache::Context(model, *tmp);
+	engine.render(tmp->begin(), tmp->end(), ctx, file);
+	return file;
 }
 
 } // namespace fidler

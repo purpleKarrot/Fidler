@@ -90,7 +90,7 @@ target_include_directories(libfidler
     ${Fidler_BINARY_DIR}/include
   )
 
-target_compile_options(libfidler PUBLIC -std=c++11)
+target_compile_options(libfidler PUBLIC -Wall -std=c++11)
 
 add_executable(fidler
   src/main.cpp

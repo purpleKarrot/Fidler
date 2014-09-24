@@ -35,25 +35,17 @@ Renderer::Renderer(Engine const& self,
 Engine::Iter Renderer::ignore() const
 {
 	std::ostream null(nullptr);
-	return self.do_render(begin, end, Context(nullptr), null);
+	return self.render(begin, end, Context(), null);
 }
 
 Engine::Iter Renderer::render(Context const& obj) const
 {
-	return self.do_render(begin, end, obj, out);
+	return self.render(begin, end, obj, out);
 }
 
 Engine::Engine(std::string path) :
 		path(std::move(path)), tag_regex("<%(C |P |S |U |#|!|/|\\^|>)?(.+?)%>")
 {
-}
-
-std::string Engine::render(Context ctx)
-{
-	std::ostringstream out;
-	auto const tmp = load_template("main");
-	do_render(tmp->begin(), tmp->end(), ctx, out);
-	return out.str();
 }
 
 Template const* Engine::load_template(std::string const& name) const
@@ -66,7 +58,7 @@ Template const* Engine::load_template(std::string const& name) const
 	return &inserted.first->second;
 }
 
-Engine::Iter Engine::do_render(Iter begin, Iter end, Context const& ctx,
+Engine::Iter Engine::render(Iter begin, Iter end, Context const& ctx,
 		std::ostream& out) const
 {
 	std::match_results<Iter> matches;
@@ -93,24 +85,24 @@ Engine::Iter Engine::do_render(Iter begin, Iter end, Context const& ctx,
 		if (modifier == ">")
 		{
 			auto const partial = this->load_template(key);
-			do_render(partial->begin(), partial->end(), ctx, out);
+			render(partial->begin(), partial->end(), ctx, out);
 			continue;
 		}
 
-		Context val = ctx.get(key);
+		auto const val = Context(ctx, Tag{key, matches[0].first, matches[0].second});
 		Context const& value = (key == "this") ? ctx : val;
 
 		if (modifier == "#")
 		{
 			Renderer renderer(*this, begin, end, out);
-			begin = value.empty() ? renderer.ignore() : value.render(renderer);
+			begin = value ? value.render(renderer) : renderer.ignore();
 			continue;
 		}
 
 		if (modifier == "^")
 		{
 			Renderer renderer(*this, begin, end, out);
-			begin = value.empty() ? ctx.render(renderer) : renderer.ignore();
+			begin = value ? renderer.ignore() : ctx.render(renderer);
 			continue;
 		}
 

@@ -37,12 +37,12 @@ template<int N>
 struct get_element_impl
 {
 	template<typename Sequence>
-	static Context call(Sequence &seq, std::string const &name, Context const* parent)
+	static Object call(Sequence &seq, std::string const &name)
 	{
-		auto ret = get_element_impl<N - 1>::call(seq, name, parent);
+		auto ret = get_element_impl<N - 1>::call(seq, name);
 		if (!ret && member_name<Sequence, N - 1>::call() == name)
 		{
-			ret = Context(boost::fusion::at_c<N - 1>(seq), parent);
+			ret = boost::fusion::at_c<N - 1>(seq);
 		}
 		return ret;
 	}
@@ -52,39 +52,37 @@ template<>
 struct get_element_impl<0>
 {
 	template<typename Sequence>
-	static Context call(Sequence &seq, std::string const &name, Context const* parent)
+	static Object call(Sequence &seq, std::string const &name)
 	{
-		return Context(parent);
+		return Object();
 	}
 };
 
-
 template<typename Sequence>
-Context get_element_(Sequence const& seq, std::string const& name, Context const* parent, boost::mpl::true_)
+Object get_element_(Sequence const& seq, std::string const& name, boost::mpl::true_)
 {
 	using namespace boost::fusion;
-	return get_element_impl<result_of::size<Sequence>::value>::call(seq, name, parent);
+	return get_element_impl<result_of::size<Sequence>::value>::call(seq, name);
 }
 
 template<typename T>
-Context get_element_(T const& v, std::string const& name, Context const* parent, boost::mpl::false_)
+Object get_element_(T const& v, std::string const& name, boost::mpl::false_)
 {
 	std::cout
 		<< "STUB: '"
 		<< abi::__cxa_demangle(typeid(T).name(), 0, 0, 0)
 		<< "' is not reflected.\n"
 		;
-	return Context(parent);
+	return Object();
 }
 
 template<typename Sequence>
-Context get_element(Sequence const& seq, std::string const& name, Context const* parent)
+Object get_element(Sequence const& seq, std::string const& name)
 {
-	return get_element_(seq, name, parent, typename boost::fusion::traits::is_sequence<Sequence>::type());
+	return get_element_(seq, name, typename boost::fusion::traits::is_sequence<Sequence>::type());
 }
 
 using namespace fidler::ast;
-template Context get_element<bool>(bool const&, std::string const&, Context const* parent);
-template Context get_element<Model>(Model const&, std::string const&, Context const* parent);
+template Object get_element<Model>(Model const&, std::string const&);
 
 } // namespace mustache

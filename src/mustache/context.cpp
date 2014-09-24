@@ -17,23 +17,74 @@
 namespace mustache
 {
 
-Context Context::get(std::string const &name) const
-{
-	if (model)
-	{
-		if (auto tmp = model->get_(name, this))
-		{
-			return tmp;
-		}
-	}
+static Template dummy_template;
 
-	if (parent)
+// null
+Context::Context() :
+		template_(dummy_template)
+{
+}
+
+// top level
+Context::Context(Object obj, Template const& tmp) :
+		object(std::move(obj)), template_(tmp)
+{
+}
+
+// partial
+Context::Context(Context const& ctx, Template const& tmp, Tag tag) :
+		parent(&ctx), template_(tmp), tag_(std::move(tag))
+{
+}
+
+// section
+Context::Context(Context const& ctx, Tag tag) :
+		parent(&ctx), template_(ctx.template_), tag_(std::move(tag))
+{
+	for (Context const* c = parent; c && !object; c = c->parent)
 	{
-		return parent->get(name);
+		object = c->object.find(tag_.name);
 	}
 
 	// TODO: output diagnostic, fail
-	return Context(false, this);
+}
+
+// for_each
+Context::Context(Object obj, Context const& ctx) :
+		object(std::move(obj)), parent(ctx.parent), template_(ctx.template_)
+{
+}
+
+Context::operator bool() const
+{
+	return !object.empty();
+}
+
+std::string Context::to_string() const
+{
+	return object.to_string();
+}
+
+Engine::Iter Context::render(Renderer& renderer) const
+{
+	Engine::Iter res;
+	object.for_each([&](Object obj)
+	{
+//		TODO: add index for loops?
+		Context ctx(std::move(obj), *this);
+		res = renderer.render(ctx);
+	});
+	return res;
+}
+
+std::string::const_iterator Context::begin() const
+{
+	return parent ? tag_.end : template_.begin();
+}
+
+std::string::const_iterator Context::end() const
+{
+	return template_.end();
 }
 
 } // namespace mustache
