@@ -25,8 +25,7 @@ bool write_template(const char* filename, ast::Model const& model)
 	std::ofstream file(filename);
 	mustache::Engine engine("../templates/");
 	auto const tmp = engine.load_template("main");
-	auto const ctx = mustache::Context(model, *tmp);
-	engine.render(tmp->begin(), tmp->end(), ctx, file);
+	engine.render(mustache::Context(model, *tmp), file);
 	return file;
 }
 

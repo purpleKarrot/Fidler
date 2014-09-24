@@ -26,21 +26,20 @@
 namespace mustache
 {
 
-Renderer::Renderer(Engine const& self,
-		Engine::Iter begin, Engine::Iter end, std::ostream& out) :
-		self(self), begin(begin), end(end), out(out)
+Renderer::Renderer(Engine const& self, std::ostream& out) :
+		self(self), out(out)
 {
 }
 
 Engine::Iter Renderer::ignore() const
 {
 	std::ostream null(nullptr);
-	return self.render(begin, end, Context(), null);
+	return self.render(Context(), null);
 }
 
 Engine::Iter Renderer::render(Context const& obj) const
 {
-	return self.render(begin, end, obj, out);
+	return self.render(obj, out);
 }
 
 Engine::Engine(std::string path) :
@@ -58,9 +57,11 @@ Template const* Engine::load_template(std::string const& name) const
 	return &inserted.first->second;
 }
 
-Engine::Iter Engine::render(Iter begin, Iter end, Context const& ctx,
-		std::ostream& out) const
+Engine::Iter Engine::render(Context const& ctx, std::ostream& out) const
 {
+	Iter begin = ctx.begin();
+	Iter end = ctx.end();
+
 	std::match_results<Iter> matches;
 	while (regex_search(begin, end, matches, tag_regex))
 	{
@@ -69,11 +70,6 @@ Engine::Iter Engine::render(Iter begin, Iter end, Context const& ctx,
 
 		std::string const modifier(matches[1].first, matches[1].second);
 
-		if (modifier == "/") // TODO: check for matching begin/end
-		{
-			return begin;
-		}
-
 		if (modifier == "!")
 		{
 			continue;
@@ -81,27 +77,35 @@ Engine::Iter Engine::render(Iter begin, Iter end, Context const& ctx,
 
 		std::string key(matches[2].first, matches[2].second);
 		boost::trim(key);
+		auto const tag = Tag{key, matches[0].first, matches[0].second};
+
+		if (modifier == "/")
+		{
+			ctx.check_end(tag);
+			return begin;
+		}
 
 		if (modifier == ">")
 		{
-			auto const partial = this->load_template(key);
-			render(partial->begin(), partial->end(), ctx, out);
+			auto const tpl = this->load_template(key);
+			auto const sub = Context(ctx, *tpl, tag);
+			render(sub, out);
 			continue;
 		}
 
-		auto const val = Context(ctx, Tag{key, matches[0].first, matches[0].second});
+		auto const val = Context(ctx, tag);
 		Context const& value = (key == "this") ? ctx : val;
 
 		if (modifier == "#")
 		{
-			Renderer renderer(*this, begin, end, out);
+			Renderer renderer(*this, out);
 			begin = value ? value.render(renderer) : renderer.ignore();
 			continue;
 		}
 
 		if (modifier == "^")
 		{
-			Renderer renderer(*this, begin, end, out);
+			Renderer renderer(*this, out);
 			begin = value ? renderer.ignore() : ctx.render(renderer);
 			continue;
 		}

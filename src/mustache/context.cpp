@@ -50,8 +50,11 @@ Context::Context(Context const& ctx, Tag tag) :
 }
 
 // for_each
-Context::Context(Object obj, Context const& ctx) :
-		object(std::move(obj)), parent(ctx.parent), template_(ctx.template_)
+Context::Context(Object obj, Context const& ctx)
+	: object(std::move(obj))
+	, parent(ctx.parent)
+	, template_(ctx.template_)
+	, tag_(ctx.tag_)
 {
 }
 
@@ -85,6 +88,19 @@ std::string::const_iterator Context::begin() const
 std::string::const_iterator Context::end() const
 {
 	return template_.end();
+}
+
+void Context::check_end(Tag const& end_tag) const
+{
+	if (!parent)
+	{
+		template_.diagnostic(end_tag.begin, end_tag.end, "Unexpected end tag!");
+	}
+	else if (tag_.name != end_tag.name)
+	{
+		template_.diagnostic(end_tag.begin, end_tag.end, "End tag does not match");
+		template_.diagnostic(tag_.begin, tag_.end, "start tag from here.");
+	}
 }
 
 } // namespace mustache

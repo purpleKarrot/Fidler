@@ -34,7 +34,7 @@ public:
 	Template const* load_template(std::string const& name) const;
 
 	using Iter = Template::Iterator;
-	Iter render(Iter begin, Iter end, Context const& ctx, std::ostream& out) const;
+	Iter render(Context const& ctx, std::ostream& out) const;
 
 private:
 	std::string path;
@@ -45,16 +45,13 @@ private:
 class Renderer
 {
 public:
-	Renderer(Engine const& self,
-			Engine::Iter begin, Engine::Iter end, std::ostream& out) ;
+	Renderer(Engine const& self, std::ostream& out);
 
 	Engine::Iter ignore() const;
 	Engine::Iter render(Context const& obj) const;
 
 private:
 	Engine const& self;
-	Engine::Iter begin;
-	Engine::Iter end;
 	std::ostream& out;
 };
 

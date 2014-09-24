@@ -57,6 +57,8 @@ public:
 	std::string::const_iterator begin() const;
 	std::string::const_iterator end() const;
 
+	void check_end(Tag const& end_tag) const;
+
 private:
 	Object object;
 	Context const* parent = nullptr;
