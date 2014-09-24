@@ -19,8 +19,14 @@
 <%/ imports %>
 
 <%# interfaces %>
-class <%P name %><%# base %>: <% base %><%/ bas %>
+<%# version %>// Version <% major %>.<% minor %><%/ version %>
+class <%P name %><%# base %>: <% base %><%/ base %>
 {
+public:
+<%# attributes %>
+    <%# is_array %>std::vector< <%/ is_array %><% type %><%# is_array %> ><%/ is_array %> <% name %>;
+<%/ attributes %>
+
 public:
 <%# methods %>
     void <%S name %>();

@@ -42,19 +42,6 @@ private:
 	mutable std::unordered_map<std::string, Template> templates;
 };
 
-class Renderer
-{
-public:
-	Renderer(Engine const& self, std::ostream& out);
-
-	Engine::Iter ignore() const;
-	Engine::Iter render(Context const& obj) const;
-
-private:
-	Engine const& self;
-	std::ostream& out;
-};
-
 } // namespace mustache
 
 #endif /* MUSTACHE_ENGINE_HPP */

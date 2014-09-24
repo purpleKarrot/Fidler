@@ -32,7 +32,7 @@ public:
 
 	void diagnostic(Iterator b, Iterator e, std::string const& msg) const;
 
-private:
+//private:
 	std::string filename;
 	std::string content;
 };

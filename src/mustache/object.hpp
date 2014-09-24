@@ -19,6 +19,7 @@
 #include <functional>
 #include <vector>
 #include <boost/optional.hpp>
+#include <cxxabi.h>
 #include "to_string.hpp"
 #include "is_empty.hpp"
 #include "get_element.hpp"
@@ -52,6 +53,11 @@ public:
 		return !model || model->is_empty_();
 	}
 
+	std::string cxx_type() const
+	{
+		return model ? model->cxx_type_() : "(null)";
+	}
+
 	std::string to_string() const
 	{
 		return model ? model->to_string_() : "";
@@ -69,26 +75,38 @@ private:
 	template<typename U, typename F>
 	static void do_for_each(U const& value, F&& function)
 	{
-		return function(value);
+		function(value);
 	}
 
 	template<typename U, typename F>
 	static void do_for_each(boost::optional<U> const& value, F&& function)
 	{
 		assert(value);
-		return function(*value);
+		function(*value);
 	}
 
 	template<typename U, typename F>
 	static void do_for_each(std::vector<U> const& value, F&& function)
 	{
-		std::for_each(begin(value), end(value), function);
+		for (std::size_t i = 0; i < value.size(); ++i)
+		{
+//			template<typename Z>
+//			struct Element
+//			{
+//				std::size_t index;
+//				Z const& value;
+//			};
+//
+//			function(Element<U>{i, value[i]});
+			function(value[i]);
+		}
 	}
 
 	struct Concept
 	{
 		virtual ~Concept() = default;
 		virtual bool is_empty_() const = 0;
+		virtual std::string cxx_type_() const = 0;
 		virtual std::string to_string_() const = 0;
 		virtual Object find_(std::string const& name) const = 0;
 		virtual void for_each_(std::function<void(Object)> function) const = 0;
@@ -105,6 +123,11 @@ private:
 		bool is_empty_() const override
 		{
 			return is_empty(ref);
+		}
+
+		std::string cxx_type_() const override
+		{
+			return abi::__cxa_demangle(typeid(T).name(), 0, 0, 0);
 		}
 
 		std::string to_string_() const override

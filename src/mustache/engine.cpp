@@ -26,21 +26,7 @@
 namespace mustache
 {
 
-Renderer::Renderer(Engine const& self, std::ostream& out) :
-		self(self), out(out)
-{
-}
-
-Engine::Iter Renderer::ignore() const
-{
-	std::ostream null(nullptr);
-	return self.render(Context(), null);
-}
-
-Engine::Iter Renderer::render(Context const& obj) const
-{
-	return self.render(obj, out);
-}
+static std::ostream devnull(nullptr);
 
 Engine::Engine(std::string path) :
 		path(std::move(path)), tag_regex("<%(C |P |S |U |#|!|/|\\^|>)?(.+?)%>")
@@ -59,24 +45,27 @@ Template const* Engine::load_template(std::string const& name) const
 
 Engine::Iter Engine::render(Context const& ctx, std::ostream& out) const
 {
+	std::cout << "-------------------------------\n";
+	std::cout << "STARTING '" << ctx.tag() << "'.\n";
+	std::cout << "-------------------------------\n";
+
 	Iter begin = ctx.begin();
 	Iter end = ctx.end();
 
-	std::match_results<Iter> matches;
+	std::smatch matches;
 	while (regex_search(begin, end, matches, tag_regex))
 	{
 		std::copy(begin, matches[0].first, std::ostreambuf_iterator<char>(out));
 		begin = matches[0].second;
 
-		std::string const modifier(matches[1].first, matches[1].second);
+		auto const modifier = matches.str(1);
 
 		if (modifier == "!")
 		{
 			continue;
 		}
 
-		std::string key(matches[2].first, matches[2].second);
-		boost::trim(key);
+		auto const key = boost::trim_copy(matches.str(2));
 		auto const tag = Tag{key, matches[0].first, matches[0].second};
 
 		if (modifier == "/")
@@ -98,15 +87,13 @@ Engine::Iter Engine::render(Context const& ctx, std::ostream& out) const
 
 		if (modifier == "#")
 		{
-			Renderer renderer(*this, out);
-			begin = value ? value.render(renderer) : renderer.ignore();
+			begin = value.render(*this, value ? out : devnull);
 			continue;
 		}
 
 		if (modifier == "^")
 		{
-			Renderer renderer(*this, out);
-			begin = value ? renderer.ignore() : ctx.render(renderer);
+			begin = value.render(*this, value ? devnull : out);
 			continue;
 		}
 

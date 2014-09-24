@@ -17,14 +17,6 @@
 namespace mustache
 {
 
-static Template dummy_template;
-
-// null
-Context::Context() :
-		template_(dummy_template)
-{
-}
-
 // top level
 Context::Context(Object obj, Template const& tmp) :
 		object(std::move(obj)), template_(tmp)
@@ -41,12 +33,22 @@ Context::Context(Context const& ctx, Template const& tmp, Tag tag) :
 Context::Context(Context const& ctx, Tag tag) :
 		parent(&ctx), template_(ctx.template_), tag_(std::move(tag))
 {
-	for (Context const* c = parent; c && !object; c = c->parent)
+	std::cout << "=========================================================\n";
+	std::cout << "Looking up '" << tag_.name << "'.\n";
+
+	for (Context const* c = parent; c; c = c->parent)
 	{
+		std::cout << "Analyzing '" << c->object.cxx_type() << "'.\n";
+
 		object = c->object.find(tag_.name);
+		if (object)
+		{
+			std::cout << "found!\n";
+			return;
+		}
 	}
 
-	// TODO: output diagnostic, fail
+	template_.diagnostic(tag_.begin, tag_.end, "Unknown tag!");
 }
 
 // for_each
@@ -68,14 +70,13 @@ std::string Context::to_string() const
 	return object.to_string();
 }
 
-Engine::Iter Context::render(Renderer& renderer) const
+Engine::Iter Context::render(Engine const& engine, std::ostream& out) const
 {
 	Engine::Iter res;
 	object.for_each([&](Object obj)
 	{
-//		TODO: add index for loops?
-		Context ctx(std::move(obj), *this);
-		res = renderer.render(ctx);
+		auto const ctx = Context(std::move(obj), *this);
+		res = engine.render(ctx, out);
 	});
 	return res;
 }
@@ -95,12 +96,19 @@ void Context::check_end(Tag const& end_tag) const
 	if (!parent)
 	{
 		template_.diagnostic(end_tag.begin, end_tag.end, "Unexpected end tag!");
+		std::cout << '\n';
 	}
 	else if (tag_.name != end_tag.name)
 	{
 		template_.diagnostic(end_tag.begin, end_tag.end, "End tag does not match");
 		template_.diagnostic(tag_.begin, tag_.end, "start tag from here.");
+		std::cout << '\n';
 	}
+}
+
+std::string Context::tag() const
+{
+	return parent ? tag_.name : template_.filename;
 }
 
 } // namespace mustache

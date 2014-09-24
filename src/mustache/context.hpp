@@ -33,9 +33,6 @@ class Template;
 class Context
 {
 public:
-	// null
-	Context();
-
 	// top level
 	Context(Object obj, Template const& tmp);
 
@@ -52,12 +49,14 @@ public:
 
 	std::string to_string() const;
 
-	Engine::Iter render(Renderer& renderer) const;
+	Engine::Iter render(Engine const& engine, std::ostream& out) const;
 
 	std::string::const_iterator begin() const;
 	std::string::const_iterator end() const;
 
 	void check_end(Tag const& end_tag) const;
+
+	std::string tag() const;
 
 private:
 	Object object;
