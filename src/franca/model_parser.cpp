@@ -23,7 +23,11 @@
 #include <boost/spirit/home/qi/operator.hpp>
 #include <boost/spirit/home/qi/string.hpp>
 
-#include <boost/phoenix.hpp>
+#if BOOST_VERSION >= 105600
+# include <boost/phoenix.hpp>
+#else
+# include <boost/spirit/home/phoenix.hpp>
+#endif
 
 namespace franca
 {
