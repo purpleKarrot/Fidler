@@ -29,7 +29,7 @@ namespace franca
 {
 
 /**
- * current doxygen documentation string
+ * current annotation
  */
 static std::string cur_dox;
 

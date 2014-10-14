@@ -45,6 +45,7 @@ private:
 	ExpressionParser expression_;
 	InitializerParser initializer_;
 	ContractParser contract_;
+	AnnotationGrammar annotation_;
 
 	Rule<ast::Version()> version_;
 	Rule<std::string()> import_;

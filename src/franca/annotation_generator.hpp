@@ -12,36 +12,24 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef FRANCA_COMMENT_GRAMMAR_HPP
-#define FRANCA_COMMENT_GRAMMAR_HPP
+#ifndef FRANCA_ANNOTATION_GENERATOR_HPP
+#define FRANCA_ANNOTATION_GENERATOR_HPP
 
-#include <boost/spirit/home/qi/nonterminal/grammar.hpp>
-#include <boost/spirit/home/qi/nonterminal/rule.hpp>
+#include "../util/karma.hpp"
 
 namespace franca
 {
 
-class SkipGrammar:
-		public boost::spirit::qi::grammar<const char*>
+class AnnotationGenerator:
+		public util::karma_grammar<std::string()>
 {
 public:
-	SkipGrammar();
+	AnnotationGenerator();
 
 private:
-	boost::spirit::qi::rule<const char*> skip_;
-	boost::spirit::qi::rule<const char*, std::string()> annotation_;
-};
-
-class AnnotationGrammar:
-		public boost::spirit::qi::grammar<const char*, std::string()>
-{
-public:
-	AnnotationGrammar();
-
-private:
-	boost::spirit::qi::rule<const char*, std::string()> annotation_;
+	util::karma_rule<std::string()> annotation_;
 };
 
 } // namespace franca
 
-#endif /* FRANCA_COMMENT_GRAMMAR_HPP */
+#endif /* FRANCA_ANNOTATION_GENERATOR_HPP */

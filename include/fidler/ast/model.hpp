@@ -37,7 +37,7 @@ struct Version
 
 struct Attribute
 {
-	boost::optional<AnnotationBlock> comment;
+	std::string comment;
 	Type type;
 	bool is_array = false;
 	std::string name;
@@ -47,7 +47,7 @@ struct Attribute
 
 struct Argument
 {
-	boost::optional<AnnotationBlock> comment;
+	std::string comment;
 	Type type;
 	bool is_array = false;
 	std::string name;
@@ -62,7 +62,7 @@ using Error = boost::variant
 
 struct Method
 {
-	boost::optional<AnnotationBlock> comment;
+	std::string comment;
 	std::string name;
 	bool fire_and_forget = false;
 	std::vector<Argument> in_args;
@@ -72,7 +72,7 @@ struct Method
 
 struct Broadcast
 {
-	boost::optional<AnnotationBlock> comment;
+	std::string comment;
 	std::string name;
 	bool selective = false;
 	std::vector<Argument> out_args;
@@ -88,7 +88,7 @@ struct ConstantDef
 
 struct TypeCollection
 {
-	boost::optional<AnnotationBlock> comment;
+	std::string comment;
 	boost::optional<std::string> name;
 	boost::optional<Version> version;
 	std::vector<TypeDefinition> types;
@@ -97,7 +97,7 @@ struct TypeCollection
 
 struct Interface
 {
-	boost::optional<AnnotationBlock> comment;
+	std::string comment;
 	std::string name;
 	boost::optional<std::string> base;
 	std::vector<std::string> managed_interfaces;

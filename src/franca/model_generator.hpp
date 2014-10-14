@@ -18,6 +18,7 @@
 #include <fidler/ast/model.hpp>
 #include "../util/karma.hpp"
 
+#include "annotation_generator.hpp"
 #include "contract_generator.hpp"
 #include "expression_generator.hpp"
 #include "initializer_generator.hpp"
@@ -34,6 +35,7 @@ public:
 private:
 	util::karma_rule<fidler::ast::Model()> model_;
 
+	AnnotationGenerator annotation_;
 	TypeGenerator type_;
 	TypeDefinitionGenerator type_definition_;
 	InitializerGenerator initializer_;

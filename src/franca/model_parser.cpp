@@ -80,6 +80,7 @@ ModelParser::ModelParser() :
 
 	type_collection_
 		%= "typeCollection"
+		> annotation_
 		> -id_
 		> '{'
 		> -version_
@@ -90,6 +91,7 @@ ModelParser::ModelParser() :
 
 	interface_
 		%= "interface"
+		> annotation_
 		> id_
 		> -("extends" > fqn_)
 		> -("manages" > (id_ % ','))
@@ -114,6 +116,7 @@ ModelParser::ModelParser() :
 
 	attribute_
 		%= "attribute"
+		> annotation_
 		> type_
 		> qi::matches[qi::lit('[') > qi::lit(']')]
 		> id_
@@ -123,6 +126,7 @@ ModelParser::ModelParser() :
 
 	method_
 		%= "method"
+		> annotation_
 		> id_
 		> qi::matches["fireAndForget"]
 		> '{'
@@ -144,6 +148,7 @@ ModelParser::ModelParser() :
 
 	broadcast_
 		%= "broadcast"
+		> annotation_
 		> id_
 		> qi::matches["selective"]
 		> '{'

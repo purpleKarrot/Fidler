@@ -19,6 +19,8 @@ enable_testing()
 include(GenerateExportHeader)
 
 add_library(libfidler
+  src/franca/annotation_generator.cpp
+  src/franca/annotation_generator.hpp
   src/franca/comment_grammar.cpp
   src/franca/comment_grammar.hpp
   src/franca/contract_generator.cpp
@@ -76,6 +78,11 @@ target_include_directories(libfidler
     ${Fidler_BINARY_DIR}/include
   )
 
+target_compile_definitions(libfidler
+  PRIVATE
+    FUSION_MAX_VECTOR_SIZE=11
+  )
+
 target_compile_options(libfidler PUBLIC -std=c++11)
 
 add_executable(fidler
@@ -83,7 +90,10 @@ add_executable(fidler
   )
 target_link_libraries(fidler PRIVATE libfidler)
 
-file(GLOB_RECURSE fidl_files "*.fidl")
+file(GLOB_RECURSE fidl_files
+  "examples/*.fidl"
+  "tests/*.fidl"
+  )
 foreach(file IN LISTS fidl_files)
   get_filename_component(name "${file}" NAME_WE)
   get_filename_component(directory "${file}" DIRECTORY)

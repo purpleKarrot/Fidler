@@ -24,6 +24,7 @@ FIDLER_REFLECT(fidler::ast::Version,
 )
 
 FIDLER_REFLECT(fidler::ast::Attribute,
+	(comment)
 	(type)
 	(is_array)
 	(name)
@@ -46,6 +47,7 @@ FIDLER_REFLECT(fidler::ast::Model,
 )
 
 FIDLER_REFLECT(fidler::ast::TypeCollection,
+	(comment)
 	(name)
 	(version)
 	(types)
@@ -53,6 +55,7 @@ FIDLER_REFLECT(fidler::ast::TypeCollection,
 )
 
 FIDLER_REFLECT(fidler::ast::Interface,
+	(comment)
 	(name)
 	(base)
 	(managed_interfaces)
@@ -66,6 +69,7 @@ FIDLER_REFLECT(fidler::ast::Interface,
 )
 
 FIDLER_REFLECT(fidler::ast::Method,
+	(comment)
 	(name)
 	(fire_and_forget)
 	(in_args)
@@ -74,6 +78,7 @@ FIDLER_REFLECT(fidler::ast::Method,
 )
 
 FIDLER_REFLECT(fidler::ast::Broadcast,
+	(comment)
 	(name)
 	(selective)
 	(out_args)

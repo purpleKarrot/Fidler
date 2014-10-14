@@ -44,7 +44,8 @@ ModelGenerator::ModelGenerator() :
 		;
 
 	type_collection_
-		%= "typeCollection"
+		%= annotation_
+		<< "typeCollection"
 		<< -(' ' << karma::string)
 		<< "\n{\n"
 		<< -("  " << version_)
@@ -54,7 +55,8 @@ ModelGenerator::ModelGenerator() :
 		;
 
 	interface_
-		%= "interface "
+		%= annotation_
+		<< "interface "
 		<< karma::string
 		<< -(" extends " << karma::string)
 		<< -karma::buffer[" manages " << (karma::string % ", ")]
@@ -78,7 +80,8 @@ ModelGenerator::ModelGenerator() :
 		;
 
 	attribute_
-		%= "  attribute "
+		%= annotation_
+		<< "  attribute "
 		<< type_
 		<< (!karma::bool_(true) | "[]")
 		<< ' '
@@ -89,7 +92,8 @@ ModelGenerator::ModelGenerator() :
 		;
 
 	method_
-		%= "  method "
+		%= annotation_
+		<< "  method "
 		<< karma::string
 		<< (!karma::bool_(true) | " fireAndForget")
 		<< "\n  {\n"

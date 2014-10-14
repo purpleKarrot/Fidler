@@ -20,7 +20,6 @@
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
 
-#include <fidler/ast/comment.hpp>
 #include <fidler/ast/typesystem.hpp>
 #include <fidler/ast/expression.hpp>
 #include <fidler/ast/initializer.hpp>
@@ -93,7 +92,7 @@ struct Transition
 
 struct State
 {
-	boost::optional<AnnotationBlock> comment;
+	std::string comment;
 	std::string name;
 	std::vector<Transition> transitions;
 };

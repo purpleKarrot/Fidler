@@ -20,7 +20,6 @@
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
 
-#include <fidler/ast/comment.hpp>
 #include <fidler/ast/expression.hpp>
 
 namespace fidler
@@ -61,21 +60,21 @@ using Type = boost::variant
 
 struct ArrayType
 {
-	boost::optional<AnnotationBlock> comment;
+	std::string comment;
 	std::string name;
 	Type element_type;
 };
 
 struct Enumerator
 {
-	boost::optional<AnnotationBlock> comment;
+	std::string comment;
 	std::string name;
 	boost::optional<Expression> value;
 };
 
 struct EnumerationType
 {
-	boost::optional<AnnotationBlock> comment;
+	std::string comment;
 	std::string name;
 	boost::optional<std::string> base;
 	std::vector<Enumerator> enumerators;
@@ -83,7 +82,7 @@ struct EnumerationType
 
 struct Field
 {
-	boost::optional<AnnotationBlock> comment;
+	std::string comment;
 	Type type;
 	bool is_array = false;
 	std::string name;
@@ -91,7 +90,7 @@ struct Field
 
 struct StructType
 {
-	boost::optional<AnnotationBlock> comment;
+	std::string comment;
 	std::string name;
 	boost::optional<std::string> base;
 	bool is_polymorphic = false;
@@ -100,7 +99,7 @@ struct StructType
 
 struct UnionType
 {
-	boost::optional<AnnotationBlock> comment;
+	std::string comment;
 	std::string name;
 	boost::optional<std::string> base;
 	std::vector<Field> elements;
@@ -108,7 +107,7 @@ struct UnionType
 
 struct MapType
 {
-	boost::optional<AnnotationBlock> comment;
+	std::string comment;
 	std::string name;
 	Type key_type;
 	Type value_type;
@@ -116,7 +115,7 @@ struct MapType
 
 struct AliasType
 {
-	boost::optional<AnnotationBlock> comment;
+	std::string comment;
 	std::string name;
 	Type actual_type;
 };

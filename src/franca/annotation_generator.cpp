@@ -12,28 +12,23 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef FIDLER_AST_COMMENT_HPP
-#define FIDLER_AST_COMMENT_HPP
+#include "annotation_generator.hpp"
 
-#include <string>
-#include <vector>
+#include <boost/spirit/home/karma/string.hpp>
+#include <boost/spirit/home/karma/numeric.hpp>
+#include <boost/spirit/home/karma/operator.hpp>
 
-namespace fidler
-{
-namespace ast
+namespace franca
 {
 
-struct Annotation
+AnnotationGenerator::AnnotationGenerator() :
+		AnnotationGenerator::base_type(annotation_)
 {
-	std::string raw_text;
-};
+	namespace karma = boost::spirit::karma;
 
-struct AnnotationBlock
-{
-	std::vector<Annotation> elements;
-};
+	annotation_
+		%= &karma::string("") | ("<**" << karma::string << "**>\n")
+		;
+}
 
-} // namespace ast
-} // namespace fidler
-
-#endif /* FIDLER_AST_COMMENT_HPP */
+} // namespace franca
