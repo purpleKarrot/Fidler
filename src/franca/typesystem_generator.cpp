@@ -34,9 +34,9 @@ TypeGenerator::TypeGenerator() :
 
 	integer_interval_
 		%= "Integer("
-		<< karma::int_
+		<< karma::long_long
 		<< ", "
-		<< karma::int_
+		<< karma::long_long
 		<< ")"
 		;
 

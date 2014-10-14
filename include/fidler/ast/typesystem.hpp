@@ -48,8 +48,8 @@ enum class BuiltinType
 
 struct IntegerInterval
 {
-	int lower_bound = 0;
-	int upper_bound = 0;
+	long long lower_bound = 0LL;
+	long long upper_bound = 0LL;
 };
 
 using Type = boost::variant

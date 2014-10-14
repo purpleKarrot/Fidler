@@ -39,9 +39,9 @@ TypeParser::TypeParser() :
 	integer_interval_
 		%= qi::lit("Integer")
 		>> ( '('
-		   > (qi::int_ | "minInt" >> qi::attr(INT_MIN))
+		   > (qi::long_long | "minInt" >> qi::attr(LLONG_MIN))
 		   > ','
-		   > (qi::int_ | "maxInt" >> qi::attr(INT_MAX))
+		   > (qi::long_long | "maxInt" >> qi::attr(LLONG_MAX))
 		   > ')'
 		   )
 		;
